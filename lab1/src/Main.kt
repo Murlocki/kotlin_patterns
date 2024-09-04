@@ -10,6 +10,7 @@ fun main() {
     students.add(Student("C","bbbbbb","cccccc"));
     students.add(Student("D","bbbbbb","cccccc"));
     students.add(Student("E","bbbbbb","cccccc"));
+    students.add(Student(hashMapOf(Pair("name","E"),Pair("surname","bbbbbb"),Pair("patronymic","cccccc"))));
     students.forEach { it: Student -> println(it) };
 
 }

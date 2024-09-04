@@ -17,4 +17,15 @@ data class Student(
         }
     }
 
+
+    //Конструктор через hasmpam класса
+    constructor(studentArgs: HashMap<String,Any?>) : this(id = studentArgs.getOrDefault("id", autoGenerateId()) as Int?,
+        surname = studentArgs["surname"].toString(),
+        name = studentArgs["name"].toString(),
+        patronymic = studentArgs["patronymic"].toString(),
+        phoneNumber = studentArgs.getOrDefault("phoneNumber",null).toString(),
+        telegram = studentArgs.getOrDefault("telegram",null).toString(),
+        email = studentArgs.getOrDefault("email",null).toString(),
+        gitHub = studentArgs.getOrDefault("gitHub",null).toString()){}
+
 }
