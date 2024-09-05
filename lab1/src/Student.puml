@@ -1,0 +1,65 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Student
+{
+    -surname:String
+    -name:String
+    -patronymic:String
+    -id:Int
+    -phoneNumber:String?
+    -telegram:String?
+    -email:String?
+    -gitHub:String?
+    -{static} classId:Int = 0
+    --Constructors--
+    +Student(surname:String,name:String, patronymic:String,
+       id:Int= autoGenerateId(),
+       phoneNumber:String?=null,telegram:String?=null,
+       email:String?=null, gitHub:String?=null)
+    +Student(studentArgs: HashMap<String,Any?>)
+    --Getters--
+    -surname():String
+    -name():String
+    -patronymic():String
+    -id():Int
+    -phoneNumber():String?
+    -telegram():String?
+    -email():String?
+    -gitHub():String?
+    --Setters--
+    -surname = (String)
+    -name = (String)
+    -patronymic = (String)
+    -id = (Int)
+    -phoneNumber = (String?)
+    -telegram = (String?)
+    -email = (String?)
+    -gitHub = (String?)
+    --Methods--
+    -gitExist():Boolean
+    -contactExist():Boolean
+    +validate():Boolean
+    -checkValueAndPropertyNotNull(value:String?,propertyValue:String?): Boolean
+    -contactSetter(value: String?,propertyValue: String?,setter:(value: String?)->(Unit)):Void
+    -phoneSetter(value: String?)
+    -setPhoneNumber(value:String?)
+    -telegramSetter(value: String?)
+    -setTelegram(value:String?)
+    -emailSetter(value: String?)
+    -setEmail(value:String?)
+    -gitSetter(value: String?)
+    -setGit(value:String?)
+    +setContacts(contacts:HashMap<String,String?>)
+    -{static} autoGenerateId():Int
+    -{static} isValidPhone(phone: String?): Boolean
+    -{static} isValidSurname(surname: String): Boolean
+    -{static} isValidName(name: String): Boolean
+    -{static} isValidPatronymic(patronymic: String): Boolean
+    -{static} isValidTelegram(telegram: String?): Boolean
+    -{static} isValidEmail(email: String?): Boolean
+    -{static} isValidGitHub(gitHub: String?): Boolean
+}
+
+
+@enduml
