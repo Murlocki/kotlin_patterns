@@ -10,4 +10,6 @@ fun main() {
     students.add(Student(hashMapOf(Pair("name","E"),Pair("surname","Bbbbbb"),Pair("patronymic","Cccccc"))));
     students.forEach { it: Student -> println(it) };
 
+    println(Student(hashMapOf(Pair("name","E"),Pair("surname","Bbbbbb"),Pair("patronymic","Cccccc"))).validate())
+    println(Student("A-B","Bbbbbb","Cccccc", email = "kk@gmial.com", gitHub = "eeefefefef").validate());
 }

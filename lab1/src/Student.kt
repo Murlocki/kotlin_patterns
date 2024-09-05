@@ -39,6 +39,16 @@ data class Student(
             { "Git must be a valid git" }
         );
     }
+
+    //Проверка наличия гита
+    fun gitExist() = this.gitHub!=null
+
+    //Проверка наличия второго контакта
+    fun contactExist() = this.email!=null || this.telegram!=null || this.phoneNumber!=null;
+
+    //Проверка наличия гита и 1 из контактов
+    fun validate() = this.gitExist() && this.contactExist();
+
     companion object{
         // Автосоздание id
         var classId:Int = 0;
@@ -79,6 +89,7 @@ data class Student(
         fun isValidGitHub(gitHub: String?): Boolean {
             return gitHub?.let { !Regex("[$%#@&/?]").matches(it) } ?: true;
         }
+
     }
 
 
