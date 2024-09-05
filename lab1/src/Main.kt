@@ -12,4 +12,8 @@ fun main() {
 
     println(Student(hashMapOf(Pair("name","E"),Pair("surname","Bbbbbb"),Pair("patronymic","Cccccc"))).validate())
     println(Student("A-B","Bbbbbb","Cccccc", email = "kk@gmial.com", gitHub = "eeefefefef").validate());
+
+    val stud = Student("A-B","Bbbbbb","Cccccc", email = "kk@gmial.com", gitHub = "eeefefefef", phoneNumber = "+79885556677");
+    stud.setContacts(hashMapOf(Pair("email","kk@gmial.com"),Pair("telegram","@elelelel"),Pair("gitHub",null)));
+    println(stud)
 }
