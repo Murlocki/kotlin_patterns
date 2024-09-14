@@ -1,6 +1,7 @@
 package org.example
 
 import Student
+import StudentShort
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -21,9 +22,12 @@ fun main() {
 //    stud.setContacts(hashMapOf(Pair("email","kkkkk@gmial.com"),Pair("telegram","@elelelel"),Pair("gitHub",null)));
 //    println(stud)
 //    stud.name = "Abbbbcddd";
-    println(stud)
-    val data = Student.parseString("Student(id:aaaa,surname:A,name:Bbbbbb,patronymic:Cccccc,phoneNumber:+79885556677,email:kk@gmial.com,telegram:,gitHub:eeefefefef)")
+    val data = Student.parseString("Student(id:4,surname:A,name:Bbbbbb,patronymic:Cccccc,phoneNumber:+79885556677,email:kk@gmial.com,telegram:,gitHub:eeefefefef)")
     println(data)
+    println(stud)
     println(Student(data))
+    println(Student(Student.parseString("Student(id:aaaa,surname:A,name:Bbbbbb,patronymic:Cccccc,phoneNumber:+79885556677,email:kk@gmial.com,telegram:,gitHub:eeefefefef)")))
     println(stud.getInfo())
+    println(StudentShort(4,stud.getInfo()))
+    println(StudentShort(stud))
 }
