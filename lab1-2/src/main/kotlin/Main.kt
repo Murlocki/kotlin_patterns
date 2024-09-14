@@ -29,5 +29,5 @@ fun main() {
 //    println(stud.getInfo())
 //    println(StudentShort(4,Student("A-B","A-B","Cccc", gitHubValue = "kk@gmail.com", telegramValue = "@aaaaa").getInfo()))
 //    println(StudentShort(stud))
-    println(Student.readFromTxt("src/main/kotlin/t.txt").forEach { println(it) })
+    Student.writeToTxt("src/main/kotlin/","out.txt",Student.readFromTxt("src/main/kotlin/t.txt"))
 }

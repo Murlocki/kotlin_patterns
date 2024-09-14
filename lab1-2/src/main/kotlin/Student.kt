@@ -1,4 +1,5 @@
 import java.io.File
+import java.io.FileWriter
 
 class Student(
     surnameValue: String,
@@ -98,10 +99,9 @@ class Student(
             return StudentBase.parseString(dataWithoutPrefix)
         }
 
-
+        // Чтение из файла
         fun readFromTxt(filePath: String):Array<Student> {
             val file = File(filePath)
-            println(file.exists())
             if(!file.exists()){
                 throw Exception("Ты откуда взял этот файл")
             }
@@ -111,6 +111,16 @@ class Student(
             }
         }
 
+        // Запись в файл
+        fun writeToTxt(filePath: String,fileName:String,students:Array<Student>) {
+            val file = File(filePath+"/${fileName}")
+            if(!file.exists()){
+                file.createNewFile()
+            }
+            val fileWriter = FileWriter(filePath+"/${fileName}")
+            students.forEach { fileWriter.appendLine(it.toString()) }
+            fileWriter.close()
+        }
     }
 
     // Конструктор через hasmpam класса
