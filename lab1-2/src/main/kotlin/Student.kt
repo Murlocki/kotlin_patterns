@@ -1,3 +1,5 @@
+import java.io.File
+
 class Student(
     surnameValue: String,
     nameValue: String,
@@ -96,6 +98,19 @@ class Student(
             return StudentBase.parseString(dataWithoutPrefix)
         }
 
+
+        fun readFromTxt(filePath: String):Array<Student> {
+            val file = File(filePath)
+            println(file.exists())
+            if(!file.exists()){
+                throw Exception("Ты откуда взял этот файл")
+            }
+            else{
+                val lines = file.readLines().map { Student(it) }
+                return lines.toTypedArray()
+            }
+        }
+
     }
 
     // Конструктор через hasmpam класса
@@ -143,4 +158,6 @@ class Student(
     fun getInfo():String{
       return "Initials:${this.getInitials()}, ${formatPropertyOutput("gitHub",this.gitHub)}, Contact:${getFormattedContactShort()}"
     }
+
+
 }
