@@ -18,4 +18,5 @@ fun main() {
     println(stud)
     stud.name = "Abbbbcddd";
     println(stud)
+
 }

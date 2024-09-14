@@ -1,7 +1,10 @@
+import kotlin.math.max
+
 class Student(
     surnameValue: String,
     nameValue: String,
     patronymicValue: String,
+    idValue:Int? = null,
     phoneNumberValue: String?=null,
     telegramValue: String?=null,
     emailValue: String?=null,
@@ -22,7 +25,6 @@ class Student(
             validatorPatronymic(value)
             field = value;
         };
-    var id:Int= autoGenerateId();
     var phoneNumber:String?=phoneNumberValue
         set(value:String?) {
             if(this.checkValueAndPropertyNotNull(value,field)) {
@@ -51,7 +53,20 @@ class Student(
                 field = value;
             }
         };
+    var id:Int? = idValue
+        set(value:Int?){
+            if(!isValidId(value)){
+                field = autoGenerateId()
+            }
+            else{
+                field = value
+            }
+            setMaxId(value)
+        }
     init {
+        if(!isValidId(this.id)){
+            this.id = autoGenerateId()
+        }
         validatorSurname(this.surname)
         validatorName(this.name)
         validatorPatronymic(this.patronymic)
@@ -62,7 +77,7 @@ class Student(
     }
 
     // Функция для валидации полей по регулярке
-    private fun <T>validatorFunc(value:T, errorMessage:String, valudatorFunction: (T)-> Boolean){
+    private fun <T>validatorFunc(value:T, errorMessage:String, valudatorFunction: (T)->Boolean){
         require(valudatorFunction(value)) { errorMessage }
     }
     // Валидатор гита
@@ -86,6 +101,7 @@ class Student(
     // Валидатор отчества
     private fun validatorPatronymic(patronymic: String) = validatorFunc(patronymic, "Patronymic must be a valid patronymic",::isValidPatronymic)
 
+
     //Проверка наличия гита
     private fun gitExist() = this.gitHub!=null
 
@@ -108,11 +124,15 @@ class Student(
     companion object{
         // Автосоздание id
         private var classId:Int = 0
+        private var maxId:Int = 0;
         private fun autoGenerateId():Int{
-            classId+=1
+            classId= maxId
+            maxId = maxId + 1;
             return classId
         }
-
+        private fun setMaxId(newId:Int?){
+            maxId = max(maxId,newId as Int);
+        }
         // Валидация телефона
         private fun isValidPhone(phone: String?): Boolean {
             return phone?.matches(Regex("\\+7\\d{10}")) ?: true
@@ -146,19 +166,59 @@ class Student(
             return gitHub?.let { !Regex("[$%#@&/?]").matches(it) } ?: true
         }
 
+        //Валидация id - дожили
+        private fun isValidId(id: Int?) = if(id==null) false else true;
+        //Парсер строки
+        private fun cutStudent(data:String) = data.split("^Student\\(".toRegex())[1].split("\\)$".toRegex())[0]
+        fun parseString(data:String):HashMap<String,Any?>{
+            val dataWithoutPrefix = cutStudent(data).split(',')
+            val hashData = HashMap<String,Any?>();
+            for (propertyValue in dataWithoutPrefix){
+                if(!propertyValue.matches("[a-zA-Z]{2,11}:.*".toRegex())){
+                    throw Exception("Неверный формат строки")
+                }
+                else{
+                    val (key,propertyVal) = propertyValue.split(":".toRegex());
+                    hashData.set(key,if(propertyVal=="") null else propertyVal);
+                }
+            }
+            return hashData
+        }
+
+        private fun formatPropertyOutput(propertyName:String,propertyValue: Any?) = if(propertyValue==null) "${propertyName}:" else "${propertyName}:${propertyValue}"
+
     }
 
     // Конструктор через hasmpam класса
     constructor(studentArgs: HashMap<String,Any?>) : this(
-        surnameValue = studentArgs["surname"].toString(),
-        nameValue = studentArgs["name"].toString(),
+        surnameValue    = studentArgs["surname"].toString(),
+        nameValue       = studentArgs["name"].toString(),
         patronymicValue = studentArgs["patronymic"].toString(),
+        idValue         = studentArgs.getOrDefault("id",null).toString().toIntOrNull(),
         phoneNumberValue = studentArgs.getOrDefault("phoneNumber",null) as String?,
         telegramValue = studentArgs.getOrDefault("telegram",null) as String?,
         emailValue = studentArgs.getOrDefault("email",null) as String?,
         gitHubValue = studentArgs.getOrDefault("gitHub",null) as String?)
 
+    //Конструктор парсер строки
+    constructor(data: String) : this(parseString(data))
+    private fun propertiesReturn() =
+        mapOf(
+            "id" to this.id,
+            "surname" to this.surname,
+            "name" to this.name,
+            "patronymic" to this.patronymic,
+            "phoneNumber" to this.phoneNumber,
+            "email" to this.email,
+            "telegram" to this.telegram,
+            "gitHub" to this.gitHub
+        )
+
     override fun toString(): String {
-        return "Student(id:${this.id},surname:${this.surname},name:${this.name},patronymic:${this.patronymic},phoneNumber:${this.phoneNumber},email:${this.email},telegram:${this.telegram},gitHub:${this.gitHub}"
+        var resultString = "Student("
+        for ((key,propValues) in propertiesReturn().entries){
+            resultString += "${formatPropertyOutput(key,propValues)},"
+        }
+        return resultString.dropLast(1).plus(")")
     }
 }
