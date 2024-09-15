@@ -34,4 +34,5 @@ fun main() {
     Student.writeToTxt("src/main/kotlin/","out.txt",Student.readFromTxt("src/main/kotlin/t.txt"))
     var dat = DataListStudentShort(students.map { StudentShort(it) }.toTypedArray<StudentShort>())
     println(dat.getData())
+    println("бэабуку")
 }

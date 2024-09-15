@@ -20,7 +20,7 @@ open class DataList<T>(val elements: Array<T>) {
 
 
     // Метод для получения DataTable (не реализован, так как не имеет информации об объектах)
-    protected fun getPropertiesOfClass(value:T):List<Any?> = arrayOf("12",2).toList()
+    protected open fun getPropertiesOfClass(value:T):List<Any?> = arrayOf("12",2).toList()
     fun getData(): DataTable {
         val dataList:MutableList<Array<Any?>> = mutableListOf()
         var rowNumber = 0;
