@@ -58,6 +58,7 @@ class StudentShort: StudentBase {
         }
         private fun validateSurnameInitials(value:String?):String{
             if(value==null) throw Exception("Неверно введены инициалы и фамилия")
+            validatorInitials(value)
             return value;
         }
 

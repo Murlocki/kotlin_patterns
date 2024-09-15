@@ -15,12 +15,12 @@ open class DataList<T>(val elements: Array<T>) {
 
     // Метод для получения массива наименований атрибутов (не реализован, так как не имеет информации об объектах)
 
-    open fun functionGetPropsNames() = if(this.elements.isEmpty()) arrayOf() else this.elements[0]!!::class.memberProperties.map{it.name}.toTypedArray<String>()
+    protected  open fun functionGetPropsNames() = if(this.elements.isEmpty()) arrayOf() else this.elements[0]!!::class.memberProperties.map{it.name}.toTypedArray<String>()
     fun getNames(): Array<String> = functionGetPropsNames()
 
 
     // Метод для получения DataTable (не реализован, так как не имеет информации об объектах)
-    open fun getPropertiesOfClass(value:T):List<Any?> = arrayOf("12",2).toList()
+    protected fun getPropertiesOfClass(value:T):List<Any?> = arrayOf("12",2).toList()
     fun getData(): DataTable {
         val dataList:MutableList<Array<Any?>> = mutableListOf()
         var rowNumber = 0;

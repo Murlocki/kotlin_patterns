@@ -11,7 +11,6 @@ class Student
     -telegram:String?
     -email:String?
     -gitHub:String?
-    -{static} classId:Int = 0
     --Constructors--
     +Student(surname:String,name:String, patronymic:String,
        phoneNumber:String?=null,telegram:String?=null,
@@ -42,7 +41,8 @@ class Student
     -checkValueAndPropertyNotNull(value:String?,propertyValue:String?): Boolean
     +setContacts(contacts:HashMap<String,String?>)
     -{static}cutStudent(data:String)
-    +parseString(data:String):HashMap<String,Any?>
+    +{static}readFromTxt(filePath: String):Array<Student>
+    +{static}writeToTxt(filePath: String,fileName:String,students:Array<Student>)
     +propertiesReturn(): Map<String, Any?>
     +toString(): String
     +getInitials():String
@@ -52,8 +52,8 @@ class Student
 }
 
 class StudentBase{
-    +idValue:Int
-    +gitHub: String?
+    +idValue:Int = autoGenerateId()
+    +gitHub: String? = 0
     -{static} classId:Int = 0
     -{static} maxId:Int = 0
     --Getters--
@@ -66,10 +66,11 @@ class StudentBase{
     -{static} maxId=(Int)
     --Constructors--
     +StudentBase(idValue: Int = autoGenerateId(), gitHub: String?=null)
+    --Methods--
     +{abstract}propertiesReturn():Map<String,Any?>
     +{static}autoGenerateId():Int
     +{static}setMaxId(newId:Int?)
-    +{static}formatPropertyOutput(propertyName:String,propertyValue: Any?)
+    +{static}formatPropertyOutput(propertyName:String,propertyValue: Any?):String
     +{static}parseString(data:String):HashMap<String,Any?>
     +toString(): String
 }
@@ -90,8 +91,9 @@ class StudentShort{
      -{static}validatorInitials(initials:String)
      -{static}validateContact(value: String?):Map<String,String>? =
      -{static}validateSurnameInitials(value:String?):String
-     -{static}propertiesReturn():Map<String,Any?>
-      +toString(): String
+     +propertiesReturn():Map<String,Any?>
+     +returnPropertyNames():Set<String>
+     +toString(): String
 }
 
 class StudentValidator{
@@ -112,9 +114,48 @@ class StudentValidator{
         +{static} validatorPatronymic(patronymic: String)
 }
 
+class DataTable{
+    -data:Array<Array<Any?>>
+    --Constructors--
+    +DataTable(val data: Array<Array<Any?>>)
+    --Methods--
+    +getElement(row: Int, col: Int):Any?
+    +getColumnCount(): Int
+    +getRowCount(): Int
+    +toString(): String
+}
+
+class DataList<T>{
+    +elements: Array<T>
+    -selectedIndices = mutableSetOf<Int>()
+    --Getters--
+    elements():Array<T>
+    --Constructors--
+    DataList(elements:Array<T>)
+    --Methods--
+    +select(number: Int)
+    +getSelectedIds():Array<Int>
+    #functionGetPropsNames():Array<String>
+    +fun getNames(): Array<String>
+    #getPropertiesOfClass(value:T):List<Any?>
+    +getData(): DataTable
+}
+
+class DataListStudentShort{
+    --Constructors--
+    +DataListStudentShort(studentShortArray:Array<StudentShort>)
+    --Methods--
+    #functionGetPropsNames(): Array<String>
+    #getPropertiesOfClass(value: StudentShort): List<Any?>
+
+}
+
 StudentValidator <.. Student
 StudentValidator <.. StudentBase
 StudentValidator <.. StudentShort
 StudentBase<|-- Student
 StudentBase<|--StudentShort
+
+DataList <|-- DataListStudentShort
+DataList <.. StudentShort
 @enduml

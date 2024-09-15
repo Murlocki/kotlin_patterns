@@ -23,7 +23,7 @@ abstract class StudentBase(open val id:Int = autoGenerateId(), open val gitHub: 
         internal fun formatPropertyOutput(propertyName:String,propertyValue: Any?) = if(propertyValue==null) "${propertyName}:" else "${propertyName}:${propertyValue}"
 
 
-        fun parseString(data:String):HashMap<String,Any?>{
+        internal fun parseString(data:String):HashMap<String,Any?>{
             val dataSplit = data.split(',')
             val hashData = HashMap<String,Any?>();
             for (propertyValue in dataSplit){
