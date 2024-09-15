@@ -12,7 +12,6 @@ class Student(
     gitHubValue: String?=null): StudentBase(idValue,gitHubValue)
 {
 
-
     var surname:String=surnameValue
         set(value:String) {
             StudentValidator.validatorSurname(value)

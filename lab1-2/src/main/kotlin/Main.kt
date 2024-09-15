@@ -1,5 +1,6 @@
 package org.example
 
+import DataTable
 import Student
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -30,4 +31,8 @@ fun main() {
 //    println(StudentShort(4,Student("A-B","A-B","Cccc", gitHubValue = "kk@gmail.com", telegramValue = "@aaaaa").getInfo()))
 //    println(StudentShort(stud))
     Student.writeToTxt("src/main/kotlin/","out.txt",Student.readFromTxt("src/main/kotlin/t.txt"))
+    var dat = DataTable(arrayOf(arrayOf(Student("Aaaaa","Bbbbbb","Cccccc"),3),arrayOf(4,3)))
+    var ar = dat.getElement(0,0) as Student
+    ar.telegram = "@aaaaaa"
+    println(dat.getElement(0,0))
 }
