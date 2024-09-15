@@ -1,7 +1,8 @@
 package org.example
 
-import DataTable
+import DataListStudentShort
 import Student
+import StudentShort
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -31,8 +32,6 @@ fun main() {
 //    println(StudentShort(4,Student("A-B","A-B","Cccc", gitHubValue = "kk@gmail.com", telegramValue = "@aaaaa").getInfo()))
 //    println(StudentShort(stud))
     Student.writeToTxt("src/main/kotlin/","out.txt",Student.readFromTxt("src/main/kotlin/t.txt"))
-    var dat = DataTable(arrayOf(arrayOf(Student("Aaaaa","Bbbbbb","Cccccc"),3),arrayOf(4,3)))
-    var ar = dat.getElement(0,0) as Student
-    ar.telegram = "@aaaaaa"
-    println(dat.getElement(0,0))
+    var dat = DataListStudentShort(students.map { StudentShort(it) }.toTypedArray<StudentShort>())
+    println(dat.getData())
 }

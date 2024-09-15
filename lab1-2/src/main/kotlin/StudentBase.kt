@@ -37,7 +37,6 @@ abstract class StudentBase(open val id:Int = autoGenerateId(), open val gitHub: 
             }
             return hashData
         }
-
     }
 
     override fun toString(): String {

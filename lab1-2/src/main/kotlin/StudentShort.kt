@@ -60,6 +60,8 @@ class StudentShort: StudentBase {
             if(value==null) throw Exception("Неверно введены инициалы и фамилия")
             return value;
         }
+
+        fun returnPropertyNames() = StudentShort(-1,"Initials:A A. A., gitHub:, Contact:").propertiesReturn().keys
     }
 
 
@@ -69,6 +71,7 @@ class StudentShort: StudentBase {
             "id" to this.id,
             "initials" to this.initials,
             "gitHub" to this.gitHub,
-            "contact" to this.contact)
+            "contact" to this.contact
+        )
     override fun toString(): String = "StudentShort".plus(super.toString())
 }
