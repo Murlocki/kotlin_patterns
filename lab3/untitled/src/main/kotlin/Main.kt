@@ -3,6 +3,7 @@ package org.example
 import DataList
 import DataListStudentShort
 import Student
+import StudentListJson
 import StudentShort
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -48,4 +49,8 @@ fun main() {
 //    println(dat.getData())
 //    var datea = DataList(students.toTypedArray<Student>())
 //    println(datea.getData())
+
+    val studentListJson = StudentListJson()
+    studentListJson.readFromJson("src/main/kotlin/file.json")
+    studentListJson.writeToJson("src/main/kotlin/","res.json")
 }
