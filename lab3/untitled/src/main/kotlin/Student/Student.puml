@@ -41,8 +41,7 @@ class Student
     -checkValueAndPropertyNotNull(value:String?,propertyValue:String?): Boolean
     +setContacts(contacts:HashMap<String,String?>)
     -{static}cutStudent(data:String)
-    +{static}readFromTxt(filePath: String):Array<Student>
-    +{static}writeToTxt(filePath: String,fileName:String,students:Array<Student>)
+    +{static}returnPropertyNames(): Set<String>
     +propertiesReturn(): Map<String, Any?>
     +toString(): String
     +getInitials():String
@@ -92,7 +91,7 @@ class StudentShort{
      -{static}validateContact(value: String?):Map<String,String>? =
      -{static}validateSurnameInitials(value:String?):String
      +propertiesReturn():Map<String,Any?>
-     +returnPropertyNames():Set<String>
+     +{static}returnPropertyNames():Set<String>
      +toString(): String
 }
 
@@ -135,20 +134,11 @@ class DataList<T>{
     --Methods--
     +select(number: Int)
     +getSelectedIds():Array<Int>
-    #functionGetPropsNames():Array<String>
-    +fun getNames(): Array<String>
-    #getPropertiesOfClass(value:T):List<Any?>
+    +getNames(): Array<String>
+    +getPropertiesOfClass(value:T):List<Any?>
     +getData(): DataTable
 }
 
-class DataListStudentShort{
-    --Constructors--
-    +DataListStudentShort(studentShortArray:Array<StudentShort>)
-    --Methods--
-    #functionGetPropsNames(): Array<String>
-    #getPropertiesOfClass(value: StudentShort): List<Any?>
-
-}
 
 StudentValidator <.. Student
 StudentValidator <.. StudentBase
@@ -156,6 +146,60 @@ StudentValidator <.. StudentShort
 StudentBase<|-- Student
 StudentBase<|--StudentShort
 
-DataList <|-- DataListStudentShort
-DataList <.. StudentShort
+StudentShort <.. DataList
+DataTable <.. DataList
+
+
+
+
+class StudentListBase {
+    #studentList: MutableList<Student>
+    --Methods--
+    +{abstract}readFromFile(filePath: String);
+    +{abstract}writeToFile(filePath: String, fileName: String);
+    +getStudentById(id: Int):Student
+    +getKNStudentShortList(k: Int, n: Int):DataList<StudentShort>
+    +sortByInitials():MutableList<Student>
+    -addNewStudent(student: Student, id: Int = studentList.maxOf { it.id } + 1) {
+    +addNewStudent(student: Student)
+    +replaceById(id: Int, newStudent: Student)
+    +fun deletebyId(id: Int)
+    +getStudentShortCount():Int
+    +toString():String
+}
+interface StudentListInterface {
+    +createMap(el: Any): HashMap<String, Any?>
+    +convertMap(hashM: Map<String, Any?>): Map<String, Any>
+}
+
+class StudentListJson {
+    +createMap(el:Any):HashMap<String,Any?>
+    +readFromFile(filePath: String)
+    +convertMap(hashM:Map<String,Any?>):Map<String,Any>
+    +fun writeToFile(filePath: String, fileName: String)
+}
+
+class StudentListYaml {
+    +createMap(el: Any): HashMap<String, Any?>
+    +readFromFile(filePath: String)
+    +convertMap(hashM: Map<String, Any?>): Map<String, Any>
+    +writeToFile(filePath: String, fileName: String)
+}
+
+class StudentListTxt{
+    +readFromFile(filePath: String)
+    +writeToFile(filePath: String, fileName: String)
+}
+
+StudentListBase<|-- StudentListJson
+StudentListBase<|-- StudentListYaml
+StudentListBase<|-- StudentListTxt
+
+StudentListInterface<|..StudentListYaml
+StudentListInterface<|..StudentListJson
+
+DataList <.. StudentListBase
+Student <.. StudentListBase
+DataTable <.. StudentListBase
+StudentShort <.. StudentListBase
 @enduml

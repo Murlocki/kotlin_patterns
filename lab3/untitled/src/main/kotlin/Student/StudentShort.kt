@@ -1,15 +1,17 @@
+package Student
+
 class StudentShort: StudentBase {
     val initials:String
     val contact:Map<String,String>?;
     // Конструктор по студенту
-    constructor(studentLong:Student):super(studentLong.id,studentLong.gitHub) {
+    constructor(studentLong: Student):super(studentLong.id,studentLong.gitHub) {
         this.initials = studentLong.getInitials()
         this.contact = studentLong.getOneContact()
     }
 
     // Конструктор по строке
     constructor(studentId:Int,stringInfo:String):super(studentId, passGit(stringInfo)){
-        val stringInfoParse = StudentBase.parseString(stringInfo)
+        val stringInfoParse = parseString(stringInfo)
         this.initials = validateSurnameInitials(stringInfoParse.getOrDefault("Initials",null) as String?)
         this.contact = validateContact(stringInfoParse.getOrDefault("Contact",null) as String?)
         validatorContact(this.contact)
@@ -19,7 +21,7 @@ class StudentShort: StudentBase {
     companion object{
 
         private fun passGit(stringInfo:String):String?{
-            val data = StudentBase.parseString(stringInfo)
+            val data = parseString(stringInfo)
             val gitHub = data.getOrDefault("gitHub",null) as String?
             return if(StudentValidator.isValidGitHub(gitHub)) gitHub else null
         }
@@ -62,7 +64,7 @@ class StudentShort: StudentBase {
             return value;
         }
 
-        fun returnPropertyNames() = StudentShort(-1,"Initials:A A. A., gitHub:, Contact:").propertiesReturn().keys
+        fun returnPropertyNames() = StudentShort(-1, "Initials:A A. A., gitHub:, Contact:").propertiesReturn().keys
     }
 
 

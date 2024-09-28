@@ -1,6 +1,4 @@
-import kotlinx.serialization.Serializable
-import java.io.File
-import java.io.FileWriter
+package Student
 
 class Student(
     surnameValue: String,
@@ -142,7 +140,7 @@ class Student(
         }
     private fun getFormattedContactShort():String{
         val contact = getOneContact()
-        return if(contact?.keys!=null)formatPropertyOutput(contact.keys.first() as String,contact.values.first()) else ""
+        return if(contact?.keys!=null) formatPropertyOutput(contact.keys.first() as String,contact.values.first()) else ""
     }
     fun getInfo():String{
       return "Initials:${this.getInitials()}, ${formatPropertyOutput("gitHub",this.gitHub)}, Contact:${getFormattedContactShort()}"

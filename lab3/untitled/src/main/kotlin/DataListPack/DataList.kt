@@ -1,7 +1,7 @@
+package DataListPack
+
 import kotlin.reflect.full.companionObject
-import kotlin.reflect.full.functions
 import kotlin.reflect.full.memberFunctions
-import kotlin.reflect.full.memberProperties
 
 open class DataList<T>(val elements: Array<T>) {
     private val selectedIndices = mutableSetOf<Int>()
@@ -17,8 +17,7 @@ open class DataList<T>(val elements: Array<T>) {
     fun getSelectedIds() = selectedIndices.toIntArray()
 
     // Метод для получения массива наименований атрибутов (не реализован, так как не имеет информации об объектах)
-
-    private fun getNames(): Array<String>{
+    public fun getNames(): Array<String>{
         if(this.elements.isEmpty() || this.elements[0]!!::class.companionObject?.memberFunctions?.find{ it.name == "returnPropertyNames" }==null)  return arrayOf<String>()
         else{
             return (this.elements[0]!!::class.companionObject?.memberFunctions?.find{ it.name == "returnPropertyNames" }!!.call(this.elements[0]!!::class.companionObject?.objectInstance) as Set<String>).drop(1).toTypedArray<String>()

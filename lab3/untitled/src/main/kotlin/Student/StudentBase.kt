@@ -1,3 +1,5 @@
+package Student
+
 import kotlin.math.max
 
 abstract class StudentBase(open val id:Int = autoGenerateId(), open val gitHub: String?=null) {
@@ -13,7 +15,7 @@ abstract class StudentBase(open val id:Int = autoGenerateId(), open val gitHub: 
         private var classId:Int = 0
         private var maxId:Int = 0;
         internal fun autoGenerateId():Int{
-            classId= maxId
+            classId = maxId
             maxId = maxId + 1;
             return classId
         }

@@ -1,3 +1,5 @@
+package Student
+
 class StudentValidator {
     companion object {
         //Валидация фамилии
@@ -38,24 +40,38 @@ class StudentValidator {
         }
 
         // Валидатор фамилии
-        internal fun validatorSurname(surname: String) = validatorFunc(surname, "Surname must be a valid surname",::isValidSurname)
+        internal fun validatorSurname(surname: String) = validatorFunc(surname, "Surname must be a valid surname",
+            Companion::isValidSurname
+        )
 
         // Валидатор имени
-        internal fun validatorName(name: String) = validatorFunc(name, "Name must be a valid name",::isValidName)
+        internal fun validatorName(name: String) = validatorFunc(name, "Name must be a valid name",
+            Companion::isValidName
+        )
 
         // Валидатор отчества
-        internal fun validatorPatronymic(patronymic: String) = validatorFunc(patronymic, "Patronymic must be a valid patronymic",::isValidPatronymic)
+        internal fun validatorPatronymic(patronymic: String) = validatorFunc(patronymic, "Patronymic must be a valid patronymic",
+            Companion::isValidPatronymic
+        )
 
         // Валидатор гита
-        internal fun validatorGit(gitHub: String?) = validatorFunc(gitHub,"Git must be a valid git",::isValidGitHub)
+        internal fun validatorGit(gitHub: String?) = validatorFunc(gitHub,"Git must be a valid git",
+            Companion::isValidGitHub
+        )
 
         // Валидатор почты
-        internal fun validatorEmail(email: String?) = validatorFunc(email,"Email must be a valid email",::isValidEmail)
+        internal fun validatorEmail(email: String?) = validatorFunc(email,"Email must be a valid email",
+            Companion::isValidEmail
+        )
 
         // Валидатор телефона
-        internal fun validatorPhoneNumber(phone: String?) = validatorFunc(phone, "Phone must be a valid phone number",::isValidPhone)
+        internal fun validatorPhoneNumber(phone: String?) = validatorFunc(phone, "Phone must be a valid phone number",
+            Companion::isValidPhone
+        )
 
         // Валидатор телеги
-        internal fun validatorTelegram(telegram: String?) = validatorFunc(telegram, "Telegram must be a valid telegram",::isValidTelegram)
+        internal fun validatorTelegram(telegram: String?) = validatorFunc(telegram, "Telegram must be a valid telegram",
+            Companion::isValidTelegram
+        )
     }
 }
