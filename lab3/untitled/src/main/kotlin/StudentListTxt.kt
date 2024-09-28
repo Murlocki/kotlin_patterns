@@ -29,4 +29,6 @@ class StudentListTxt {
 
     fun getKNStudentShortList(k:Int,n:Int) = DataList<StudentShort>(studentList.slice(k*n..<min(k*n+n,studentList.size)).map { StudentShort(it) }.toTypedArray<StudentShort>());
 
+    fun sortyByInitials() = this.studentList.sortedBy { it.getInitials() }
+
 }

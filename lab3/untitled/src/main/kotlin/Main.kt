@@ -37,7 +37,7 @@ fun main() {
     val studListTxt = StudentListTxt()
     studListTxt.readFromTxt("src/main/kotlin/t.txt")
     studListTxt.writeToTxt("src/main/kotlin/","out.txt")
-    println(studListTxt.getKNStudentShortList(1,3).getData())
+    println(studListTxt.sortyByInitials())
     val dat = DataListStudentShort(students.map { StudentShort(it) }.toTypedArray<StudentShort>())
     println(dat.getData())
     var datea = DataList(students.toTypedArray<Student>())
