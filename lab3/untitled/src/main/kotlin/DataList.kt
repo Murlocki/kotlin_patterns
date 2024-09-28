@@ -23,7 +23,7 @@ open class DataList<T>(val elements: Array<T>) {
     protected open fun getPropertiesOfClass(value:T):List<Any?> = arrayOf("12",2).toList()
     fun getData(): DataTable {
         val dataList:MutableList<Array<Any?>> = mutableListOf()
-        var rowNumber = 1;
+        var rowNumber = 0;
         dataList.add(arrayOf("ID",*getNames()))
         for(el in this.elements){
             dataList.add(

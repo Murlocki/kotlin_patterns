@@ -21,4 +21,6 @@ class StudentListTxt {
         this.studentList.forEach { fileWriter.appendLine(it.toString()) }
         fileWriter.close()
     }
+
+    fun getStudentById(id:Int) = studentList.find { it.id == id }
 }
