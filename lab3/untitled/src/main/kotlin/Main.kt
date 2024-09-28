@@ -1,5 +1,6 @@
 package org.example
 
+import DataList
 import DataListStudentShort
 import Student
 import StudentShort
@@ -36,6 +37,9 @@ fun main() {
     val studListTxt = StudentListTxt()
     studListTxt.readFromTxt("src/main/kotlin/t.txt")
     studListTxt.writeToTxt("src/main/kotlin/","out.txt")
-    var dat = DataListStudentShort(students.map { StudentShort(it) }.toTypedArray<StudentShort>())
+    println(studListTxt.getKNStudentShortList(1,3).getData())
+    val dat = DataListStudentShort(students.map { StudentShort(it) }.toTypedArray<StudentShort>())
     println(dat.getData())
+    var datea = DataList(students.toTypedArray<Student>())
+    println(datea.getData())
 }

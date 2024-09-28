@@ -97,6 +97,8 @@ class Student(
             val dataWithoutPrefix = cutStudent(data)
             return StudentBase.parseString(dataWithoutPrefix)
         }
+
+        fun returnPropertyNames() = Student("Student(id:1,surname:Aabbb-Abbb,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:,telegram:@elelelelele,gitHub:)").propertiesReturn().keys
     }
 
     // Конструктор через hasmpam класса

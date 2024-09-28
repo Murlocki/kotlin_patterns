@@ -1,8 +1,11 @@
 package org.example
 
+import DataList
 import Student
+import StudentShort
 import java.io.File
 import java.io.FileWriter
+import kotlin.math.min
 
 class StudentListTxt {
     private val studentList: MutableList<Student> = mutableListOf();
@@ -23,4 +26,7 @@ class StudentListTxt {
     }
 
     fun getStudentById(id:Int) = studentList.find { it.id == id }
+
+    fun getKNStudentShortList(k:Int,n:Int) = DataList<StudentShort>(studentList.slice(k*n..<min(k*n+n,studentList.size)).map { StudentShort(it) }.toTypedArray<StudentShort>());
+
 }
