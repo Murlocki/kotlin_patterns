@@ -154,9 +154,10 @@ DataTable <.. DataList
 
 class StudentListBase {
     #studentList: MutableList<Student>
+    +studentListStrategy: StudentListBaseStrategy
     --Methods--
-    +{abstract}readFromFile(filePath: String);
-    +{abstract}writeToFile(filePath: String, fileName: String);
+    +readFromFile(filePath: String);
+    +writeToFile(filePath: String, fileName: String);
     +getStudentById(id: Int):Student
     +getKNStudentShortList(k: Int, n: Int):DataList<StudentShort>
     +sortByInitials():MutableList<Student>
@@ -172,34 +173,43 @@ interface StudentListInterface {
     +convertMap(hashM: Map<String, Any?>): Map<String, Any>
 }
 
-class StudentListJson {
+class StudentListBaseStrategy {
+    +{abstract}readFromFile(filePath: String)
+    +{abstract}writeToFile(filePath: String, fileName: String)
+}
+
+class StudentListJsonStrategy {
     +createMap(el:Any):HashMap<String,Any?>
     +readFromFile(filePath: String)
     +convertMap(hashM:Map<String,Any?>):Map<String,Any>
     +fun writeToFile(filePath: String, fileName: String)
 }
 
-class StudentListYaml {
+class StudentListYamlStrategy {
     +createMap(el: Any): HashMap<String, Any?>
     +readFromFile(filePath: String)
     +convertMap(hashM: Map<String, Any?>): Map<String, Any>
     +writeToFile(filePath: String, fileName: String)
 }
 
-class StudentListTxt{
+class StudentListTxtStrategy{
     +readFromFile(filePath: String)
     +writeToFile(filePath: String, fileName: String)
 }
 
-StudentListBase<|-- StudentListJson
-StudentListBase<|-- StudentListYaml
-StudentListBase<|-- StudentListTxt
+StudentListBase *-- StudentListBaseStrategy
 
-StudentListInterface<|..StudentListYaml
-StudentListInterface<|..StudentListJson
+StudentListBaseStrategy<|-- StudentListJsonStrategy
+StudentListBaseStrategy<|-- StudentListYamlStrategy
+StudentListBaseStrategy<|-- StudentListTxtStrategy
+
+StudentListInterface<|..StudentListYamlStrategy
+StudentListInterface<|..StudentListJsonStrategy
 
 DataList <.. StudentListBase
 Student <.. StudentListBase
 DataTable <.. StudentListBase
 StudentShort <.. StudentListBase
+
+Student <.. StudentListBaseStrategy
 @enduml

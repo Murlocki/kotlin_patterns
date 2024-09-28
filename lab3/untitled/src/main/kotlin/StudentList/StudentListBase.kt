@@ -3,17 +3,39 @@ package StudentList
 import DataListPack.DataList
 import Student.Student
 import Student.StudentShort
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import java.io.File
+import java.io.FileWriter
 import kotlin.math.min
 
-abstract class StudentListBase {
+class StudentListBase(var studentListStrategy: StudentListBaseStrategy) {
     protected val studentList: MutableList<Student> = mutableListOf();
 
-    // Чтение из файла
-    abstract fun readFromFile(filePath: String);
 
 
     // Запись в файл
-    abstract fun writeToFile(filePath: String, fileName: String);
+    fun writeToFile(filePath: String, fileName: String) {
+        val file = File(filePath + "/${fileName}")
+        if (!file.exists()) {
+            file.createNewFile()
+        }
+        val fileWriter = FileWriter(filePath + "/${fileName}")
+        this.studentListStrategy.processWrite(fileWriter,this.studentList)
+        fileWriter.close()
+    }
+    // Чтение из файла
+    fun readFromFile(filePath: String){
+        if (!File(filePath).exists()) throw Exception("Ты откуда взял этот файл")
+        else {
+            val mainString = File(filePath).readText()
+            this.studentListStrategy.processRead(mainString,this.studentList)
+        }
+    }
 
     public fun getStudentById(id: Int) = studentList.find { it.id == id }
 

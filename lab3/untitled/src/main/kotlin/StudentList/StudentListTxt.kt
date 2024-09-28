@@ -7,22 +7,17 @@ import java.io.File
 import java.io.FileWriter
 import kotlin.math.min
 
-class StudentListTxt():StudentListBase() {
+class StudentListTxtStrategy():StudentListBaseStrategy() {
 
     // Чтение из файла
-    override fun readFromFile(filePath: String) = if (!File(filePath).exists()) throw Exception("Ты откуда взял этот файл") else File(filePath).readLines().forEach { studentList.add(
+    override fun processRead(mainString: String, students: MutableList<Student>) = mainString.split('\n').forEach { students.add(
         Student(it)
     ) }
 
     // Запись в файл
-    override fun writeToFile(filePath: String, fileName: String) {
-        val file = File(filePath + "/${fileName}")
-        if (!file.exists()) {
-            file.createNewFile()
-        }
-        val fileWriter = FileWriter(filePath + "/${fileName}")
-        this.studentList.forEach { fileWriter.appendLine(it.toString()) }
-        fileWriter.close()
+    override fun processWrite(fileWriter: FileWriter, students: MutableList<Student>) {
+        students.forEach { fileWriter.appendLine(it.toString()) }
     }
+
 
 }
