@@ -9,24 +9,24 @@
     "surname": "Aabbb-Abbb",
     "name": "Bbbbbb",
     "patronymic": "Cccccc",
-    "telegramValue": "@elelelelele"
+    "telegram": "@elelelelele"
   },
   {
     "surname": "Aaabbb",
     "name": "Bbb-Cbbb",
     "patronymic": "Cccccc",
-    "gitHubValue": "eeefefefef"
+    "gitHub": "eeefefefef"
   },
   {
     "surname": "Aaabbb",
     "name": "Bbb-Cbbb",
     "patronymic": "Cccccc",
-    "emailValue": "kk@gmial.com"
+    "email": "kk@gmial.com"
   },
   {
     "surname": "B",
     "name": "Vbbbbb",
     "patronymic": "Cccccc",
-    "phoneNumberValue" :"+79889889898"
+    "phoneNumber" :"+79889889898"
   }
 ]

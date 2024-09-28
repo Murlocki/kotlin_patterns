@@ -1,10 +1,8 @@
 package org.example
 
-import DataList
-import DataListStudentShort
 import Student
 import StudentListJson
-import StudentShort
+import StudentListYaml
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -36,8 +34,8 @@ fun main() {
 
 
     val studListTxt = StudentListTxt()
-    studListTxt.readFromTxt("src/main/kotlin/t.txt")
-    studListTxt.writeToTxt("src/main/kotlin/","out.txt")
+    studListTxt.readFromTxt("src/main/resources/t.txt")
+    studListTxt.writeToTxt("src/main/resources/","out.txt")
     println(studListTxt.sortByInitials())
     studListTxt.addNewStudent(Student("A-B","Bbbbbb","Cccccc", emailValue = "kk@gmial.com"))
     println(studListTxt)
@@ -51,6 +49,10 @@ fun main() {
 //    println(datea.getData())
 
     val studentListJson = StudentListJson()
-    studentListJson.readFromJson("src/main/kotlin/file.json")
-    studentListJson.writeToJson("src/main/kotlin/","res.json")
+    studentListJson.readFromJson("src/main/resources/file.json")
+    studentListJson.writeToJson("src/main/resources/","res.json")
+
+    val studentListYaml = StudentListYaml()
+    studentListYaml.readFromYaml("src/main/resources/res.yaml")
+    studentListYaml.writeToYaml("src/main/resources/","res.yaml")
 }

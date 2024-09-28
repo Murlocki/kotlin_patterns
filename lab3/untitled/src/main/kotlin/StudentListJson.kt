@@ -29,7 +29,6 @@ class StudentListJson {
             val jsonString = File(filePath).readText()
             val jsonOb = Json.parseToJsonElement(jsonString).jsonArray
             jsonOb.forEach { studentList.add(Student(createMap(it.jsonObject))) }
-            println(studentList)
         }
     }
     fun convertMap(hashM:Map<String,Any?>):Map<String,Any>{
@@ -46,7 +45,8 @@ class StudentListJson {
             file.createNewFile()
         }
         val fileWriter = FileWriter(filePath + "/${fileName}")
-        val res = Json.encodeToString(ListSerializer(MapSerializer(String.serializer(),NumberOrStringSerializer)),this.studentList.map { convertMap(it.propertiesReturn()) })
+        val jsonFormat = Json { prettyPrint = true }
+        val res = jsonFormat.encodeToString(ListSerializer(MapSerializer(String.serializer(),NumberOrStringSerializer)),this.studentList.map { convertMap(it.propertiesReturn()) })
         println(res)
         fileWriter.write(res)
         fileWriter.close()
