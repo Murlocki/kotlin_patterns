@@ -58,4 +58,5 @@ fun main() {
     println(StudentsListDB().getCount())
     StudentsListDB().deleteStudent(8)
     StudentsListDB().addStudent(Student("Aabbb-Abbb", "Bbbbbb", "Cccccc", telegramValue = "@elelelelele"))
+    StudentsListDB().updateStudent(4,Student("Aabbb-Abbb", "Bbbbbb", "Cccccc", telegramValue = "@elelelelele"))
 }
