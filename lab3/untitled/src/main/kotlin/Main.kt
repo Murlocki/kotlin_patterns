@@ -1,6 +1,6 @@
 package org.example
 import DataBasePack.DbCon
-import DataBasePack.StudentsListDB
+import DataBasePack.StudentListDB
 import Student.Student
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -53,10 +53,10 @@ fun main() {
 //    studentListYaml.readFromFile("src/main/resources/test.yaml")
 //    studentListYaml.writeToFile("src/main/resources/","res.yaml")
 
-    println(StudentsListDB().getStudentById(6))
-    println(StudentsListDB().getKStudents(4,3))
-    println(StudentsListDB().getCount())
-    StudentsListDB().deleteStudent(8)
-    StudentsListDB().addStudent(Student("Aabbb-Abbb", "Bbbbbb", "Cccccc", telegramValue = "@elelelelele"))
-    StudentsListDB().updateStudent(4,Student("Aabbb-Abbb", "Bbbbbb", "Cccccc", telegramValue = "@elelelelele"))
+    println(StudentListDB().getStudentById(11))
+    println(StudentListDB().getKNStudentShortList(3,1).getData())
+    println(StudentListDB().getStudentShortCount())
+    StudentListDB().deleteById(13)
+    //StudentListDB().addNewStudent(Student("Aabbb", "Bbbbbb", "Cccccc", telegramValue = "@elelelelele"))
+    //StudentListDB().replaceById(11,Student("Ad", "Bbbbbb", "Cccccc", telegramValue = "@elelelelele"))
 }

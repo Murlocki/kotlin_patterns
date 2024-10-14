@@ -152,7 +152,7 @@ DataTable <.. DataList
 
 
 
-class StudentListBase {
+class StudentListWithStrategy {
     #studentList: MutableList<Student>
     +studentListStrategy: StudentListBaseStrategy
     --Methods--
@@ -164,7 +164,7 @@ class StudentListBase {
     -addNewStudent(student: Student, id: Int = studentList.maxOf { it.id } + 1) {
     +addNewStudent(student: Student)
     +replaceById(id: Int, newStudent: Student)
-    +fun deletebyId(id: Int)
+    +fun deleteById(id: Int)
     +getStudentShortCount():Int
     +toString():String
 }
@@ -197,7 +197,48 @@ class StudentListTxtStrategy{
     +writeToFile(filePath: String, fileName: String)
 }
 
-StudentListBase *-- StudentListBaseStrategy
+object DbCon {
+    -conn: Connection?
+    --Methods--
+    +createConnection()
+    +executeSqlSelect(query:String): ResultSet?
+    +executeSql(query:String)
+    --Getters--
+    +getConnection():Connection?;
+}
+
+class StudentListDB {
+     -conn:Connection?
+    --Constructors--
+    +StudentListDB()
+    --Methods--
+    +getStudentById(id: Int): Student?
+    +getKNStudentShortList(n: Int, k: Int): DataList<StudentShort>
+    +addNewStudent(student: Student)
+    +replaceById(id:Int,student: Student)
+    +deleteById(id: Int)
+    +getStudentShortCount(): Int
+}
+
+class StudentListBase{
+        --Constructors--
+        +StudentListBase()
+        --Methods--
+        +{abstract}getStudentById(id: Int): Student?
+        +{abstract}getKNStudentShortList(n: Int, k: Int): DataList<StudentShort>
+        +{abstract}addNewStudent(student: Student)
+        +{abstract}replaceById(id:Int,student: Student)
+        +{abstract}deleteById(id: Int)
+        +{abstract}getStudentShortCount(): Int
+}
+
+StudentListDB o-- DbCon
+
+StudentListBase<|-- StudentListWithStrategy
+StudentListBase<|-- StudentListDB
+
+
+StudentListWithStrategy *-- StudentListBaseStrategy
 
 StudentListBaseStrategy<|-- StudentListJsonStrategy
 StudentListBaseStrategy<|-- StudentListYamlStrategy
