@@ -53,4 +53,5 @@ fun main() {
 //    studentListYaml.writeToFile("src/main/resources/","res.yaml")
 
     println(StudentsListDB().getStudentById(6))
+    println(StudentsListDB().getKStudents(4,3))
 }
