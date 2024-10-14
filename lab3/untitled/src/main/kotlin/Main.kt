@@ -1,6 +1,7 @@
 package org.example
 import DataBasePack.DbCon
 import DataBasePack.StudentsListDB
+import Student.Student
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -54,4 +55,7 @@ fun main() {
 
     println(StudentsListDB().getStudentById(6))
     println(StudentsListDB().getKStudents(4,3))
+    println(StudentsListDB().getCount())
+    StudentsListDB().deleteStudent(8)
+    StudentsListDB().addStudent(Student("Aabbb-Abbb", "Bbbbbb", "Cccccc", telegramValue = "@elelelelele"))
 }
