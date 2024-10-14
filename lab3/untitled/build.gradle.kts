@@ -15,6 +15,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
     implementation("org.jetbrains.kotlin:kotlin-reflect:2.0.20")
     implementation("com.charleskorn.kaml:kaml:0.60.0")
+    implementation(kotlin("stdlib"))
+    implementation("org.postgresql:postgresql:42.7.2")
+
 }
 
 tasks.test {
