@@ -1,13 +1,11 @@
 package DataBasePack
 
 import Student.Student
-import DataBasePack.DbCon
 import DataListPack.DataList
 import Student.StudentShort
-import StudentList.StudentListBase
-import java.sql.Connection
+import StudentList.StudentListAdapter
 
-class StudentListDB():StudentListBase() {
+class StudentListDB():StudentListAdapter {
     private var conn: DbCon? = DbCon;
 
     init {
@@ -100,4 +98,28 @@ class StudentListDB():StudentListBase() {
         };
         return 0;
     }
+
+    override fun sortByInitials():List<Student>? {
+        val request = "SELECT * FROM ref_student as t ORDER BY t.id"
+        val result = this.conn?.executeSqlSelect(request);
+        if (result != null) {
+            val resultList:MutableList<Student> = mutableListOf()
+            while(result.next()){
+                val resultHash:HashMap<String,Any?> = hashMapOf<String,Any?>()
+                resultHash.set("id",result.getInt("id"))
+                resultHash.set("name",result.getString("name"))
+                resultHash.set("surname",result.getString("surname"))
+                resultHash.set("patronymic",result.getString("patronymic"))
+                resultHash.set("phoneNumber",result.getString("phoneNumber"))
+                resultHash.set("gitHub",result.getString("gitHub"))
+                resultHash.set("email",result.getString("email"))
+                resultHash.set("telegram",result.getString("telegram"))
+                resultList.add(Student(resultHash));
+            }
+            result.close();
+            return resultList.sortedBy { it.getInitials() };
+        };
+        return null;
+    }
+
 }

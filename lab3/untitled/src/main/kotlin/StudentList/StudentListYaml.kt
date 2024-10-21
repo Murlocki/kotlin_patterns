@@ -7,7 +7,7 @@ import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import java.io.FileWriter
 
-class StudentListYamlStrategy(): StudentListBaseStrategy(),StudentListInterface {
+class StudentListYaml: StudentListBaseExtend(),StudentListInterface {
     override fun createMap(el: Any): HashMap<String, Any?> {
         val map = HashMap<String, Any?>()
         for ((key, value) in (el as YamlMap).entries.entries) {
@@ -24,7 +24,7 @@ class StudentListYamlStrategy(): StudentListBaseStrategy(),StudentListInterface 
         return res
     }
 
-    override fun processWrite(fileWriter: FileWriter, students: MutableList<Student>) {
+    override fun writeToFile(fileWriter: FileWriter, students: MutableList<Student>) {
         val res = Yaml.default.encodeToString(ListSerializer(MapSerializer(String.serializer(),
             NumberOrStringSerializer
         )),students.map { convertMap(it.propertiesReturn()) })
@@ -32,7 +32,7 @@ class StudentListYamlStrategy(): StudentListBaseStrategy(),StudentListInterface 
     }
 
     // Чтение из файла
-    override fun processRead(mainString: String, students: MutableList<Student>) {
+    override fun readFromFile(mainString: String, students: MutableList<Student>) {
             val yamlOb = Yaml.default.parseToYamlNode(mainString).yamlList
             yamlOb.items.forEach {students.add(Student(createMap(it.yamlMap)))}
         }

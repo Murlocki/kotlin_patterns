@@ -7,37 +7,38 @@ import java.io.File
 import java.io.FileWriter
 import kotlin.math.min
 
-class StudentListWithStrategy(var studentListStrategy: StudentListBaseStrategy):StudentListBase() {
+abstract class StudentListBaseExtend():StudentListAdapterExtend {
     protected val studentList: MutableList<Student> = mutableListOf();
 
-
+    abstract fun writeToFile(fileWriter:FileWriter, students:MutableList<Student>)
+    abstract fun readFromFile(mainString:String, students:MutableList<Student>)
 
     // Запись в файл
-    fun writeToFile(filePath: String, fileName: String) {
+    open override fun processWrite(filePath: String, fileName: String) {
         val file = File(filePath + "/${fileName}")
         if (!file.exists()) {
             file.createNewFile()
         }
         val fileWriter = FileWriter(filePath + "/${fileName}")
-        this.studentListStrategy.processWrite(fileWriter,this.studentList)
+        this.writeToFile(fileWriter,this.studentList)
         fileWriter.close()
     }
     // Чтение из файла
-    fun readFromFile(filePath: String){
+    open override fun processRead(filePath: String){
         if (!File(filePath).exists()) throw Exception("Ты откуда взял этот файл")
         else {
             val mainString = File(filePath).readText()
-            this.studentListStrategy.processRead(mainString,this.studentList)
+            this.readFromFile(mainString,this.studentList)
         }
     }
 
-    public override fun getStudentById(id: Int) = studentList.find { it.id == id }
+    open override fun getStudentById(id: Int) = studentList.find { it.id == id }
 
-    public override fun getKNStudentShortList(k: Int, n: Int) =
+    open override fun getKNStudentShortList(k: Int, n: Int) =
         DataList<StudentShort>(studentList.slice(k * n..<min(k * n + n, studentList.size)).map { StudentShort(it) }
             .toTypedArray<StudentShort>());
 
-    public fun sortByInitials() = this.studentList.sortedBy { it.getInitials() }
+    open override fun sortByInitials() = this.studentList.sortedBy { it.getInitials() }
 
 
     private fun addNewStudent(student: Student, id: Int = studentList.maxOf { it.id } + 1) {
@@ -46,13 +47,13 @@ class StudentListWithStrategy(var studentListStrategy: StudentListBaseStrategy):
         this.studentList.add(stud)
     }
 
-    public override fun addNewStudent(student: Student) {
+    open override fun addNewStudent(student: Student) {
         val stud = Student(student.toString())
         stud.id = studentList.maxOf { it.id } + 1
         this.studentList.add(stud)
     }
 
-    public override fun replaceById(id: Int, newStudent: Student) {
+    open override fun replaceById(id: Int, newStudent: Student) {
         val stud = Student(newStudent.toString())
         stud.id = id
         val ind = this.studentList.indexOf(this.studentList.find { it.id == id })
@@ -60,11 +61,11 @@ class StudentListWithStrategy(var studentListStrategy: StudentListBaseStrategy):
         else this.addNewStudent(newStudent, id)
     }
 
-    public override fun deleteById(id: Int) {
+    open override fun deleteById(id: Int) {
         this.studentList.removeAt(this.studentList.indexOf(this.studentList.find { it.id == id }))
     }
 
-    public override fun getStudentShortCount() = this.studentList.size
+    open override fun getStudentShortCount() = this.studentList.size
 
-    public override fun toString() = this.studentList.toString()
+    open override fun toString() = this.studentList.toString()
 }

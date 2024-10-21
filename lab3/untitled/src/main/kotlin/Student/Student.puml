@@ -152,50 +152,98 @@ DataTable <.. DataList
 
 
 
-class StudentListWithStrategy {
-    #studentList: MutableList<Student>
-    +studentListStrategy: StudentListBaseStrategy
+class StudentList {
+    -studentList:StudentListAdapter
+    --Constructors--
+    StudentList(studentList:StudentListAdapter)
     --Methods--
-    +readFromFile(filePath: String);
-    +writeToFile(filePath: String, fileName: String);
     +getStudentById(id: Int):Student
     +getKNStudentShortList(k: Int, n: Int):DataList<StudentShort>
-    +sortByInitials():MutableList<Student>
-    -addNewStudent(student: Student, id: Int = studentList.maxOf { it.id } + 1) {
+    +sortByInitials():List<Student>
     +addNewStudent(student: Student)
     +replaceById(id: Int, newStudent: Student)
-    +fun deleteById(id: Int)
+    +deleteById(id: Int)
     +getStudentShortCount():Int
     +toString():String
 }
+
+class StudentListExtend{
+    -studentListExtend: StudentListAdapterExtend
+    --Constructors--
+    +StudentListExtend(studentListExtend: StudentListAdapterExtend)
+    --Methods--
+    +processWrite(filePath: String, fileName: String)
+    +processRead(filePath: String)
+}
+StudentList<|-- StudentListExtend
+
+
+
 interface StudentListInterface {
     +createMap(el: Any): HashMap<String, Any?>
     +convertMap(hashM: Map<String, Any?>): Map<String, Any>
 }
 
-class StudentListBaseStrategy {
-    +{abstract}readFromFile(filePath: String)
-    +{abstract}writeToFile(filePath: String, fileName: String)
+class StudentListBaseExtend{
+    #studentList: MutableList<Student>
+    --Methods--
+    {abstract}writeToFile(fileWriter:FileWriter, students:MutableList<Student>)
+    {abstract}readFromFile(mainString:String, students:MutableList<Student>)
+    +processWrite(filePath: String, fileName: String)
+    +processRead(filePath: String)
+    +getStudentById(id: Int):Student?
+    +getKNStudentShortList(k: Int, n: Int): DataList<StudentShort>
+    +sortByInitials():List<Student>?
+    -addNewStudent(student: Student, id: Int = studentList.maxOf { it.id } + 1)
+    +addNewStudent(student: Student)
+    +replaceById(id: Int, newStudent: Student)
+    +deleteById(id: Int)
+    +getStudentShortCount():Int
+    +toString():String
 }
 
-class StudentListJsonStrategy {
+class StudentListJson{
     +createMap(el:Any):HashMap<String,Any?>
     +readFromFile(filePath: String)
     +convertMap(hashM:Map<String,Any?>):Map<String,Any>
     +fun writeToFile(filePath: String, fileName: String)
 }
 
-class StudentListYamlStrategy {
+class StudentListYaml{
     +createMap(el: Any): HashMap<String, Any?>
     +readFromFile(filePath: String)
     +convertMap(hashM: Map<String, Any?>): Map<String, Any>
     +writeToFile(filePath: String, fileName: String)
 }
 
-class StudentListTxtStrategy{
+class StudentListTxt{
     +readFromFile(filePath: String)
     +writeToFile(filePath: String, fileName: String)
 }
+interface StudentListAdapter {
+    +getStudentById(id: Int): Student?
+    +getKNStudentShortList(k: Int, n: Int): DataList<StudentShort>
+    +addNewStudent(student: Student)
+    +replaceById(id: Int, newStudent: Student)
+    +deleteById(id: Int)
+    +getStudentShortCount():Int
+    +sortByInitials():List<Student>?
+}
+interface StudentListAdapterExtend{
+    +processWrite(filePath: String, fileName: String)
+    +processRead(filePath: String)
+}
+StudentListAdapter<|--StudentListAdapterExtend
+
+
+StudentListAdapterExtend<|..StudentListBaseExtend
+
+StudentListBaseExtend<|-- StudentListJson
+StudentListBaseExtend<|-- StudentListYaml
+StudentListBaseExtend<|-- StudentListTxt
+
+StudentListInterface<|..StudentListYaml
+StudentListInterface<|..StudentListJson
 
 object DbCon {
     -conn: Connection?
@@ -219,38 +267,15 @@ class StudentListDB {
     +deleteById(id: Int)
     +getStudentShortCount(): Int
 }
-
-class StudentListBase{
-        --Constructors--
-        +StudentListBase()
-        --Methods--
-        +{abstract}getStudentById(id: Int): Student?
-        +{abstract}getKNStudentShortList(n: Int, k: Int): DataList<StudentShort>
-        +{abstract}addNewStudent(student: Student)
-        +{abstract}replaceById(id:Int,student: Student)
-        +{abstract}deleteById(id: Int)
-        +{abstract}getStudentShortCount(): Int
-}
-
+StudentListAdapter<|..StudentListDB
 StudentListDB o-- DbCon
 
-StudentListBase<|-- StudentListWithStrategy
-StudentListBase<|-- StudentListDB
+StudentList *-- StudentListAdapter
+StudentListExtend *-- StudentListAdapterExtend
 
 
-StudentListWithStrategy *-- StudentListBaseStrategy
-
-StudentListBaseStrategy<|-- StudentListJsonStrategy
-StudentListBaseStrategy<|-- StudentListYamlStrategy
-StudentListBaseStrategy<|-- StudentListTxtStrategy
-
-StudentListInterface<|..StudentListYamlStrategy
-StudentListInterface<|..StudentListJsonStrategy
-
-DataList <.. StudentListBase
-Student <.. StudentListBase
-DataTable <.. StudentListBase
-StudentShort <.. StudentListBase
-
-Student <.. StudentListBaseStrategy
+Student <.. StudentList
+StudentShort <.. StudentList
+DataTable <.. StudentList
+DataList <.. StudentList
 @enduml

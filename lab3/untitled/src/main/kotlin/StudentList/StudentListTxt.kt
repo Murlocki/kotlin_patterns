@@ -7,17 +7,16 @@ import java.io.File
 import java.io.FileWriter
 import kotlin.math.min
 
-class StudentListTxtStrategy():StudentListBaseStrategy() {
+class StudentListTxt:StudentListBaseExtend() {
 
     // Чтение из файла
-    override fun processRead(mainString: String, students: MutableList<Student>) = mainString.split('\n').forEach { students.add(
+    override fun readFromFile(mainString: String, students: MutableList<Student>) = mainString.split('\n').forEach { students.add(
         Student(it)
     ) }
 
     // Запись в файл
-    override fun processWrite(fileWriter: FileWriter, students: MutableList<Student>) {
+    override fun writeToFile(fileWriter: FileWriter, students: MutableList<Student>) {
         students.forEach { fileWriter.appendLine(it.toString()) }
     }
-
 
 }

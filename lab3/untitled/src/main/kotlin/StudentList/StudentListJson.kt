@@ -9,7 +9,7 @@ import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.*
 
-class StudentListJsonStrategy() : StudentListBaseStrategy(), StudentListInterface {
+class StudentListJson : StudentListBaseExtend(),StudentListInterface {
 
     override fun createMap(el: Any): HashMap<String, Any?> {
         val map = HashMap<String, Any?>()
@@ -27,7 +27,7 @@ class StudentListJsonStrategy() : StudentListBaseStrategy(), StudentListInterfac
         return res
     }
 
-    override fun processWrite(fileWriter: FileWriter, students: MutableList<Student>) {
+    override fun writeToFile(fileWriter: FileWriter, students: MutableList<Student>) {
         val jsonFormat = Json { prettyPrint = true }
         val res = jsonFormat.encodeToString(
             ListSerializer(MapSerializer(String.serializer(), NumberOrStringSerializer)),
@@ -35,8 +35,7 @@ class StudentListJsonStrategy() : StudentListBaseStrategy(), StudentListInterfac
         fileWriter.appendLine(res)
     }
 
-    // Чтение из файла
-    override fun processRead(mainString: String, students: MutableList<Student>) {
+    override fun readFromFile(mainString: String, students: MutableList<Student>) {
         val jsonOb = Json.parseToJsonElement(mainString).jsonArray
         jsonOb.forEach { students.add(Student(createMap(it.jsonObject))) }
     }
