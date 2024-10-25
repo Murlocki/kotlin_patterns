@@ -81,21 +81,22 @@ fun main() {
 //    )
 //    println(studListTxt)
 
-    val studentListJson = StudentListExtend(StudentListJson())
-    studentListJson.processRead("src/main/resources/file.json")
-    studentListJson.processWrite("src/main/resources/", "res.json")
-    println(studentListJson)
-
-    val studentListYaml = StudentListExtend(StudentListYaml())
-    studentListYaml.processRead("src/main/resources/test.yaml")
-    studentListYaml.processWrite("src/main/resources/", "res.yaml")
-    println(studentListYaml)
-
-    val stuListDb = StudentList(StudentListDB())
-    println(stuListDb.getStudentById(7))
-    println(stuListDb.getKNStudentShortList(3, 1).getData())
-    println(stuListDb.getStudentShortCount())
-    stuListDb.deleteById(2)
-    stuListDb.addNewStudent(Student("Aabbb", "Bbbbbb", "Cccccc", telegramValue = "@elelelelele"))
-    stuListDb.replaceById(5, Student("Ad", "Bbbbbb", "Cccccc", telegramValue = "@elelelelele"))
+//    val studentListJson = StudentListExtend(StudentListJson())
+//    studentListJson.processRead("src/main/resources/file.json")
+//    studentListJson.processWrite("src/main/resources/", "res.json")
+//    println(studentListJson)
+//
+//    val studentListYaml = StudentListExtend(StudentListYaml())
+//    studentListYaml.processRead("src/main/resources/test.yaml")
+//    studentListYaml.processWrite("src/main/resources/", "res.yaml")
+//    println(studentListYaml)
+//
+//    val stuListDb = StudentList(StudentListDB())
+//    println(stuListDb.getStudentById(7))
+//    println(stuListDb.getKNStudentShortList(3, 1).getData())
+//    println(stuListDb.getStudentShortCount())
+//    stuListDb.deleteById(2)
+//    stuListDb.addNewStudent(Student("Aabbb", "Bbbbbb", "Cccccc", telegramValue = "@elelelelele"))
+//    stuListDb.replaceById(5, Student("Ad", "Bbbbbb", "Cccccc", telegramValue = "@elelelelele"))
+    StudentManagementApp.start();
 }
