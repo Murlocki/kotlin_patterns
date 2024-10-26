@@ -1,15 +1,42 @@
+import InputFilterPack.ContactField;
+import InputFilterPack.SurnameInitialsField;
+
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class FilterPanel extends JPanel {
     private SurnameInitialsField surnameInitialsField;
+    private ContactField githubField;
+    private ContactField emailField;
+    private ContactField phoneField;
+    private ContactField telegramField;
     public FilterPanel(){
-        super();
-        //Задали раскладку блоков
-        this.setLayout(new GridLayout(1,5));
+        GridLayout layout =new GridLayout(1,5);
+        layout.setHgap(30);
+        this.setLayout(layout);
+        this.setBackground(Color.WHITE);
+        this.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         //Создаем поле для ввода фамилии и инициалов
         this.surnameInitialsField = new SurnameInitialsField();
         this.add(surnameInitialsField);
+
+        //Создаем поле для фильтрации гита
+        this.githubField = new ContactField("Github");
+        this.add(this.githubField);
+
+        //Создаем поле для фильтрации почты
+        this.emailField = new ContactField("Email");
+        this.add(this.emailField);
+
+        //Создаем поле для фильтрации телеграмма
+        this.phoneField = new ContactField("Telegram");
+        this.add(this.phoneField);
+
+
+        //Создаем поле для фильтрации телефон
+        this.telegramField = new ContactField("Phone");
+        this.add(this.telegramField);
     }
 }
