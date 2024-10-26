@@ -1,3 +1,5 @@
+package InputFilterPack;
+
 import InputFilterPack.ContactField;
 import InputFilterPack.SurnameInitialsField;
 

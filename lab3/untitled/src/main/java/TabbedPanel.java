@@ -1,11 +1,11 @@
+import TableGridPack.TablePanel;
+
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import java.awt.*;
 
 public class TabbedPanel extends JTabbedPane {
     public TabbedPanel(){
-        this.setBorder(BorderFactory.createEmptyBorder(10, 1, 10, 1));
+        this.setBorder(BorderFactory.createEmptyBorder(10, 1, 0, 1));
         //Создаем вкладки
         JPanel panel1 = new TablePanel();
 

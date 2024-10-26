@@ -1,10 +1,11 @@
 package org.example
 
-import DataBasePack.DbCon
 import DataBasePack.StudentListDB
-import Student.Student
 import Student.StudentShort
 import StudentList.*
+import StudentManagementApp
+import java.util.*
+import java.util.function.Function
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -84,7 +85,7 @@ fun main() {
 //    val studentListJson = StudentListExtend(StudentListJson())
 //    studentListJson.processRead("src/main/resources/file.json")
 //    studentListJson.processWrite("src/main/resources/", "res.json")
-//    println(studentListJson)
+//    println(studentListJson.getKNStudentShortList(0,5).getNames().forEach { println(it) })
 //
 //    val studentListYaml = StudentListExtend(StudentListYaml())
 //    studentListYaml.processRead("src/main/resources/test.yaml")

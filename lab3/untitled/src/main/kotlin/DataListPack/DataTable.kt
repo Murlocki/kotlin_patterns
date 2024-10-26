@@ -7,7 +7,7 @@ class DataTable(private val data: Array<Array<Any?>>) {
             null // Возвращаем null, если индексы некорректны
         }
     }
-
+    fun getColumns(): Array<Any?> = this.data[0];
     fun getColumnCount(): Int {
         return data[0].size
     }
