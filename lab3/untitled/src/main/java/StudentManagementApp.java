@@ -8,6 +8,10 @@ public class StudentManagementApp extends JFrame {
     }
     public void createWindow(){
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        this.add(new TabbedPanel());
+
+
         this.setMinimumSize(new Dimension(1200,580));
         this.pack();
         this.setVisible(true);
