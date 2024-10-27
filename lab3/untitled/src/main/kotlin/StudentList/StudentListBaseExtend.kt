@@ -9,7 +9,7 @@ import kotlin.math.min
 
 abstract class StudentListBaseExtend():StudentListAdapterExtend {
     protected val studentList: MutableList<Student> = mutableListOf();
-
+    private var orderStudentList: MutableList<Student> = mutableListOf();
     abstract fun writeToFile(fileWriter:FileWriter, students:MutableList<Student>)
     abstract fun readFromFile(mainString:String, students:MutableList<Student>)
 
@@ -29,28 +29,37 @@ abstract class StudentListBaseExtend():StudentListAdapterExtend {
         else {
             val mainString = File(filePath).readText()
             this.readFromFile(mainString,this.studentList)
+            this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
         }
     }
 
     open override fun getStudentById(id: Int) = studentList.find { it.id == id }
 
     open override fun getKNStudentShortList(k: Int, n: Int) =
-        DataList<StudentShort>(studentList.slice(k * n..<min(k * n + n, studentList.size)).map { StudentShort(it) }
+        DataList<StudentShort>(orderStudentList.slice((k-1) * n..<min((k-1) * n + n, orderStudentList.size)).map { StudentShort(it) }
             .toTypedArray<StudentShort>());
 
-    open override fun sortByInitials() = this.studentList.sortedBy { it.getInitials() }
+    open override fun sortByInitials(order:Int){
+        if(order==-1) this.studentList.sortByDescending { it.getInitials() }
+        else if(order==1) this.studentList.sortBy { it.getInitials() }
+        else this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+    }
 
 
     private fun addNewStudent(student: Student, id: Int = studentList.maxOf { it.id } + 1) {
         val stud = Student(student.toString())
         stud.id = id
-        this.studentList.add(stud)
+        this.studentList.add(stud);
+
+        this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
     }
 
     open override fun addNewStudent(student: Student) {
         val stud = Student(student.toString())
         stud.id = studentList.maxOf { it.id } + 1
         this.studentList.add(stud)
+
+        this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
     }
 
     open override fun replaceById(id: Int, newStudent: Student) {
@@ -59,10 +68,13 @@ abstract class StudentListBaseExtend():StudentListAdapterExtend {
         val ind = this.studentList.indexOf(this.studentList.find { it.id == id })
         if (ind != -1) this.studentList[ind] = stud
         else this.addNewStudent(newStudent, id)
+
+        this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
     }
 
     open override fun deleteById(id: Int) {
         this.studentList.removeAt(this.studentList.indexOf(this.studentList.find { it.id == id }))
+        this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
     }
 
     open override fun getStudentShortCount() = this.studentList.size

@@ -13,12 +13,10 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Comparator;
 
 public class MainTable extends JTable implements TableParamsInterfaceSetter {
     public DefaultTableModel tableModel;
-
-    private int clickCount = 0;
-    private int lastSortedColumn = -1;
 
     public MainTableController mainTableController;
 
@@ -47,33 +45,6 @@ public class MainTable extends JTable implements TableParamsInterfaceSetter {
             this.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-
-        // Добавление TableRowSorter для управления сортировкой
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(this.tableModel);
-        this.setRowSorter(sorter);
-        this.getTableHeader().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int column = MainTable.this.columnAtPoint(e.getPoint());
-
-                // Проверяем, был ли нажат тот же столбец
-                if (MainTable.this.lastSortedColumn == column) {
-                    MainTable.this.clickCount +=1;
-                } else {
-                    MainTable.this.clickCount = 1; // Сбрасываем счетчик
-                    MainTable.this.lastSortedColumn = column; // Запоминаем новый столбец
-                }
-
-                // Сортируем или сбрасываем сортировку
-                if (MainTable.this.clickCount == 3) {
-                    MainTable.this.setRowSorter(null); // Сброс сортировки
-                    MainTable.this.setRowSorter(new TableRowSorter<>(MainTable.this.tableModel)); // Установить сортировщик снова
-                    MainTable.this.clickCount = 0; // Сбрасываем счетчик
-                    MainTable.this.lastSortedColumn = -1; // Сбрасываем последний отслеживаемый столбец
-                }
-            }
-        });
-
         //Добавлеям прослушку на выделенные строки
         this.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -97,4 +68,6 @@ public class MainTable extends JTable implements TableParamsInterfaceSetter {
     public void setTableData(DataTable dataTable) {
         this.mainTableController.setTableData(dataTable);
     }
+
+
 }

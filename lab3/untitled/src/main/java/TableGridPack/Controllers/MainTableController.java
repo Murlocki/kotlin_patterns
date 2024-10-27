@@ -4,17 +4,33 @@ import DataListPack.DataTable;
 import MainPack.UpdateDataInterface;
 import StudentList.StudentList;
 import TableGridPack.MainTable;
+import TableGridPack.Models.MainTableModel;
 import TableGridPack.Navigator.Models.NavigationPageModel;
 import TableGridPack.TableParamsInterfaceSetter;
 
+import javax.naming.ldap.SortKey;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Comparator;
+import java.util.List;
 
-public class MainTableController implements UpdateDataInterface, TableParamsInterfaceSetter {
+public class MainTableController implements TableParamsInterfaceSetter {
     public MainTable mainTable;
     public NavigationPageModel navigationPageModel;
+
+    public MainTableModel mainTableModel = new MainTableModel();
     public StudentList studentListModel;
     public MainTableController(MainTable mainTable){
         this.mainTable = mainTable;
+        this.mainTable.getTableHeader().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                MainTableController.this.mainTableModel.sortOrder(MainTableController.this.mainTable.columnAtPoint(e.getPoint()));
+            }
+        });
     }
     @Override
     public void setTableParams(String[] columnNames, int wholeEntitiesCount) {
@@ -37,10 +53,5 @@ public class MainTableController implements UpdateDataInterface, TableParamsInte
             }
         }
         model.setDataVector(arr,currentColumnNames);
-    }
-
-    @Override
-    public void updatePage() {
-
     }
 }

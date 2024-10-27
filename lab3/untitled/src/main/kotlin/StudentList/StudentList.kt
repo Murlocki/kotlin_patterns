@@ -16,7 +16,7 @@ open class StudentList(private var studentList:StudentListAdapter) {
     public fun deleteById(id: Int) = this.studentList.deleteById(id);
 
     public fun getStudentShortCount():Int = this.studentList.getStudentShortCount();
-    public fun sortByInitials():List<Student>? = this.studentList.sortByInitials()
+    public fun sortByInitials(order:Int) = this.studentList.sortByInitials(order)
 
     public override fun toString(): String {
         return studentList.toString()

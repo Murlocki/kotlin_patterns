@@ -18,5 +18,5 @@ interface StudentListAdapter {
 
     fun getStudentShortCount():Int
 
-    fun sortByInitials():List<Student>?
+    fun sortByInitials(order:Int)
 }

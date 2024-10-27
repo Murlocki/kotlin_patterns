@@ -4,54 +4,47 @@ import Student.Student
 import DataListPack.DataList
 import Student.StudentShort
 import StudentList.StudentListAdapter
+import kotlin.math.min
 
 class StudentListDB():StudentListAdapter {
     private var conn: DbCon? = DbCon;
-
+    private var studentList: MutableList<Student> = mutableListOf();
+    private var orderedStudentList: MutableList<Student> = mutableListOf();
     init {
         conn?.createConnection()
+        this.read()
     }
 
-    override fun getStudentById(id: Int): Student? {
-        val request = "SELECT * FROM ref_student as t where t.id=${id}"
-        val result = this.conn?.executeSqlSelect(request);
-        if (result != null && result.next()) {
-            val resultHash:HashMap<String,Any?> = hashMapOf<String,Any?>()
-            resultHash.set("id",result.getInt("id"))
-            resultHash.set("name",result.getString("name"))
-            resultHash.set("surname",result.getString("surname"))
-            resultHash.set("patronymic",result.getString("patronymic"))
-            resultHash.set("phoneNumber",result.getString("phoneNumber"))
-            resultHash.set("gitHub",result.getString("gitHub"))
-            resultHash.set("email",result.getString("email"))
-            resultHash.set("telegram",result.getString("telegram"))
-            result.close();
-            return Student(resultHash);
-        };
-        return null;
-    }
-
-    override fun getKNStudentShortList(k: Int, n: Int): DataList<StudentShort> {
-        val request = "SELECT * FROM ref_student as t ORDER BY t.id OFFSET ${(n-1)*k} ROWS LIMIT ${k}"
+    fun read() {
+        val request = "SELECT * FROM ref_student"
         val result = this.conn?.executeSqlSelect(request);
         if (result != null) {
-            val resultList:MutableList<Student> = mutableListOf()
-            while(result.next()){
-                val resultHash:HashMap<String,Any?> = hashMapOf<String,Any?>()
-                resultHash.set("id",result.getInt("id"))
-                resultHash.set("name",result.getString("name"))
-                resultHash.set("surname",result.getString("surname"))
-                resultHash.set("patronymic",result.getString("patronymic"))
-                resultHash.set("phoneNumber",result.getString("phoneNumber"))
-                resultHash.set("gitHub",result.getString("gitHub"))
-                resultHash.set("email",result.getString("email"))
-                resultHash.set("telegram",result.getString("telegram"))
+            val resultList: MutableList<Student> = mutableListOf()
+            while (result.next()) {
+                val resultHash: HashMap<String, Any?> = hashMapOf<String, Any?>()
+                resultHash.set("id", result.getInt("id"))
+                resultHash.set("name", result.getString("name"))
+                resultHash.set("surname", result.getString("surname"))
+                resultHash.set("patronymic", result.getString("patronymic"))
+                resultHash.set("phoneNumber", result.getString("phoneNumber"))
+                resultHash.set("gitHub", result.getString("gitHub"))
+                resultHash.set("email", result.getString("email"))
+                resultHash.set("telegram", result.getString("telegram"))
                 resultList.add(Student(resultHash));
             }
             result.close();
-            return DataList<StudentShort>(resultList.map { StudentShort(it) }.toTypedArray<StudentShort>());
-        };
-        return DataList<StudentShort>(mutableListOf<Student>().map { StudentShort(it) }.toTypedArray<StudentShort>());
+            this.studentList = resultList;
+            this.orderedStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+        }
+    }
+    override fun getStudentById(id: Int): Student? {
+        this.read()
+        return this.studentList.find { it.id == id }
+    }
+
+    override fun getKNStudentShortList(k: Int, n: Int): DataList<StudentShort> {
+        return DataList<StudentShort>(orderedStudentList.slice((k-1) * n..<min((k-1) * n + n, orderedStudentList.size)).map { StudentShort(it) }
+            .toTypedArray<StudentShort>());
     }
 
     override fun addNewStudent(student: Student) {
@@ -68,6 +61,7 @@ class StudentListDB():StudentListAdapter {
         values=values.dropLast(1)
         val request = "insert into ref_student(${columns}) values (${values})"
         this.conn?.executeSql(request);
+        this.read()
     }
 
     override fun replaceById(id:Int,newStudent: Student) {
@@ -81,45 +75,31 @@ class StudentListDB():StudentListAdapter {
         values=values.dropLast(1)
         val request = "update ref_student t set ${values} where t.id=${id}"
         this.conn?.executeSql(request);
+        this.read()
     }
 
     override fun deleteById(id: Int) {
         val request = "delete from ref_student as t where t.id=${id}"
         this.conn?.executeSql(request);
+        this.read()
     }
 
     override fun getStudentShortCount(): Int {
-        val request = "SELECT count(*) as c FROM ref_student"
-        val result = this.conn?.executeSqlSelect(request);
-        if (result != null && result.next()) {
-            val count = result.getInt("c");
-            result.close();
-            return count;
-        };
-        return 0;
+        this.read();
+        return this.studentList.size
     }
 
-    override fun sortByInitials():List<Student>? {
-        val request = "SELECT * FROM ref_student as t ORDER BY t.id"
-        val result = this.conn?.executeSqlSelect(request);
-        if (result != null) {
-            val resultList:MutableList<Student> = mutableListOf()
-            while(result.next()){
-                val resultHash:HashMap<String,Any?> = hashMapOf<String,Any?>()
-                resultHash.set("id",result.getInt("id"))
-                resultHash.set("name",result.getString("name"))
-                resultHash.set("surname",result.getString("surname"))
-                resultHash.set("patronymic",result.getString("patronymic"))
-                resultHash.set("phoneNumber",result.getString("phoneNumber"))
-                resultHash.set("gitHub",result.getString("gitHub"))
-                resultHash.set("email",result.getString("email"))
-                resultHash.set("telegram",result.getString("telegram"))
-                resultList.add(Student(resultHash));
-            }
-            result.close();
-            return resultList.sortedBy { it.getInitials() };
-        };
-        return null;
+    override fun sortByInitials(order:Int) {
+        this.read()
+        if(order==-1){
+            this.orderedStudentList.sortByDescending { it.getInitials() }
+        }
+        else if (order==1){
+            this.orderedStudentList.sortBy { it.getInitials() }
+        }
+        else{
+            this.orderedStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+        }
     }
 
 }

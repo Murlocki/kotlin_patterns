@@ -51,14 +51,16 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
         this.mainTableController.navigationPageModel = this.navigationPageModel;
 
         this.navigationPageModel.subscribe(this);
-
+        this.mainTableController.mainTableModel.subscribe(this);
     }
 
     @Override
     public void updatePage(){
-        this.currentDataList = this.studentList.getKNStudentShortList(this.navigationPageModel.elementsPerPage,this.navigationPageModel.currentPage);
+        this.studentList.sortByInitials(this.mainTableController.mainTableModel.order);
+        this.currentDataList = this.studentList.getKNStudentShortList(this.navigationPageModel.currentPage,this.navigationPageModel.elementsPerPage);
         this.currentDataList.setTableView(this.tableView);
         this.currentDataList.notifySubs();
+
 
         this.navigationPageModel.setMaxCountOfPages(this.studentList.getStudentShortCount());
         this.navigatorController.updatePage();
