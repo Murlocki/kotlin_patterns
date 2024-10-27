@@ -21,52 +21,6 @@ import java.util.HashMap;
 
 public class MainTable extends JTable implements RefreshDataInterface {
     public DefaultTableModel tableModel;
-    public Object[][] dataHard = {
-            {0, "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa B. C.", null, null},
-            {1, "Aabbb-Abbb B. C." ,null, "{telegram=@elelelelele}"},
-            {2, "Aaabbb B. C." , "eeefefefef",null},
-            {3, "Aaabbb B. C.", null, "{email=kk@gmial.com}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-            {4, "B V. C.", null, "{phoneNumber=+79889889898}"},
-    };
-    public Object[] columnsNames = {"ID","initials", "gitHub", "contact"};
 
     private int clickCount = 0;
     private int lastSortedColumn = -1;
@@ -74,7 +28,7 @@ public class MainTable extends JTable implements RefreshDataInterface {
     public MainTableController mainTableController;
 
     public MainTable(){
-        this.tableModel = new DefaultTableModel(dataHard,columnsNames){
+        this.tableModel = new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // Запрет редактирования ячеек

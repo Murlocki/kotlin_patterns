@@ -1,6 +1,7 @@
 package TableGridPack;
 
 import ButtonCRUDPanel.ButtonPanel;
+import DataListPack.DataTable;
 import InputFilterPack.FilterPanel;
 import TableGridPack.Controllers.TableViewController;
 import TableGridPack.Navigator.NavigatorPanel;
@@ -8,7 +9,7 @@ import TableGridPack.Navigator.NavigatorPanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class TableView extends JPanel {
+public class TableView extends JPanel implements TableParamsInterfaceSetter {
     public FilterPanel filterPanel;
     public MainTable mainTable;
     public NavigatorPanel navigatorPanel;
@@ -40,5 +41,16 @@ public class TableView extends JPanel {
                 this.buttonPanel.buttonPanelController,
                 this.filterPanel.filterPanelController
         );
+        this.tablePanelController.refreshData();
+    }
+
+    @Override
+    public void setTableParams(String[] columnNames, int wholeEntitiesCount) {
+        this.tablePanelController.setTableParams(columnNames,wholeEntitiesCount);
+    }
+
+    @Override
+    public void setTableData(DataTable dataTable) {
+        this.tablePanelController.setTableData(dataTable);
     }
 }

@@ -1,5 +1,9 @@
 package DataListPack
 
+import Student.StudentBase
+import Student.StudentShort
+import TableGridPack.TableView
+import java.util.Observer
 import kotlin.reflect.full.companionObject
 import kotlin.reflect.full.memberFunctions
 
@@ -43,5 +47,19 @@ open class DataList<T>(val elements: Array<T>) {
             rowNumber+=1;
         }
         return DataTable(dataList.toTypedArray<Array<Any?>>())
+    }
+
+
+    //Задаем для обновления вьюх
+    public var tableView: TableView? = null;
+    public fun notifySubs(){
+        val dataTable  = this.getData();
+
+        val colNames = Array(dataTable.getColumnCount()){" "};
+        for(i in 0..<this.getData().getColumnCount()){
+            colNames[i] = dataTable.getElement(0,i).toString();
+        }
+        this.tableView?.setTableParams(colNames,this.elements.size)
+        this.tableView?.setTableData(dataTable)
     }
 }
