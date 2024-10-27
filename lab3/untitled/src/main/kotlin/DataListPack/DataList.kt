@@ -1,5 +1,6 @@
 package DataListPack
 
+import MainPack.UpdateDataInterface
 import Student.StudentBase
 import Student.StudentShort
 import TableGridPack.MainTable
@@ -17,6 +18,10 @@ open class DataList<T>(val elements: Array<T>) {
         } else {
             throw IndexOutOfBoundsException("Индекс вне диапазона")
         }
+    }
+    //Метод для убирания селекта
+    fun unSelectAll() {
+        selectedIndices.clear()
     }
     // Метод для получения массива ID выделенных элементов
     fun getSelectedIds() = selectedIndices.toIntArray()
@@ -53,7 +58,7 @@ open class DataList<T>(val elements: Array<T>) {
 
     //Задаем для обновления вьюх
     public var tableView: TableView? = null;
-    public fun notifySubs(){
+    public fun notifyView(){
         val dataTable  = this.getData();
 
         val colNames = Array(dataTable.getColumnCount()){" "};
@@ -62,5 +67,15 @@ open class DataList<T>(val elements: Array<T>) {
         }
         this.tableView?.setTableParams(colNames,this.elements.size)
         this.tableView?.setTableData(dataTable)
+    }
+
+    public var subs:MutableList<UpdateDataInterface> = mutableListOf()
+    public fun subscribe(ob:UpdateDataInterface){
+        this.subs.add(ob);
+    }
+    public fun notifySubs(){
+        for(el in this.subs){
+            el.updatePage()
+        }
     }
 }

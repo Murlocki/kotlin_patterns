@@ -53,6 +53,6 @@ public class ButtonPanel extends JPanel implements UpdateDataInterface {
 
     @Override
     public void updatePage() {
-
+        this.buttonPanelController.updatePage();
     }
 }

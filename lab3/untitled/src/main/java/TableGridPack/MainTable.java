@@ -45,16 +45,6 @@ public class MainTable extends JTable implements TableParamsInterfaceSetter {
             this.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-        //Добавлеям прослушку на выделенные строки
-        this.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    int selectedRowCount = MainTable.this.getSelectedRowCount(); // Получаем количество выделенных строк
-                    System.out.println("Количество выделенных строк: " + selectedRowCount);
-                }
-            }
-        });
         this.mainTableController = new MainTableController(this);
     }
 

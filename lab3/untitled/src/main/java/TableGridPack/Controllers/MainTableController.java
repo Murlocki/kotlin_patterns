@@ -1,34 +1,44 @@
 package TableGridPack.Controllers;
-
+import DataListPack.DataList;
 import DataListPack.DataTable;
-import MainPack.UpdateDataInterface;
-import StudentList.StudentList;
+import Student.StudentShort;
 import TableGridPack.MainTable;
 import TableGridPack.Models.MainTableModel;
 import TableGridPack.Navigator.Models.NavigationPageModel;
 import TableGridPack.TableParamsInterfaceSetter;
-
-import javax.naming.ldap.SortKey;
-import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Comparator;
-import java.util.List;
+
 
 public class MainTableController implements TableParamsInterfaceSetter {
     public MainTable mainTable;
     public NavigationPageModel navigationPageModel;
 
     public MainTableModel mainTableModel = new MainTableModel();
-    public StudentList studentListModel;
+    public DataList<StudentShort> dataStudentListModel;
     public MainTableController(MainTable mainTable){
         this.mainTable = mainTable;
         this.mainTable.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 MainTableController.this.mainTableModel.sortOrder(MainTableController.this.mainTable.columnAtPoint(e.getPoint()));
+            }
+        });
+        this.mainTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRowCount = MainTableController.this.mainTable.getSelectedRowCount(); // Получаем количество выделенных строк
+                    int[] selectedRows = MainTableController.this.mainTable.getSelectedRows();
+                    MainTableController.this.dataStudentListModel.unSelectAll();
+                    for (int rowIndex : selectedRows) {
+                        MainTableController.this.dataStudentListModel.select(rowIndex);
+                    }
+                    MainTableController.this.dataStudentListModel.notifySubs();
+                }
             }
         });
     }
