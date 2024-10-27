@@ -3,6 +3,7 @@ package TableGridPack.Navigator.Models;
 import MainPack.RefreshDataInterface;
 import TableGridPack.Navigator.NavigatorPanel;
 
+import java.awt.event.ItemEvent;
 import java.util.LinkedList;
 
 public class NavigationPageModel {
@@ -32,6 +33,15 @@ public class NavigationPageModel {
     public void prevPage(){
         if(this.currentPage>1){
             this.currentPage -=1;
+            for(RefreshDataInterface sub:this.subscribers){
+                sub.refreshData();
+            }
+        }
+    }
+    public void elementPerPageSelected(ItemEvent e){
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+            System.out.println("Количество элементов на странице"+e.getItem());
+            this.elementsPerPage = (int) e.getItem();
             for(RefreshDataInterface sub:this.subscribers){
                 sub.refreshData();
             }

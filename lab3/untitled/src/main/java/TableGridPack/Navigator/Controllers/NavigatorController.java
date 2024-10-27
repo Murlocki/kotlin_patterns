@@ -5,6 +5,7 @@ import TableGridPack.Navigator.NavigatorPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 
 public class NavigatorController {
     public NavigatorPanel navigatorPanel;
@@ -25,12 +26,17 @@ public class NavigatorController {
             }
         });
 
+        this.navigatorPanel.elemsForPageSelector.addItemListener(NavigatorController.this::elementPerPageSelected);
+
     }
     public void pageNext(){
         this.navigationPageModel.nextPage();
     }
     public void pagePrev(){
         this.navigationPageModel.prevPage();
+    }
+    public void elementPerPageSelected(ItemEvent e){
+        this.navigationPageModel.elementPerPageSelected(e);
     }
     public void updateLabel(){
         this.navigatorPanel.pageLabel.setText(this.navigationPageModel.currentPage+" of "+this.navigationPageModel.maxCountOfPages);

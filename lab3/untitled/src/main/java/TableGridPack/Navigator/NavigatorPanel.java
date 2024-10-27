@@ -36,7 +36,7 @@ public class NavigatorPanel extends JPanel implements RefreshDataInterface {
 
 
         this.maxCountOfPages = maxCountOfPages;
-        this.pageLabel = new JLabel(currentPage+" of "+maxCountOfPages,JLabel.CENTER);
+        this.pageLabel = new JLabel("",JLabel.CENTER);
         this.pageLabel.setFont(new Font(font.getFontName(),font.getStyle(),15));
 
         BorderLayout layout = new BorderLayout();
