@@ -6,6 +6,8 @@ import StudentList.StudentListExtend;
 import StudentList.StudentListJson;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -114,6 +116,17 @@ public class MainTable extends JTable {
                     MainTable.this.setRowSorter(new TableRowSorter<>(MainTable.this.tableModel)); // Установить сортировщик снова
                     MainTable.this.clickCount = 0; // Сбрасываем счетчик
                     MainTable.this.lastSortedColumn = -1; // Сбрасываем последний отслеживаемый столбец
+                }
+            }
+        });
+
+        //Добавлеям прослушку на выделенные строки
+        this.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRowCount = MainTable.this.getSelectedRowCount(); // Получаем количество выделенных строк
+                    System.out.println("Количество выделенных строк: " + selectedRowCount);
                 }
             }
         });

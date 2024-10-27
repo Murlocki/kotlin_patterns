@@ -1,5 +1,6 @@
 package TableGridPack;
 
+import ButtonCRUDPanel.ButtonPanel;
 import InputFilterPack.FilterPanel;
 import TableGridPack.Navigator.NavigatorPanel;
 import javax.swing.*;
@@ -9,6 +10,8 @@ public class TablePanel extends JPanel {
     private FilterPanel filterPanel;
     private MainTable mainTable;
     private NavigatorPanel navigatorPanel;
+
+    private ButtonPanel buttonPanel;
     public TablePanel(){
         super(new BorderLayout());
         this.filterPanel = new FilterPanel();
@@ -22,5 +25,8 @@ public class TablePanel extends JPanel {
 
         this.navigatorPanel = new NavigatorPanel(5);
         this.add(this.navigatorPanel,BorderLayout.SOUTH);
+
+        this.buttonPanel = new ButtonPanel();
+        this.add(this.buttonPanel,BorderLayout.EAST);
     }
 }
