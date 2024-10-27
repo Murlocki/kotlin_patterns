@@ -1,10 +1,7 @@
 package TableGridPack;
 
-import DataListPack.DataList;
-import MainPack.RefreshDataInterface;
-import Student.StudentShort;
-import StudentList.StudentListExtend;
-import StudentList.StudentListJson;
+import DataListPack.DataTable;
+import MainPack.UpdateDataInterface;
 import TableGridPack.Controllers.MainTableController;
 
 import javax.swing.*;
@@ -16,10 +13,8 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
-import java.util.HashMap;
 
-public class MainTable extends JTable implements RefreshDataInterface {
+public class MainTable extends JTable implements TableParamsInterfaceSetter {
     public DefaultTableModel tableModel;
 
     private int clickCount = 0;
@@ -92,8 +87,14 @@ public class MainTable extends JTable implements RefreshDataInterface {
         this.mainTableController = new MainTableController(this);
     }
 
-    @Override
-    public void refreshData() {
 
+    @Override
+    public void setTableParams(String[] columnNames, int wholeEntitiesCount) {
+        this.mainTableController.setTableParams(columnNames,wholeEntitiesCount);
+    }
+
+    @Override
+    public void setTableData(DataTable dataTable) {
+        this.mainTableController.setTableData(dataTable);
     }
 }

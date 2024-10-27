@@ -1,15 +1,13 @@
 package TableGridPack.Navigator;
 
-import MainPack.RefreshDataInterface;
+import MainPack.UpdateDataInterface;
 import TableGridPack.Navigator.Controllers.NavigatorController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class NavigatorPanel extends JPanel implements RefreshDataInterface {
+public class NavigatorPanel extends JPanel implements UpdateDataInterface {
     public JButton prevButton;
     public JButton nextButton;
     public JLabel pageLabel;
@@ -60,7 +58,7 @@ public class NavigatorPanel extends JPanel implements RefreshDataInterface {
 
 
     @Override
-    public void refreshData() {
+    public void updatePage() {
         this.navigatorController.updateLabel();
     }
 }

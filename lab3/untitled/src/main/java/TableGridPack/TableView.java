@@ -3,6 +3,7 @@ package TableGridPack;
 import ButtonCRUDPanel.ButtonPanel;
 import DataListPack.DataTable;
 import InputFilterPack.FilterPanel;
+import MainPack.UpdateDataInterface;
 import TableGridPack.Controllers.TableViewController;
 import TableGridPack.Navigator.NavigatorPanel;
 
@@ -53,4 +54,5 @@ public class TableView extends JPanel implements TableParamsInterfaceSetter {
     public void setTableData(DataTable dataTable) {
         this.tablePanelController.setTableData(dataTable);
     }
+
 }

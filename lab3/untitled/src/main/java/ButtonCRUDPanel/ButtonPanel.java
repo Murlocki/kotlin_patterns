@@ -1,13 +1,13 @@
 package ButtonCRUDPanel;
 
 import ButtonCRUDPanel.Controllers.ButtonPanelController;
-import MainPack.RefreshDataInterface;
+import MainPack.UpdateDataInterface;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class ButtonPanel extends JPanel implements RefreshDataInterface {
+public class ButtonPanel extends JPanel implements UpdateDataInterface {
     public JButton createButton;
     public JButton deleteButton;
     public JButton updateButton;
@@ -52,7 +52,7 @@ public class ButtonPanel extends JPanel implements RefreshDataInterface {
     }
 
     @Override
-    public void refreshData() {
+    public void updatePage() {
 
     }
 }

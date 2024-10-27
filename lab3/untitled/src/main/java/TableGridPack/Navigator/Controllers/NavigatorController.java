@@ -1,5 +1,6 @@
 package TableGridPack.Navigator.Controllers;
 
+import MainPack.UpdateDataInterface;
 import TableGridPack.Navigator.Models.NavigationPageModel;
 import TableGridPack.Navigator.NavigatorPanel;
 
@@ -7,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 
-public class NavigatorController {
+public class NavigatorController implements UpdateDataInterface {
     public NavigatorPanel navigatorPanel;
     public NavigationPageModel navigationPageModel;
     public NavigatorController(NavigatorPanel navigatorPanel){
@@ -40,5 +41,10 @@ public class NavigatorController {
     }
     public void updateLabel(){
         this.navigatorPanel.pageLabel.setText(this.navigationPageModel.currentPage+" of "+this.navigationPageModel.maxCountOfPages);
+    }
+
+    @Override
+    public void updatePage() {
+        this.updateLabel();
     }
 }

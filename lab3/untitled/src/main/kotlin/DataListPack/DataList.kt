@@ -2,6 +2,7 @@ package DataListPack
 
 import Student.StudentBase
 import Student.StudentShort
+import TableGridPack.MainTable
 import TableGridPack.TableView
 import java.util.Observer
 import kotlin.reflect.full.companionObject
@@ -33,7 +34,7 @@ open class DataList<T>(val elements: Array<T>) {
     protected open fun getPropertiesOfClass(value:T):List<Any?>{
         if(this.elements.isEmpty() || value!!::class.memberFunctions.find{ it.name == "propertiesReturn" }==null)  return listOf<Any?>()
         else{
-            return (value!!::class.memberFunctions.find{ it.name == "propertiesReturn" }!!.call(value) as HashMap<String,Any?>).values.drop(1).toList<Any?>()
+            return (value!!::class.memberFunctions.find{ it.name == "propertiesReturn" }!!.call(value) as HashMap<String,Any?>).values.toList<Any?>()
         }
     }
     fun getData(): DataTable {
@@ -42,7 +43,7 @@ open class DataList<T>(val elements: Array<T>) {
         dataList.add(arrayOf("ID",*getNames()))
         for(el in this.elements){
             dataList.add(
-                arrayOf(rowNumber,*getPropertiesOfClass(el).toTypedArray<Any?>())
+                arrayOf(*getPropertiesOfClass(el).toTypedArray<Any?>())
             )
             rowNumber+=1;
         }
