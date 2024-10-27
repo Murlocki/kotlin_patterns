@@ -1,9 +1,11 @@
 package TableGridPack;
 
 import DataListPack.DataList;
+import MainPack.RefreshDataInterface;
 import Student.StudentShort;
 import StudentList.StudentListExtend;
 import StudentList.StudentListJson;
+import TableGridPack.Controllers.MainTableController;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -17,7 +19,7 @@ import java.awt.event.MouseEvent;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class MainTable extends JTable {
+public class MainTable extends JTable implements RefreshDataInterface {
     public DefaultTableModel tableModel;
     public Object[][] dataHard = {
             {0, "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa B. C.", null, null},
@@ -68,33 +70,36 @@ public class MainTable extends JTable {
 
     private int clickCount = 0;
     private int lastSortedColumn = -1;
+
+    public MainTableController mainTableController;
+
     public MainTable(){
         this.tableModel = new DefaultTableModel(dataHard,columnsNames){
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Р—Р°РїСЂРµС‚ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ СЏС‡РµРµРє
+                return false; // Запрет редактирования ячеек
             }
         };
         this.setFillsViewportHeight(true);
         this.setModel(this.tableModel);
 
-        Font font = new Font("Arial", Font.PLAIN, 16); // РЈСЃС‚Р°РЅРѕРІРєР° С€СЂРёС„С‚Р° Arial, РѕР±С‹С‡РЅС‹Р№, СЂР°Р·РјРµСЂ 16
+        Font font = new Font("Arial", Font.PLAIN, 16); // Установка шрифта Arial, обычный, размер 16
         this.setFont(font);
         this.setRowHeight(30);
 
         this.getTableHeader().setFont(font);
 
-        // РЈСЃС‚Р°РЅРѕРІРєР° СЂРµРЅРґРµСЂРµСЂР° РґР»СЏ С†РµРЅС‚СЂРёСЂРѕРІР°РЅРёСЏ С‚РµРєСЃС‚Р°
+        // Установка рендерера для центрирования текста
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER); // Р¦РµРЅС‚СЂРёСЂРѕРІР°РЅРёРµ С‚РµРєСЃС‚Р°
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER); // Центрирование текста
 
-        // РџСЂРёРјРµРЅСЏРµРј СЂРµРЅРґРµСЂРµСЂ РєРѕ РІСЃРµРј СЃС‚РѕР»Р±С†Р°Рј
+        // Применяем рендерер ко всем столбцам
         for (int i = 0; i < this.getColumnCount(); i++) {
             this.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
 
-        // Р”РѕР±Р°РІР»РµРЅРёРµ TableRowSorter РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏ СЃРѕСЂС‚РёСЂРѕРІРєРѕР№
+        // Добавление TableRowSorter для управления сортировкой
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(this.tableModel);
         this.setRowSorter(sorter);
         this.getTableHeader().addMouseListener(new MouseAdapter() {
@@ -102,35 +107,39 @@ public class MainTable extends JTable {
             public void mouseClicked(MouseEvent e) {
                 int column = MainTable.this.columnAtPoint(e.getPoint());
 
-                // РџСЂРѕРІРµСЂСЏРµРј, Р±С‹Р» Р»Рё РЅР°Р¶Р°С‚ С‚РѕС‚ Р¶Рµ СЃС‚РѕР»Р±РµС†
+                // Проверяем, был ли нажат тот же столбец
                 if (MainTable.this.lastSortedColumn == column) {
                     MainTable.this.clickCount +=1;
                 } else {
-                    MainTable.this.clickCount = 1; // РЎР±СЂР°СЃС‹РІР°РµРј СЃС‡РµС‚С‡РёРє
-                    MainTable.this.lastSortedColumn = column; // Р—Р°РїРѕРјРёРЅР°РµРј РЅРѕРІС‹Р№ СЃС‚РѕР»Р±РµС†
+                    MainTable.this.clickCount = 1; // Сбрасываем счетчик
+                    MainTable.this.lastSortedColumn = column; // Запоминаем новый столбец
                 }
 
-                // РЎРѕСЂС‚РёСЂСѓРµРј РёР»Рё СЃР±СЂР°СЃС‹РІР°РµРј СЃРѕСЂС‚РёСЂРѕРІРєСѓ
+                // Сортируем или сбрасываем сортировку
                 if (MainTable.this.clickCount == 3) {
-                    MainTable.this.setRowSorter(null); // РЎР±СЂРѕСЃ СЃРѕСЂС‚РёСЂРѕРІРєРё
-                    MainTable.this.setRowSorter(new TableRowSorter<>(MainTable.this.tableModel)); // РЈСЃС‚Р°РЅРѕРІРёС‚СЊ СЃРѕСЂС‚РёСЂРѕРІС‰РёРє СЃРЅРѕРІР°
-                    MainTable.this.clickCount = 0; // РЎР±СЂР°СЃС‹РІР°РµРј СЃС‡РµС‚С‡РёРє
-                    MainTable.this.lastSortedColumn = -1; // РЎР±СЂР°СЃС‹РІР°РµРј РїРѕСЃР»РµРґРЅРёР№ РѕС‚СЃР»РµР¶РёРІР°РµРјС‹Р№ СЃС‚РѕР»Р±РµС†
+                    MainTable.this.setRowSorter(null); // Сброс сортировки
+                    MainTable.this.setRowSorter(new TableRowSorter<>(MainTable.this.tableModel)); // Установить сортировщик снова
+                    MainTable.this.clickCount = 0; // Сбрасываем счетчик
+                    MainTable.this.lastSortedColumn = -1; // Сбрасываем последний отслеживаемый столбец
                 }
             }
         });
 
-        //Р”РѕР±Р°РІР»РµСЏРј РїСЂРѕСЃР»СѓС€РєСѓ РЅР° РІС‹РґРµР»РµРЅРЅС‹Рµ СЃС‚СЂРѕРєРё
+        //Добавлеям прослушку на выделенные строки
         this.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    int selectedRowCount = MainTable.this.getSelectedRowCount(); // РџРѕР»СѓС‡Р°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РІС‹РґРµР»РµРЅРЅС‹С… СЃС‚СЂРѕРє
-                    System.out.println("РљРѕР»РёС‡РµСЃС‚РІРѕ РІС‹РґРµР»РµРЅРЅС‹С… СЃС‚СЂРѕРє: " + selectedRowCount);
+                    int selectedRowCount = MainTable.this.getSelectedRowCount(); // Получаем количество выделенных строк
+                    System.out.println("Количество выделенных строк: " + selectedRowCount);
                 }
             }
         });
-
+        this.mainTableController = new MainTableController(this);
     }
 
+    @Override
+    public void refreshData() {
+
+    }
 }

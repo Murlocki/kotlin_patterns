@@ -1,11 +1,6 @@
 package org.example
 
-import DataBasePack.StudentListDB
-import Student.StudentShort
-import StudentList.*
-import StudentManagementApp
-import java.util.*
-import java.util.function.Function
+import MainPack.StudentManagementApp
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.

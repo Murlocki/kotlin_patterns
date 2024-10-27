@@ -1,13 +1,21 @@
-import TableGridPack.TablePanel;
+package MainPack;
+
+import MainPack.Controllers.TabbedPanelController;
+import TableGridPack.TableView;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class TabbedPanel extends JTabbedPane {
+
+    public TabbedPanelController tabbedPanelController;
     public TabbedPanel(){
+        this.tabbedPanelController = new TabbedPanelController(this);
+
+
         this.setBorder(BorderFactory.createEmptyBorder(10, 1, 0, 1));
         //Создаем вкладки
-        JPanel panel1 = new TablePanel();
+        JPanel panel1 = new TableView();
 
         JPanel panel2 = new JPanel();
         panel2.add(new JLabel("Содержимое Вкладки 2"));

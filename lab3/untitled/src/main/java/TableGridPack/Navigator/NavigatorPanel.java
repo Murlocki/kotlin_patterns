@@ -1,51 +1,39 @@
 package TableGridPack.Navigator;
 
+import MainPack.RefreshDataInterface;
+import TableGridPack.Navigator.Controllers.NavigatorController;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class NavigatorPanel extends JPanel {
-    JButton prevButton;
-    JButton nextButton;
-    JLabel pageLabel;
-    ElemsForPageSelector elemsForPageSelector;
+public class NavigatorPanel extends JPanel implements RefreshDataInterface {
+    public JButton prevButton;
+    public JButton nextButton;
+    public JLabel pageLabel;
+    public ElemsForPageSelector elemsForPageSelector;
 
     int currentPage = 1;
     int maxCountOfPages;
+
+    public NavigatorController navigatorController;
+
     public NavigatorPanel(int maxCountOfPages){
+        //Создаем кнопку предыдущей страницы
         this.prevButton = new JButton("Previous");
         Font font = this.prevButton.getFont();
         this.prevButton.setFont(new Font(font.getFontName(),font.getStyle(),15));
-        this.prevButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(NavigatorPanel.this.currentPage>1){
-                    NavigatorPanel.this.currentPage -=1;
-                    updateLabel();
-                    // Тут идет постук к контроллеру на обновление данных
-                }
-            }
-        });
 
-
+        //Создаем кнопку следующей страницы
         this.nextButton = new JButton("Next");
         this.nextButton.setFont(new Font(font.getFontName(),font.getStyle(),15));
-        this.nextButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(NavigatorPanel.this.currentPage<NavigatorPanel.this.maxCountOfPages){
-                    NavigatorPanel.this.currentPage +=1;
-                    updateLabel();
-                    // Тут идет постук к контроллеру на обновление данных
-                }
-            }
-        });
 
-
+        //Создаем кнопку выбора количества элементов на странице
         this.elemsForPageSelector = new ElemsForPageSelector();
         this.elemsForPageSelector.setFont(new Font(font.getFontName(),font.getStyle(),15));
+
 
         this.maxCountOfPages = maxCountOfPages;
         this.pageLabel = new JLabel(currentPage+" of "+maxCountOfPages,JLabel.CENTER);
@@ -65,9 +53,14 @@ public class NavigatorPanel extends JPanel {
         panel.add(this.elemsForPageSelector);
 
         this.add(panel);
+
+        this.navigatorController = new NavigatorController(this);
+
     }
 
-    private void updateLabel(){
-        this.pageLabel.setText(currentPage+" of "+maxCountOfPages);
+
+    @Override
+    public void refreshData() {
+        this.navigatorController.updateLabel();
     }
 }
