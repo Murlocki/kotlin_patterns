@@ -4,10 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import InputFilterPack.Controllers.ContactFieldController;
 public class ContactField extends JPanel{
-    private InputField inputField ;
-    private ContactFilterComboBox comboBox;
+    public InputField inputField ;
+    public ContactFilterComboBox comboBox;
+    public ContactFieldController  contactFieldController;
     public ContactField(String title){
         //Настройка окошка
         super();
@@ -23,7 +24,8 @@ public class ContactField extends JPanel{
         label.setFont(new Font(label.getFont().getFontName(), Font.PLAIN, 15));
 
         //Создаем комбобокс
-        this.comboBox = new ContactFilterComboBox(this);
+        this.comboBox = new ContactFilterComboBox();
+
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel,BoxLayout.X_AXIS));
         panel.add(this.inputField);
@@ -33,8 +35,8 @@ public class ContactField extends JPanel{
 
         this.add(label);
         this.add(panel);
-    }
-    public void changeInputEnable(boolean enabling){
-        this.inputField.changeEnabling(enabling);
+
+        //Создаем контроллер
+        this.contactFieldController = new ContactFieldController(this);
     }
 }

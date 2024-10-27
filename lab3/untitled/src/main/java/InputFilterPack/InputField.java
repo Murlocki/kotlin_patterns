@@ -26,7 +26,4 @@ public class InputField extends JTextField {
 
 
     }
-    public void changeEnabling(boolean enabling){
-        this.setEnabled(enabling);
-    }
 }

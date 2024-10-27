@@ -1,6 +1,7 @@
 package InputFilterPack;
 
 import InputFilterPack.ContactField;
+import InputFilterPack.Controllers.FilterPanelController;
 import InputFilterPack.SurnameInitialsField;
 
 import javax.swing.*;
@@ -8,11 +9,14 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class FilterPanel extends JPanel {
-    private SurnameInitialsField surnameInitialsField;
-    private ContactField githubField;
-    private ContactField emailField;
-    private ContactField phoneField;
-    private ContactField telegramField;
+    public SurnameInitialsField surnameInitialsField;
+    public ContactField githubField;
+    public ContactField emailField;
+    public ContactField phoneField;
+    public ContactField telegramField;
+
+    public FilterPanelController filterPanelController;
+
     public FilterPanel(){
         GridLayout layout =new GridLayout(1,5);
         layout.setHgap(30);
@@ -40,5 +44,15 @@ public class FilterPanel extends JPanel {
         //Создаем поле для фильтрации телефон
         this.telegramField = new ContactField("Phone");
         this.add(this.telegramField);
+
+        //Создаем контроллер
+        this.filterPanelController = new FilterPanelController(
+                this,
+                this.surnameInitialsField.surnameInitialsFieldController,
+                this.emailField.contactFieldController,
+                this.phoneField.contactFieldController,
+                this.githubField.contactFieldController,
+                this.telegramField.contactFieldController
+                );
     }
 }

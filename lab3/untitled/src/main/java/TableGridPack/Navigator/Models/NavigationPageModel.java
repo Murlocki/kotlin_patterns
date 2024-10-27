@@ -42,6 +42,7 @@ public class NavigationPageModel {
         if (e.getStateChange() == ItemEvent.SELECTED) {
             System.out.println("Количество элементов на странице"+e.getItem());
             this.elementsPerPage = (int) e.getItem();
+            this.currentPage = 1;
             for(RefreshDataInterface sub:this.subscribers){
                 sub.refreshData();
             }

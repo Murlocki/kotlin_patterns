@@ -1,10 +1,13 @@
 package InputFilterPack;
 
+import InputFilterPack.Controllers.SurnameInitialsFieldController;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class SurnameInitialsField extends JPanel {
-    private InputField nameField;
+    public InputField nameField;
+    public SurnameInitialsFieldController surnameInitialsFieldController;
     public SurnameInitialsField(){
         //Настройка окошка
         super();
@@ -20,5 +23,9 @@ public class SurnameInitialsField extends JPanel {
 
         this.add(label);
         this.add(this.nameField);
+
+        //Создаем контроллер
+        this.surnameInitialsFieldController = new SurnameInitialsFieldController(this);
     }
+
 }

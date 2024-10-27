@@ -22,7 +22,6 @@ public class TableView extends JPanel {
         this.filterPanel = new FilterPanel();
         this.add(filterPanel, BorderLayout.NORTH);
 
-
         this.mainTable = new MainTable();
         JScrollPane scrollPane = new JScrollPane(this.mainTable);
         this.add(scrollPane, BorderLayout.CENTER);
@@ -33,11 +32,13 @@ public class TableView extends JPanel {
         this.buttonPanel = new ButtonPanel();
         this.add(this.buttonPanel, BorderLayout.EAST);
 
+        //Создаем наш главный контроллер
         this.tablePanelController = new TableViewController(
                 this,
                 this.mainTable.mainTableController,
                 this.navigatorPanel.navigatorController,
-                this.buttonPanel.buttonPanelController
+                this.buttonPanel.buttonPanelController,
+                this.filterPanel.filterPanelController
         );
     }
 }
