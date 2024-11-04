@@ -1,19 +1,11 @@
 package TableGridPack;
-
 import DataListPack.DataTable;
-import MainPack.UpdateDataInterface;
 import TableGridPack.Controllers.MainTableController;
-
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Comparator;
+
 
 public class MainTable extends JTable implements TableParamsInterfaceSetter {
     public DefaultTableModel tableModel;

@@ -21,4 +21,5 @@ open class StudentList(private var studentList:StudentListAdapter) {
     public override fun toString(): String {
         return studentList.toString()
     }
+    public fun checkStExists():Boolean=this.studentList.checkAdapterExisting();
 }

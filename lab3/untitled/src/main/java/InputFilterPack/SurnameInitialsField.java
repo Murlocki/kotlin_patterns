@@ -1,11 +1,12 @@
 package InputFilterPack;
 
 import InputFilterPack.Controllers.SurnameInitialsFieldController;
+import MainPack.UpdateDataInterface;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class SurnameInitialsField extends JPanel {
+public class SurnameInitialsField extends JPanel implements UpdateDataInterface {
     public InputField nameField;
     public SurnameInitialsFieldController surnameInitialsFieldController;
     public SurnameInitialsField(){
@@ -28,4 +29,8 @@ public class SurnameInitialsField extends JPanel {
         this.surnameInitialsFieldController = new SurnameInitialsFieldController(this);
     }
 
+    @Override
+    public void updatePage() {
+        this.surnameInitialsFieldController.setParams();
+    }
 }

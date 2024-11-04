@@ -5,10 +5,10 @@
     <file url="file://$PROJECT_DIR$/src/main/java/InputFilterPack/FilterPanel.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/InputFilterPack/InputField.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/InputFilterPack/SurnameInitialsField.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/main/java/MainPack/StudentManagementApp.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java/MainPack/Controllers/TabbedPanelController.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/MainPack/StudentManagementApp.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/MainPack/TabbedPanel.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/main/java/MainPack/TabbedPanel.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java/TableGridPack/Controllers/TableViewController.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/TableGridPack/MainTable.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/TableGridPack/Navigator/Controllers/NavigatorController.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/TableGridPack/Navigator/ElemsForPageSelector.java" charset="windows-1251" />

@@ -50,4 +50,10 @@ public class NavigationPageModel {
             this.notifySubs();
         }
     }
+
+    public void setDefaultParams(){
+        this.currentPage = 1;
+        this.elementsPerPage = 10;
+        this.notifySubs();
+    }
 }

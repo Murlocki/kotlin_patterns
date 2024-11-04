@@ -19,4 +19,6 @@ interface StudentListAdapter {
     fun getStudentShortCount():Int
 
     fun sortByInitials(order:Int)
+
+    fun checkAdapterExisting():Boolean
 }

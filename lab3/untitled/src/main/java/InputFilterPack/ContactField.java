@@ -5,7 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import InputFilterPack.Controllers.ContactFieldController;
-public class ContactField extends JPanel{
+import MainPack.UpdateDataInterface;
+
+public class ContactField extends JPanel implements UpdateDataInterface {
     public InputField inputField ;
     public ContactFilterComboBox comboBox;
     public ContactFieldController  contactFieldController;
@@ -38,5 +40,10 @@ public class ContactField extends JPanel{
 
         //Создаем контроллер
         this.contactFieldController = new ContactFieldController(this);
+    }
+
+    @Override
+    public void updatePage() {
+        this.contactFieldController.setParams();
     }
 }

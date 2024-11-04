@@ -17,7 +17,7 @@ public class TableView extends JPanel implements TableParamsInterfaceSetter {
 
     public ButtonPanel buttonPanel;
 
-    public TableViewController tablePanelController;
+    public TableViewController tableViewController;
 
     public TableView() {
         super(new BorderLayout());
@@ -35,24 +35,24 @@ public class TableView extends JPanel implements TableParamsInterfaceSetter {
         this.add(this.buttonPanel, BorderLayout.EAST);
 
         //Создаем наш главный контроллер
-        this.tablePanelController = new TableViewController(
+        this.tableViewController = new TableViewController(
                 this,
                 this.mainTable.mainTableController,
                 this.navigatorPanel.navigatorController,
                 this.buttonPanel.buttonPanelController,
                 this.filterPanel.filterPanelController
         );
-        this.tablePanelController.refreshData();
+        this.tableViewController.refreshData();
     }
 
     @Override
     public void setTableParams(String[] columnNames, int wholeEntitiesCount) {
-        this.tablePanelController.setTableParams(columnNames,wholeEntitiesCount);
+        this.tableViewController.setTableParams(columnNames,wholeEntitiesCount);
     }
 
     @Override
     public void setTableData(DataTable dataTable) {
-        this.tablePanelController.setTableData(dataTable);
+        this.tableViewController.setTableData(dataTable);
     }
 
 }

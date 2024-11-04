@@ -32,7 +32,9 @@ abstract class StudentListBaseExtend():StudentListAdapterExtend {
             this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
         }
     }
-
+    override fun checkAdapterExisting(): Boolean {
+        return this.studentList.size!=0;
+    }
     open override fun getStudentById(id: Int) = studentList.find { it.id == id }
 
     open override fun getKNStudentShortList(k: Int, n: Int) =

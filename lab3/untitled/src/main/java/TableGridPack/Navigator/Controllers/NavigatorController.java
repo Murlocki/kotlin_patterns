@@ -42,9 +42,12 @@ public class NavigatorController implements UpdateDataInterface {
     public void updateLabel(){
         this.navigatorPanel.pageLabel.setText(this.navigationPageModel.currentPage+" of "+this.navigationPageModel.maxCountOfPages);
     }
-
+    public void updatePageSelector(){
+        this.navigatorPanel.elemsForPageSelector.setSelectedItem(this.navigationPageModel.elementsPerPage);
+    }
     @Override
     public void updatePage() {
         this.updateLabel();
+        this.updatePageSelector();
     }
 }

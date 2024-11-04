@@ -4,14 +4,28 @@ import ButtonCRUDPanel.ButtonPanel;
 import DataListPack.DataList;
 import MainPack.UpdateDataInterface;
 import Student.StudentShort;
+import TableGridPack.Controllers.TableViewController;
+import TableGridPack.Navigator.Models.NavigationPageModel;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ButtonPanelController implements UpdateDataInterface {
     public ButtonPanel buttonPanel;
+    public TableViewController tableViewController;
+    public DataList<StudentShort> dataListModel;
     public ButtonPanelController(ButtonPanel buttonPanel){
         this.buttonPanel = buttonPanel;
+
+        this.buttonPanel.clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ButtonPanelController.this.clearButtonClick();
+            }
+        });
+
         turnOffButtons(0);
     }
-    public DataList<StudentShort> dataListModel;
     public void turnOnEditButton(int count){
         if(count>=1){
             this.buttonPanel.updateButton.setEnabled(true);
@@ -27,6 +41,10 @@ public class ButtonPanelController implements UpdateDataInterface {
         this.buttonPanel.deleteButton.setEnabled(false);
         this.turnOnDeleteButton(stringCount);
         this.turnOnEditButton(stringCount);
+    }
+
+    public void clearButtonClick(){
+        this.tableViewController.setDefaultParams();
     }
 
     @Override

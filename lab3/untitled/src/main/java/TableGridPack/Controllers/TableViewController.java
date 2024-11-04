@@ -1,6 +1,7 @@
 package TableGridPack.Controllers;
 
 import ButtonCRUDPanel.Controllers.ButtonPanelController;
+import DataBasePack.DbCon;
 import DataBasePack.StudentListDB;
 import DataListPack.DataList;
 import DataListPack.DataTable;
@@ -13,6 +14,7 @@ import TableGridPack.Navigator.Models.NavigationPageModel;
 import TableGridPack.TableParamsInterfaceSetter;
 import TableGridPack.TableView;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class TableViewController implements UpdateDataInterface, TableParamsInterfaceSetter {
@@ -25,30 +27,31 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
 
     private NavigationPageModel navigationPageModel;
 
-    //Р—Р°РїРёС…РёРІР°РµРј РґРІРµ РјРѕРґРµР»Рё РґР»СЏ С‚Р°Р±Р»РёС†С‹
+    //Запихиваем две модели для таблицы
     private StudentList studentList;
     private DataList<StudentShort> currentDataList;
 
     public TableViewController(TableView tableView,MainTableController mainTableController, NavigatorController navigatorController, ButtonPanelController buttonPanelController,FilterPanelController filterPanelController){
-        //Р’СЃС‚СЂР°РёРІР°РµРј СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРµ РєРѕРЅС‚СЂРѕР»Р»РµСЂС‹ РґР»СЏ СѓРґРѕР±СЃС‚РІР° РёС… РІС‹Р·РѕРІР° РІ Р±СѓРґСѓС‰РµРј
+        //Встраиваем существующие контроллеры для удобства их вызова в будущем
         this.tableView = tableView;
         this.mainTableController = mainTableController;
         this.navigatorController = navigatorController;
         this.buttonPanelController = buttonPanelController;
         this.filterPanelController = filterPanelController;
 
-        //Р¤РёР»СЊС‚СЂС‹ РѕС‡РёС‰Р°РµРј РІ СѓРјРѕР»С‡Р°РЅРёСЋ
+        //Фильтры очищаем в умолчанию
         this.filterPanelController.clearFilters();
 
-        //РЎРѕР·РґР°РµРј РјРѕРґРµР»СЊ СЃРїРёСЃРєР° СЃС‚СѓРґРµРЅС‚РѕРІ
+        //Создаем модель списка студентов
         this.studentList = new StudentList(new StudentListDB());
 
 
-        //РЎРѕР·РґР°РµРј РјРѕРґРµР»СЊ РґР»СЏ РЅР°РІРёРіР°С†РёРё РїРѕ СЃС‚СЂР°РЅРёС†Р°Рј
+        //Создаем модель для навигации по страницам
         this.navigationPageModel = new NavigationPageModel(this.studentList.getStudentShortCount());
 
         this.navigatorController.navigationPageModel = this.navigationPageModel;
         this.mainTableController.navigationPageModel = this.navigationPageModel;
+        this.buttonPanelController.tableViewController = this;
 
         this.navigationPageModel.subscribe(this);
         this.mainTableController.mainTableModel.subscribe(this);
@@ -58,8 +61,18 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
     @Override
     public void updatePage(){
 
-        this.studentList.sortByInitials(this.mainTableController.mainTableModel.order);
-        this.currentDataList = this.studentList.getKNStudentShortList(this.navigationPageModel.currentPage,this.navigationPageModel.elementsPerPage);
+        try{
+            this.studentList.sortByInitials(this.mainTableController.mainTableModel.order);
+            this.currentDataList = this.studentList.getKNStudentShortList(this.navigationPageModel.currentPage,this.navigationPageModel.elementsPerPage);
+
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        if(!studentList.checkStExists()){
+            JOptionPane.showMessageDialog(null, "Не удалось подключиться к базе данных", "Информация", JOptionPane.INFORMATION_MESSAGE);
+        }
+
         this.currentDataList.setTableView(this.tableView);
         this.currentDataList.notifyView();
 
@@ -73,7 +86,6 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
 
     public void refreshData() {
         this.updatePage();
-        this.navigationPageModel.notifySubs();
     }
 
     @Override
@@ -84,5 +96,10 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
     @Override
     public void setTableData(DataTable dataTable) {
         this.mainTableController.setTableData(dataTable);
+    }
+
+    public void setDefaultParams(){
+        this.navigationPageModel.setDefaultParams();
+        this.filterPanelController.clearFilters();
     }
 }

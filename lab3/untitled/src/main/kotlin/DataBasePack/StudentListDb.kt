@@ -37,6 +37,10 @@ class StudentListDB():StudentListAdapter {
             this.orderedStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
         }
     }
+
+    override fun checkAdapterExisting():Boolean {
+        return this.conn?.getConnection()!=null
+    }
     override fun getStudentById(id: Int): Student? {
         this.read()
         return this.studentList.find { it.id == id }
