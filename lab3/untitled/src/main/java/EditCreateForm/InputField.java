@@ -11,7 +11,7 @@ public class InputField extends JPanel {
     public JTextField mainInputField;
 
     public InputFieldController inputFieldController;
-    public InputField(Predicate<String> validateFieldFunction,String label){
+    public InputField(Predicate<String> validateFieldFunction,String label,boolean optional){
 
         //Создаем верстку
         this.setLayout(new GridLayout(2,1));
@@ -29,6 +29,6 @@ public class InputField extends JPanel {
         this.add(mainLabel);
         this.add(mainInputField);
 
-        this.inputFieldController = new InputFieldController(this,validateFieldFunction);
+        this.inputFieldController = new InputFieldController(this,validateFieldFunction,optional);
     }
 }

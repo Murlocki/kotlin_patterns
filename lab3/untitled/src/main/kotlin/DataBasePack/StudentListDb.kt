@@ -89,7 +89,6 @@ class StudentListDB():StudentListAdapter {
     }
 
     override fun getStudentShortCount(): Int {
-        this.read();
         return this.studentList.size
     }
 

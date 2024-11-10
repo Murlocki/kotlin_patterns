@@ -6,7 +6,7 @@ import InputFilterPack.SurnameInitialsField;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-public class SurnameInitialsFieldController {
+public class SurnameInitialsFieldController implements InputControllerInterface {
     public SurnameInitialsField surnameInitialsField;
 
     public SurnameInitialsModel surnameInitialsModel;
@@ -16,12 +16,12 @@ public class SurnameInitialsFieldController {
         this.surnameInitialsField.nameField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                // Р”РµР№СЃС‚РІРёСЏ РїСЂРё РїРѕР»СѓС‡РµРЅРёРё С„РѕРєСѓСЃР° (РЅРµ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ)
+                // Действия при получении фокуса (не обязательно)
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                // Р”РµР№СЃС‚РІРёСЏ РїСЂРё РїРѕС‚РµСЂРµ С„РѕРєСѓСЃР°
+                // Действия при потере фокуса
                 SurnameInitialsFieldController.this.changeInputText();
             }
         });
@@ -40,7 +40,7 @@ public class SurnameInitialsFieldController {
         this.surnameInitialsField.nameField.setText(this.surnameInitialsModel.filterInput);
     }
     public void changeInputText(){
-        System.out.println("РўРµРєСѓС‰РёР№ С‚РµРєСЃС‚: " + this.surnameInitialsField.nameField.getText());
+        System.out.println("Текущий текст: " + this.surnameInitialsField.nameField.getText());
         this.surnameInitialsModel.setFilterInput(this.surnameInitialsField.nameField.getText());
     }
 }

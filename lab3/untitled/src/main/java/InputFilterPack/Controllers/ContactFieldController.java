@@ -9,7 +9,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.util.Objects;
 
-public class ContactFieldController {
+public class ContactFieldController implements InputControllerInterface {
     public ContactField contactField;
     public ContactFilterModel contactFilterModel;
     public ContactFieldController(ContactField contactField){
@@ -19,12 +19,12 @@ public class ContactFieldController {
         this.contactField.inputField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                // Р”РµР№СЃС‚РІРёСЏ РїСЂРё РїРѕР»СѓС‡РµРЅРёРё С„РѕРєСѓСЃР° (РЅРµ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ)
+                // Действия при получении фокуса (не обязательно)
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                // Р”РµР№СЃС‚РІРёСЏ РїСЂРё РїРѕС‚РµСЂРµ С„РѕРєСѓСЃР°
+                // Действия при потере фокуса
                 ContactFieldController.this.changeInputText();
             }
         });
@@ -51,7 +51,7 @@ public class ContactFieldController {
     }
 
     public void changeInputText(){
-        System.out.println("РўРµРєСѓС‰РёР№ С‚РµРєСЃС‚: " + this.contactField.inputField.getText());
+        System.out.println("Текущий текст: " + this.contactField.inputField.getText());
         this.contactFilterModel.setFilterInput(this.contactField.inputField.getText());
     }
 

@@ -11,6 +11,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 
 
 public class MainTableController implements TableParamsInterfaceSetter {
@@ -31,8 +32,8 @@ public class MainTableController implements TableParamsInterfaceSetter {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    int selectedRowCount = MainTableController.this.mainTable.getSelectedRowCount(); // Получаем количество выделенных строк
                     int[] selectedRows = MainTableController.this.mainTable.getSelectedRows();
+                    System.out.println("Выбранные строки"+Arrays.toString(selectedRows));
                     MainTableController.this.dataStudentListModel.unSelectAll();
                     for (int rowIndex : selectedRows) {
                         MainTableController.this.dataStudentListModel.select(rowIndex);

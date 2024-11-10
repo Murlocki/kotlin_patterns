@@ -1,12 +1,15 @@
 package EditCreateForm;
 
+import EditCreateForm.Controllers.EditCreateWindowController;
+import MainPack.UpdateDataInterface;
 import Student.StudentValidator;
+import StudentList.StudentList;
 import TableGridPack.TableView;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class EditCreateWindow extends JDialog {
+public class EditCreateWindow extends JDialog implements UpdateDataInterface {
     public JPanel mainPanel;
     public InputField surnameField;
     public InputField nameField;
@@ -19,30 +22,32 @@ public class EditCreateWindow extends JDialog {
     public JButton acceptButton;
     public JButton declineButton;
 
-    public EditCreateWindow(){
+    public EditCreateWindowController editCreateWindowController;
+
+    public EditCreateWindow(StudentList studentList){
         super();
         this.setSize(300,600);
         this.setTitle("Student edit form");
 
         this.setModal(true);
 
-        this.createWindow();
+        this.createWindow(studentList);
         // ƒелаем дополнительное окно видимым
         this.setVisible(true); // Ёто блокирует основное окно до закрыти€ диалога
     }
 
     //ƒобавл€ем компоненты
-    public void createWindow(){
+    public void createWindow(StudentList studentList){
         this.setLayout(new FlowLayout());
         this.mainPanel = new JPanel(new GridLayout(8,1,0,10));
 
-        this.surnameField = new InputField(StudentValidator.Companion::isValidSurname$untitled,"Surname");
-        this.nameField = new InputField(StudentValidator.Companion::isValidName$untitled,"Name");
-        this.patronymicField = new InputField(StudentValidator.Companion::isValidPatronymic$untitled,"Patronymic");
-        this.phoneNumberField = new InputField(StudentValidator.Companion::isValidPhone$untitled,"PhoneNumber");
-        this.telegramField = new InputField(StudentValidator.Companion::isValidTelegram$untitled,"Telegram");
-        this.emailField = new InputField(StudentValidator.Companion::isValidEmail$untitled,"Email");
-        this.gitHubField = new InputField(StudentValidator.Companion::isValidGitHub$untitled,"GitHub");
+        this.surnameField = new InputField(StudentValidator.Companion::isValidSurname$untitled,"Surname",false);
+        this.nameField = new InputField(StudentValidator.Companion::isValidName$untitled,"Name",false);
+        this.patronymicField = new InputField(StudentValidator.Companion::isValidPatronymic$untitled,"Patronymic",false);
+        this.phoneNumberField = new InputField(StudentValidator.Companion::isValidPhone$untitled,"PhoneNumber",true);
+        this.telegramField = new InputField(StudentValidator.Companion::isValidTelegram$untitled,"Telegram",true);
+        this.emailField = new InputField(StudentValidator.Companion::isValidEmail$untitled,"Email",true);
+        this.gitHubField = new InputField(StudentValidator.Companion::isValidGitHub$untitled,"GitHub",true);
 
         this.mainPanel.add(surnameField);
         this.mainPanel.add(nameField);
@@ -68,5 +73,12 @@ public class EditCreateWindow extends JDialog {
 
 
         this.getContentPane().add(mainPanel);
+
+        this.editCreateWindowController = new EditCreateWindowController(this,studentList);
+    }
+
+    @Override
+    public void updatePage() {
+        this.editCreateWindowController.updatePage();
     }
 }

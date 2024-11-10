@@ -28,8 +28,8 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
     private NavigationPageModel navigationPageModel;
 
     //«апихиваем две модели дл€ таблицы
-    private StudentList studentList;
-    private DataList<StudentShort> currentDataList;
+    public StudentList studentList;
+    public DataList<StudentShort> currentDataList;
 
     public TableViewController(TableView tableView,MainTableController mainTableController, NavigatorController navigatorController, ButtonPanelController buttonPanelController,FilterPanelController filterPanelController){
         //¬страиваем существующие контроллеры дл€ удобства их вызова в будущем
@@ -44,7 +44,7 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
 
         //—оздаем модель списка студентов
         this.studentList = new StudentList(new StudentListDB());
-
+        this.studentList.subscribe(this);
 
         //—оздаем модель дл€ навигации по страницам
         this.navigationPageModel = new NavigationPageModel(this.studentList.getStudentShortCount());
