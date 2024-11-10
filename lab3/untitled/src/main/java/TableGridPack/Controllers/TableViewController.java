@@ -53,7 +53,9 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
         this.mainTableController.navigationPageModel = this.navigationPageModel;
         this.buttonPanelController.tableViewController = this;
 
-        this.navigationPageModel.subscribe(this);
+        this.navigationPageModel.subscribePageUpdate(this);
+        this.navigationPageModel.subscribeNavigatorUpdate(this.navigatorController);
+
         this.mainTableController.mainTableModel.subscribe(this);
 
     }
@@ -61,27 +63,23 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
     @Override
     public void updatePage(){
 
-        try{
-            this.studentList.sortByInitials(this.mainTableController.mainTableModel.order);
-            this.currentDataList = this.studentList.getKNStudentShortList(this.navigationPageModel.currentPage,this.navigationPageModel.elementsPerPage);
-
-        }
-        catch (Exception ex){
-            System.out.println(ex.getMessage());
-        }
-        if(!studentList.checkStExists()){
-            JOptionPane.showMessageDialog(null, "Не удалось подключиться к базе данных", "Информация", JOptionPane.INFORMATION_MESSAGE);
-        }
+        this.studentList.sortByInitials(this.mainTableController.mainTableModel.order);
+        this.currentDataList = this.studentList.getKNStudentShortList(this.navigationPageModel.currentPage,this.navigationPageModel.elementsPerPage);
 
         this.currentDataList.setTableView(this.tableView);
-        this.currentDataList.notifyView();
 
         this.mainTableController.dataStudentListModel = this.currentDataList;
         this.mainTableController.dataStudentListModel.subscribe(this.buttonPanelController.buttonPanel);
         this.buttonPanelController.dataListModel = this.currentDataList;
 
         this.navigationPageModel.setMaxCountOfPages(this.studentList.getStudentShortCount());
-        this.navigatorController.updatePage();
+
+        //Описываем обработку случая отсутствия списка
+        if(!studentList.checkStExists()){
+            SwingUtilities.invokeLater(()->{
+                    JOptionPane.showMessageDialog(this.tableView, "Не удалось подключиться к базе данных", "Информация", JOptionPane.INFORMATION_MESSAGE);
+            });
+        }
     }
 
     public void refreshData() {

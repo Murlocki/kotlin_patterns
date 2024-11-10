@@ -37,7 +37,10 @@ public class NavigatorController implements UpdateDataInterface {
         this.navigationPageModel.prevPage();
     }
     public void elementPerPageSelected(ItemEvent e){
-        this.navigationPageModel.elementPerPageSelected(e);
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+            System.out.println("Количество элементов на странице" + e.getItem());
+            this.navigationPageModel.elementPerPageSelected((Integer) e.getItem());
+        }
     }
     public void updateLabel(){
         this.navigatorPanel.pageLabel.setText(this.navigationPageModel.currentPage+" of "+this.navigationPageModel.maxCountOfPages);

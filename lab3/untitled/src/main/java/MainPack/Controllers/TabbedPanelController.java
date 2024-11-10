@@ -22,6 +22,6 @@ public class TabbedPanelController {
         });
     }
     public void updateFirstTab(){
-        TabbedPanelController.this.tableViewController.refreshData();
+        TabbedPanelController.this.tableViewController.setDefaultParams();
     }
 }

@@ -57,7 +57,11 @@ open class DataList<T>(val elements: Array<T>) {
 
 
     //Задаем для обновления вьюх
-    public var tableView: TableView? = null;
+    public var tableView: TableView? = null
+        set(value){
+            field = value;
+            this.notifyView();
+        };
     public fun notifyView(){
         val dataTable  = this.getData();
 

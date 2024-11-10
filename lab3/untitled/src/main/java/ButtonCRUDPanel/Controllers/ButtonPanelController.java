@@ -2,6 +2,7 @@ package ButtonCRUDPanel.Controllers;
 
 import ButtonCRUDPanel.ButtonPanel;
 import DataListPack.DataList;
+import EditCreateForm.EditCreateWindow;
 import MainPack.UpdateDataInterface;
 import Student.StudentShort;
 import TableGridPack.Controllers.TableViewController;
@@ -16,6 +17,13 @@ public class ButtonPanelController implements UpdateDataInterface {
     public DataList<StudentShort> dataListModel;
     public ButtonPanelController(ButtonPanel buttonPanel){
         this.buttonPanel = buttonPanel;
+
+        this.buttonPanel.createButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ButtonPanelController.this.createButtonClick();
+            }
+        });
 
         this.buttonPanel.clearButton.addActionListener(new ActionListener() {
             @Override
@@ -46,7 +54,9 @@ public class ButtonPanelController implements UpdateDataInterface {
     public void clearButtonClick(){
         this.tableViewController.setDefaultParams();
     }
-
+    public void createButtonClick(){
+        new EditCreateWindow();
+    }
     @Override
     public void updatePage() {
         System.out.println(this.dataListModel.getSelectedIds().length);

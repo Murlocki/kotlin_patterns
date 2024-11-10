@@ -11,49 +11,62 @@ public class NavigationPageModel {
 
     public int elementsPerPage = 10;
 
-    public LinkedList<UpdateDataInterface> subscribers = new LinkedList<>();
-    public NavigationPageModel(int maxRecordsCount){
-        this.maxCountOfPages = (int) Math.ceil((double) maxRecordsCount /elementsPerPage);
+    public LinkedList<UpdateDataInterface> subscribersForPageUpdate = new LinkedList<>();
+    public UpdateDataInterface navigatorSubscriber;
+
+    public NavigationPageModel(int maxRecordsCount) {
+        this.maxCountOfPages = (int) Math.ceil((double) maxRecordsCount / elementsPerPage);
     }
 
     public void setMaxCountOfPages(int maxRecordsCount) {
-        this.maxCountOfPages = (int) Math.ceil((double) maxRecordsCount /elementsPerPage);
+        this.maxCountOfPages = (int) Math.ceil((double) maxRecordsCount / elementsPerPage);
+        this.notifyNavigatorSub();
     }
 
-    public void subscribe(UpdateDataInterface subscriber){
-        subscribers.add(subscriber);
+    public void subscribePageUpdate(UpdateDataInterface subscriber) {
+        subscribersForPageUpdate.add(subscriber);
+    }
+    public void subscribeNavigatorUpdate(UpdateDataInterface subscriber) {
+        navigatorSubscriber = subscriber;
     }
 
-    public void notifySubs(){
-        for(UpdateDataInterface sub:this.subscribers){
+    public void notifyPageSubs() {
+        for (UpdateDataInterface sub : this.subscribersForPageUpdate) {
             sub.updatePage();
         }
     }
+    public void notifyNavigatorSub() {
+        this.navigatorSubscriber.updatePage();
+    }
 
-    public void nextPage(){
-        if(this.currentPage<this.maxCountOfPages){
-            this.currentPage +=1;
-            this.notifySubs();
-        }
-    }
-    public void prevPage(){
-        if(this.currentPage>1){
-            this.currentPage -=1;
-            this.notifySubs();
-        }
-    }
-    public void elementPerPageSelected(ItemEvent e){
-        if (e.getStateChange() == ItemEvent.SELECTED) {
-            System.out.println("Количество элементов на странице"+e.getItem());
-            this.elementsPerPage = (int) e.getItem();
-            this.currentPage = 1;
-            this.notifySubs();
+
+    public void nextPage() {
+        if (this.currentPage < this.maxCountOfPages) {
+            this.currentPage += 1;
+            this.notifyPageSubs();
+            this.notifyNavigatorSub();
         }
     }
 
-    public void setDefaultParams(){
+    public void prevPage() {
+        if (this.currentPage > 1) {
+            this.currentPage -= 1;
+            this.notifyPageSubs();
+            this.notifyNavigatorSub();
+        }
+    }
+
+    public void elementPerPageSelected(int elementsPerPage) {
+        this.elementsPerPage = elementsPerPage;
+        this.currentPage = 1;
+        this.notifyPageSubs();
+        this.notifyNavigatorSub();
+    }
+
+    public void setDefaultParams() {
         this.currentPage = 1;
         this.elementsPerPage = 10;
-        this.notifySubs();
+        this.notifyPageSubs();
+        this.notifyNavigatorSub();
     }
 }

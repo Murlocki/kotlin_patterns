@@ -11,7 +11,6 @@ public class MainTableModel {
 
     public int order = 0;
 
-    public int rowSelected = 0;
     public LinkedList<UpdateDataInterface> subscribers = new LinkedList<>();
     public void sortOrder(int column){
         int lastSortedColumn = 1;
@@ -27,12 +26,6 @@ public class MainTableModel {
 
         }
     }
-
-    public void setRowSelected(int count){
-        this.rowSelected = count;
-        this.notifySubs();
-    }
-
     public void notifySubs(){
         for(UpdateDataInterface in: subscribers){
             in.updatePage();
