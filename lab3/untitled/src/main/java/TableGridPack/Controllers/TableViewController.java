@@ -53,10 +53,10 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
         this.mainTableController.navigationPageModel = this.navigationPageModel;
         this.buttonPanelController.tableViewController = this;
 
-        this.navigationPageModel.subscribePageUpdate(this);
+        this.navigationPageModel.subscribePageUpdate(this.tableView);
         this.navigationPageModel.subscribeNavigatorUpdate(this.navigatorController);
 
-        this.mainTableController.mainTableModel.subscribe(this);
+        this.mainTableController.mainTableModel.subscribe(this.tableView);
 
     }
 

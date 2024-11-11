@@ -10,7 +10,7 @@ import TableGridPack.Navigator.NavigatorPanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class TableView extends JPanel implements TableParamsInterfaceSetter {
+public class TableView extends JPanel implements TableParamsInterfaceSetter,UpdateDataInterface {
     public FilterPanel filterPanel;
     public MainTable mainTable;
     public NavigatorPanel navigatorPanel;
@@ -55,4 +55,8 @@ public class TableView extends JPanel implements TableParamsInterfaceSetter {
         this.tableViewController.setTableData(dataTable);
     }
 
+    @Override
+    public void updatePage() {
+        this.tableViewController.updatePage();
+    }
 }

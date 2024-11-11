@@ -34,4 +34,5 @@ public class MainTableModel {
     public void subscribe(UpdateDataInterface obj){
         this.subscribers.add(obj);
     }
+
 }

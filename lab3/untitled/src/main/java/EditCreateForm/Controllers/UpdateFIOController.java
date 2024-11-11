@@ -8,7 +8,6 @@ import java.util.HashMap;
 
 public class UpdateFIOController extends UpdateController{
 
-    public int id;
     public UpdateFIOController(EditCreateWindow editCreateWindow, StudentList studentList) {
         super(editCreateWindow, studentList);
         this.gitHubFieldController.changeEditable(false);

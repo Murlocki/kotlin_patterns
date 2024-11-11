@@ -28,6 +28,7 @@ public class ButtonPanelController implements UpdateDataInterface {
     public ButtonPanelController(ButtonPanel buttonPanel){
         this.buttonPanel = buttonPanel;
 
+        //Обработка действия кнопки добавления
         this.buttonPanel.createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -35,6 +36,7 @@ public class ButtonPanelController implements UpdateDataInterface {
             }
         });
 
+        //Обработка действия кнопки обновления фио
         this.buttonPanel.updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -42,6 +44,8 @@ public class ButtonPanelController implements UpdateDataInterface {
                 ButtonPanelController.this.updateButtonClick(ControllerFactory.createUpdateController(window,ButtonPanelController.this.tableViewController.studentList),window);
             }
         });
+
+        //Обработка действия кнопки обновления гита
         this.buttonPanel.updateGitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,6 +53,8 @@ public class ButtonPanelController implements UpdateDataInterface {
                 ButtonPanelController.this.updateButtonClick(ControllerFactory.createUpdateGitController(window,ButtonPanelController.this.tableViewController.studentList),window);
             }
         });
+
+        //Обработка действия кнопки обновления телефона
         this.buttonPanel.updatePhoneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -56,6 +62,8 @@ public class ButtonPanelController implements UpdateDataInterface {
                 ButtonPanelController.this.updateButtonClick(ControllerFactory.createUpdatePhoneController(window,ButtonPanelController.this.tableViewController.studentList),window);
             }
         });
+
+        //Обработка действия кнопки обновления телеграмма
         this.buttonPanel.updateTelegramButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,6 +71,8 @@ public class ButtonPanelController implements UpdateDataInterface {
                 ButtonPanelController.this.updateButtonClick(ControllerFactory.createUpdateTelegramController(window,ButtonPanelController.this.tableViewController.studentList),window);
             }
         });
+
+        //Обработка действия кнопки обновления почты
         this.buttonPanel.updateEmailButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,7 +81,7 @@ public class ButtonPanelController implements UpdateDataInterface {
             }
         });
 
-
+        //Обработка действия кнопки очистки
         this.buttonPanel.clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -79,6 +89,7 @@ public class ButtonPanelController implements UpdateDataInterface {
             }
         });
 
+        //Обработка действия кнопки удаления записей
         this.buttonPanel.deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -86,6 +97,7 @@ public class ButtonPanelController implements UpdateDataInterface {
             }
         });
 
+        //Обработка действия кнопки перезагрузки
         this.buttonPanel.reloadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -95,6 +107,8 @@ public class ButtonPanelController implements UpdateDataInterface {
 
         turnOffButtons(0);
     }
+
+    //Включение кнопок редактирования
     public void turnOnEditButton(int count){
         if(count==1){
             this.buttonPanel.updateButton.setEnabled(true);
@@ -104,11 +118,16 @@ public class ButtonPanelController implements UpdateDataInterface {
             this.buttonPanel.updatePhoneButton.setEnabled(true);
         }
     }
+
+    //Включение кнопки удаления
     public void turnOnDeleteButton(int count){
         if(count>=1){
             this.buttonPanel.deleteButton.setEnabled(true);
         }
     }
+
+
+    //Выключение кнопок удаления и обновления
     public void turnOffButtons(int stringCount){
         this.buttonPanel.updateButton.setEnabled(false);
         this.buttonPanel.deleteButton.setEnabled(false);
@@ -120,14 +139,19 @@ public class ButtonPanelController implements UpdateDataInterface {
         this.turnOnEditButton(stringCount);
     }
 
+    //Обработка действия кнопки очистки
     public void clearButtonClick(){
         this.tableViewController.setDefaultParams();
     }
+
+    //Обработка действия кнопки добавления
     public void createButtonClick(){
         EditCreateWindow window = new EditCreateWindow();
         window.setEditCreateWindowController(ControllerFactory.createCreateController(window,this.tableViewController.studentList));
         window.setVisible(true);
     }
+
+    //Обработка действия кнопки обновления
     public void updateButtonClick(UpdateController controller,EditCreateWindow window){
         int selectedIds =this.dataListModel.getSelectedIds()[0];
 
@@ -137,6 +161,7 @@ public class ButtonPanelController implements UpdateDataInterface {
         window.setVisible(true);
     }
 
+    //Обработка действия кнопки удаления
     public void deleteButtonClick(){
         int[]selectedIds =this.dataListModel.getSelectedIds();
         LinkedList<Integer>selectedIndexes = new LinkedList<>();
@@ -147,9 +172,10 @@ public class ButtonPanelController implements UpdateDataInterface {
             this.tableViewController.studentList.deleteById(i);
         }
     }
+
+    //Метод обновления вьюхи при изменении модели
     @Override
     public void updatePage() {
-        System.out.println(this.dataListModel.getSelectedIds().length);
         turnOffButtons(this.dataListModel.getSelectedIds().length);
     }
 }

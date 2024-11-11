@@ -1,225 +1,718 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-class Student
+class CrudButton{
+    --Constructor--
+    +CrudButton(String title)
+}
+
+class ButtonPanel{
+    +createButton:CrudButton
+    +deleteButton:CrudButton
+    +updateButton:CrudButton
+    +updateGitButton:CrudButton
+    +updateEmailButton:CrudButton
+    +updateTelegramButton:CrudButton
+    +updatePhoneButton:CrudButton
+    reloadButton:CrudButton
+    clearButton:CrudButton
+    +buttonPanelController:ButtonPanelController
+    --Constructor--
+    +ButtonPanel()
+    --Methods--
+    +updatePage()
+}
+UpdateDataInterface <|.. ButtonPanel
+ButtonPanel *-- CrudButton
+ButtonPanel *-- ButtonPanelController
+
+class ButtonPanelController implements UpdateDataInterface {
+    +buttonPanel:ButtonPanel ;
+    +tableViewController:TableViewController ;
+    +dataListModel:DataList<StudentShort>;
+    --Constructor--
+    +ButtonPanelController(buttonPanel:ButtonPanel)
+    --Methods--
+    +turnOnEditButton(count:int)
+    +turnOnDeleteButton(count:int)
+    +turnOffButtons(stringCount:int)
+    +clearButtonClick()
+    +createButtonClick()
+    +updateButtonClick(controller:UpdateController,window:EditCreateWindow)
+    +deleteButtonClick()
+    +updatePage()
+}
+
+ButtonPanelController *-- ButtonPanel
+ButtonPanelController *-- TableViewController
+DataList *-- ButtonPanelController
+
+
+class EditCreateWindowController implements UpdateDataInterface {
+    +editCreateWindow:EditCreateWindow
+    +surnameFieldController:InputFieldController
+    +nameFieldController:InputFieldController
+    +patronymicFieldController:InputFieldController
+    +phoneNumberFieldController:InputFieldController
+    +telegramFieldController:InputFieldController
+    +emailFieldController:InputFieldController
+    +gitHubFieldController:InputFieldController
+    +studentList:StudentList
+    --Constructor--
+    +EditCreateWindowController(editCreateWindow:EditCreateWindow,studentList:StudentList)
+    --Methods--
+    +updatePage()
+    +processForm(){
+    #protected checkEmpty(input:String):String
+}
+
+EditCreateWindowController *-- EditCreateWindow
+EditCreateWindowController *-- InputFieldController
+EditCreateWindowController *-- StudentList
+
+class InputFieldController {
+    +inputField:InputField
+    -validateFunc:Predicate<String>;
+    +inputFieldModel:InputFieldModel;
+    --Constructor--
+    +InputFieldController(inputField:InputField,validateFunc:Predicate<String>,optional:boolean)
+    --Methods--
+    +changeInputFieldBack(correctness:boolean)
+    +checkInputCorrect():boolean
+    +setTextValue()
+    +setInputText(val:String)
+    +setInputText()
+    +getTextValue():String
+    +changeEditable(edit:boolean)
+}
+InputFieldController *-- InputField
+InputFieldController *-- InputFieldModel
+
+class UpdateController{
+    +id:int;
+    --Constructor--
+    +UpdateController(editCreateWindow:EditCreateWindow,studentList:StudentList)
+    --Methods--
+    +setStudentInfo()
+    +processForm()
+}
+UpdateController <|-- EditCreateWindowController
+
+class UpdateEmailController{
+    +UpdateEmailController(editCreateWindow:EditCreateWindow,studentList:StudentList)
+}
+UpdateEmailController <|-- UpdateController
+
++class UpdateFIOController{
+    +UpdateFIOController(editCreateWindow:EditCreateWindow,studentList:StudentList)
+}
+UpdateFIOController <|-- UpdateController
+
+class UpdateGitController{
+    +UpdateGitController(editCreateWindow:EditCreateWindow,studentList:StudentList)
+}
+UpdateGitController <|-- UpdateController
+
+class UpdatePhoneController{
+    +UpdatePhoneController(editCreateWindow:EditCreateWindow,studentList:StudentList)
+}
+UpdatePhoneController <|-- UpdateController
+
+class UpdateTelegramController{
+    +UpdateTelegramController(editCreateWindow:EditCreateWindow,studentList:StudentList)
+}
+UpdateTelegramController <|-- UpdateController
+
+class ControllerFactory {
+    +{static}createCreateController(editCreateWindow:EditCreateWindow,studentList:StudentList):EditCreateWindowController
+    +{static}createUpdateController(editCreateWindow:EditCreateWindow,studentList:StudentList):UpdateController
+    +{static}createUpdateEmailController(editCreateWindow:EditCreateWindow,studentList:StudentList):UpdateController
+    +{static}createUpdateGitController(editCreateWindow:EditCreateWindow,studentList:StudentList):UpdateController
+    +{static}createUpdatePhoneController(editCreateWindow:EditCreateWindow,studentList:StudentList):UpdateController
+    +{static}createUpdateTelegramController(editCreateWindow:EditCreateWindow,studentList:StudentList):UpdateController
+}
+
+ControllerFactory <.. EditCreateWindowController
+
+class InputFieldModel {
+    +inputText:String
+    +subscriber:UpdateDataInterface
+    +optional:boolean
+    --Constructor--
+    +InputFieldModel(optional:boolean)
+    --Setters--
+    +setInputText(inputText:String)
+    +setSubscriber(updateDataInterface:UpdateDataInterface)
+    --Methods--
+    +notifySub()
+}
+InputFieldModel *-- UpdateDataInterface
+
+
+class EditCreateWindow{
+    +mainPanel:JPanel
+    +surnameField:InputField
+    +nameField:InputField
+    +patronymicField:InputField
+    +phoneNumberField:InputField
+    +emailField:InputField
+    +telegramField:InputField
+    +gitHubField:InputField
+    +acceptButton:JButton
+    +declineButton:JButton
+    +editCreateWindowController:EditCreateWindowController
+    --Constructor--
+    +EditCreateWindow()
+    --Methods--
+    +createWindow()
+    +updatePage()
+    --Setters--
+    setEditCreateWindowController(editCreateWindowController:EditCreateWindowController)
+}
+
+UpdateDataInterface <|.. EditCreateWindow
+EditCreateWindow *-- InputField
+EditCreateWindow *-- EditCreateWindowController
+
+
+class InputField{
+    +mainLabel:JLabel
+    +mainInputField:JTextField
+    +inputFieldController:InputFieldController
+    --Constructor--
+    +InputField(validateFieldFunction:Predicate<String>,label:String,optional:boolean)
+}
+InputField *-- InputFieldController
+
+class ContactFieldController implements InputControllerInterface {
+    +contactField:ContactField
+    +contactFilterModel:ContactFilterModel
+    --Constructor--
+    +ContactFieldController(contactField:ContactField)
+    --Methods--
+    +clearInput()
+    +changeSelectedItem(e:ItemEvent)
+    +changeInputText()
+    --Setters--
+    +setParams()
+}
+
+class FilterPanelController {
+    +filterPanel:FilterPanel
+    +surnameInitialsFieldController:SurnameInitialsFieldController
+    +emailController:ContactFieldController
+    +telegramController:ContactFieldController
+    +gitHubController:ContactFieldController
+    +phoneController:ContactFieldController
+    --Constructor--
+    +FilterPanelController(filterPanel:FilterPanel,surnameInitialsFieldController:SurnameInitialsFieldController,emailController:ContactFieldController,telegramController:ContactFieldController,gitHubController:ContactFieldController,phoneController:ContactFieldController )
+    --Methods--
+    +clearFilters()
+}
+FilterPanelController *-- FilterPanel
+FilterPanelController *-- SurnameInitialsFieldController
+FilterPanelController *-- ContactFieldController
+
+interface InputControllerInterface {
+    +clearInput()
+    +setParams()
+    +changeInputText()
+}
+
+class SurnameInitialsFieldController implements InputControllerInterface {
+    +surnameInitialsField:SurnameInitialsField
+    +surnameInitialsModel:SurnameInitialsModel
+    --Constructor--
+    +SurnameInitialsFieldController(surnameInitialsField:SurnameInitialsField)
+    --Methods--
+    +clearInput()
+    +changeInputText()
+    --Setters--
+    +setParams()
+}
+
+class ContactFilterModel {
+    +contactFieldController:ContactFieldController
+    +selectedOptionIndex: int
+    +filterInput:String
+    +subs:LinkedList<UpdateDataInterface>
+    --Constructor--
+    +ContactFilterModel(contactFieldController:ContactFieldController)
+    --Methods--
+    +subscribe(sub:UpdateDataInterface)
+    --Setters--
+    +setSelectedOptionIndex(selectedOptionIndex:int)
+    +setFilterInput(text:String)
+    --Methods--
+    +notifySubs()
+    +clearFilterInput()
+}
+ContactFilterModel *-- ContactFieldController
+UpdateDataInterface <.. ContactFilterModel
+UpdateDataInterface <|.. ContactFilterModel
+
+
+class SurnameInitialsModel {
+    +filterInput:String
+    +subs:LinkedList<UpdateDataInterface>
+    +surnameInitialsFieldController:SurnameInitialsFieldController
+    --Constructor--
+    +SurnameInitialsModel(surnameInitialsFieldController:SurnameInitialsFieldController)
+    --Methods--
+    +subscribe(sub:UpdateDataInterface)
+    +notifySubs()
+    +clearFilterInput()
+    --Setters--
+    +setFilterInput(text:String)
+}
+SurnameInitialsModel *-- SurnameInitialsFieldController
+UpdateDataInterface <.. SurnameInitialsModel
+
+
+
+class ContactField implements UpdateDataInterface {
+    +inputField:InputField
+    +comboBox:ContactFilterComboBox
+    +contactFieldController:ContactFieldController
+    --Constructor--
+    +ContactField(title:String)
+    --Methods--
+    +updatePage()
+}
+ContactField *-- InputField
+ContactField *-- ContactFilterComboBox
+ContactField *-- ContactFieldController
+
+class ContactFilterComboBox{
+    --Constructor--
+    +ContactFilterComboBox()
+}
+
+class FilterPanel{
+    +surnameInitialsField:SurnameInitialsField
+    +githubField:ContactField
+    +emailField:ContactField
+    +phoneField:ContactField
+    +telegramField:ContactField
+    +filterPanelController:FilterPanelController
+    --Constructor--
+    +FilterPanel()
+}
+FilterPanel *-- SurnameInitialsField
+FilterPanel *-- ContactField
+FilterPanel *-- FilterPanelController
+
+class InputField{
+    --Constructor--
+    +InputField()
+}
+
+class SurnameInitialsField implements UpdateDataInterface {
+    +nameField:InputField
+    +surnameInitialsFieldController:SurnameInitialsFieldController
+    --Constructor--
+    +SurnameInitialsField()
+    --Methods--
+    +updatePage()
+}
+SurnameInitialsField *-- InputField
+SurnameInitialsField *-- SurnameInitialsFieldController
+
+class TabbedPanelController {
+    +tabbedPanel:TabbedPanel
+    +tableViewController:TableViewController
+    --Constructor--
+    +TabbedPanelController(tabbedPanel:TabbedPanel,tableViewController:TableViewController)
+    --Methods--
+    +updateFirstTab()
+}
+TabbedPanelController *-- TabbedPanel
+TabbedPanelController *-- TableViewController
+
+class CustomTabComponent{
+    --Constructor--
+    +CustomTabComponent(title:String,fontSize:int,color:Color)
+}
+
+class StudentManagementApp{
+    --Constructor--
+    +StudentManagementApp(name:String)
+    --Methods--
+    +createWindow()
+    +{static}start()
+}
+StudentManagementApp <.. TabbedPanel
+
+class TabbedPanel{
+    +tabbedPanelController:TabbedPanelController
+    +tableView:TableView
+    +tab2:JPanel
+    +tab3:JPanel
+    --Constructor--
+    +TabbedPanel()
+}
+TabbedPanel *-- TabbedPanelController
+TabbedPanel *-- TableView
+TabbedPanel <.. CustomTabComponent
+
+interface UpdateDataInterface {
+     +updatePage()
+ }
+
+
+
+class MainTableController implements TableParamsInterfaceSetter,UpdateDataInterface {
+    +mainTable:MainTable
+    +navigationPageModel:NavigationPageModel
+    +mainTableModel:MainTableModel
+    +dataStudentListModel:DataList<StudentShort>
+    --Constructor--
+    +MainTableController(mainTable:MainTable)
+    --Setters--
+    +setTableParams(columnNames:String[],wholeEntitiesCount:int)
+    +setTableData(dataTable:DataTable)
+}
+MainTableController *-- MainTable
+MainTableController *-- NavigationPageModel
+MainTableController *-- MainTableModel
+MainTableController *-- DataList
+
+class TableViewController implements UpdateDataInterface, TableParamsInterfaceSetter {
+    +tableView:TableView
+    -mainTableController:MainTableController
+    -navigatorController:NavigatorController
+    -buttonPanelController:ButtonPanelController
+    -filterPanelController:FilterPanelController
+    -navigationPageModel:NavigationPageModel
+    +studentList:StudentList
+    +currentDataList:DataList<StudentShort>
+    --Constructor--
+    +TableViewController(tableView:TableView,mainTableController:MainTableController,navigatorController:NavigatorController,buttonPanelController:ButtonPanelController,filterPanelController:FilterPanelController)
+    --Methods--
+    +updatePage()
+    +refreshData()
+    --Setters--
+    +setTableParams(columnNames:String[],wholeEntitiesCount:int)
+    +setTableData(dataTable:DataTable)
+    +setDefaultParams()
+}
+TableViewController *-- TableView
+TableViewController *-- MainTableController
+TableViewController *-- NavigatorController
+TableViewController *-- ButtonPanelController
+TableViewController *-- FilterPanelController
+TableViewController *-- NavigationPageModel
+TableViewController *-- StudentList
+TableViewController *-- DataList
+
+UpdateDataInterface <.. MainTableModel
+class MainTableModel {
+    -clickCount:int
+    +order:int
+    subscribers:LinkedList<UpdateDataInterface>
+    --Methods--
+    +sortOrder(column:int)
+    +notifySubs()
+    +subscribe(obj:UpdateDataInterface)
+}
+
+class NavigatorController implements UpdateDataInterface {
+    +navigatorPanel:NavigatorPanel
+    +navigationPageModel:NavigationPageModel
+    --Constructor--
+    +NavigatorController(navigatorPanel:NavigatorPanel)
+    --Methods--
+    +pageNext()
+    +pagePrev()
+    +elementPerPageSelected(e:ItemEvent)
+    +updateLabel()
+    +updatePageSelector()
+    +updatePage()
+}
+NavigatorController *-- NavigatorPanel
+NavigatorController *-- NavigationPageModel
+
+
+class NavigationPageModel {
+    +currentPage:int
+    +maxCountOfPages:int
+    +elementsPerPage:int
+    +subscribersForPageUpdate:LinkedList<UpdateDataInterface>
+    +navigatorSubscriber:UpdateDataInterface
+    --Constructor--
+    +NavigationPageModel(maxRecordsCount:int)
+    --Setters--
+    +setMaxCountOfPages(maxRecordsCount:int)
+    +setDefaultParams()
+    --Methods--
+    +subscribePageUpdate(subscriber:UpdateDataInterface)
+    +subscribeNavigatorUpdate(subscriber:UpdateDataInterface)
+    +notifyPageSubs()
+    +notifyNavigatorSub()
+    +nextPage()
+    +prevPage()
+    +elementPerPageSelected(elementsPerPage:int)
+}
+NavigationPageModel *-- UpdateDataInterface
+UpdateDataInterface <.. NavigationPageModel
+
+class ElemsForPageSelector{
+    --Constructor--
+    +ElemsForPageSelector()
+}
+
+class NavigatorPanel implements UpdateDataInterface {
+    +prevButton:JButton
+    +nextButton:JButton
+    +pageLabel:JLabel
+    +elemsForPageSelector:ElemsForPageSelector
+    ~currentPage:int
+    ~maxCountOfPages:int
+    +navigatorController:NavigatorController
+    --Constructor--
+    +NavigatorPanel(maxCountOfPages:int)
+    --Methods--
+    +updatePage()
+}
+NavigatorPanel *-- ElemsForPageSelector
+NavigatorPanel *-- NavigatorController
+
+class MainTable implements TableParamsInterfaceSetter {
+    +tableModel:DefaultTableModel
+    +mainTableController:MainTableController
+    --Constructor--
+    +MainTable()
+    --Setters--
+    +setTableParams(columnNames:String[],wholeEntitiesCount:int)
+    +setTableData(dataTable:DataTable)
+}
+MainTable *-- MainTableController
+
+interface TableParamsInterfaceSetter {
+    +setTableParams(columnNames:String[],wholeEntitiesCount:int)
+    +setTableData(dataTable:DataTable)
+}
+
+class TableView implements TableParamsInterfaceSetter {
+    +filterPanel:FilterPanel
+    +mainTable:MainTable
+    +navigatorPanel:NavigatorPanel
+    +buttonPanel:ButtonPanel
+    +tableViewController:TableViewController
+    --Constructor--
+    +TableView()
+    --Setters--
+    +setTableParams(columnNames:String[],wholeEntitiesCount:int)
+    +setTableData(dataTable:DataTable)
+}
+TableView *-- FilterPanel
+TableView *-- MainTable
+TableView *-- NavigatorPanel
+TableView *-- ButtonPanel
+TableView *-- TableViewController
+
+
+object DbCon {
+    - conn: Connection?
+    --Methods--
+    +createConnection()
+    +executeSqlSelect(query:String): ResultSet?
+    +executeSql(query:String)
+    --Getters--
+    getConnection():Connection?
+
+}
+
+
+class StudentListDB implements StudentListAdapter {
+    -conn: DbCon?
+    -studentList: MutableList<Student>
+    -orderedStudentList: MutableList<Student>
+    --Getters--
+    -getConnection():DbCon?
+    -getStudentList():MutableList<Student>
+    -getOrderStudentList():MutableList<Student>
+    --Setters--
+    -setConnection(connection:DbCon?)
+    -setStudentList(value:MutableList<Student>)
+    -setOrderStudentList(value:MutableList<Student>)
+    --Methods--
+    +read()
+    +checkAdapterExisting():Boolean
+    +getStudentById(id: Int): Student?
+    +getKNStudentShortList(k: Int, n: Int): DataList<StudentShort>
+    +addNewStudent(student: Student)
+    +replaceById(id:Int,newStudent: Student)
+    +deleteById(id: Int)
+    +getStudentShortCount(): Int
+    +sortByInitials(order:Int)
+}
+StudentListDB *-- DbCon
+
+class DataList<T>{
+    +elements:T[]
+    +tableView: TableView?
+    +subs:MutableList<UpdateDataInterface>
+    -selectedIndices;
+    --Getters--
+    -getElements():Array<T>
+    -getSelectedIds():MutableSetOf<Int>
+    +getSelectedIds():int[]
+    +getNames(): String[]
+    #getPropertiesOfClass(value:T):List<Any?>
+    +getData(): DataTable
+    --Constructor--
+    +DataList(elements:T[])
+    --Methods--
+    +select(number: Int)
+    +unSelectAll()
+    +notifyView()
+    +subscribe(ob:UpdateDataInterface)
+    +notifySubs()
+}
+DataList *-- TableView
+UpdateDataInterface <.. DataList
+DataTable <.. DataList
+
+
+class DataTable{
+    -data: Array<Array<Any?>>
+    --Getters--
+    -getData():Array<Array<Any?>>
+    --Constructor--
+    +DataTable(data:Array<Array<Any?>>
+    --Getters--
+    +getElement(row: Int, col: Int):Any?
+    +getColumns(): Array<Any?>
+    +getColumnCount(): Int
+    +getRowCount(): Int
+    --Methods--
+    +toString(): String
+}
+
+class Student extends StudentBase
 {
-    -surname:String
-    -name:String
-    -patronymic:String
-    -id:Int
-    -phoneNumber:String?
-    -telegram:String?
-    -email:String?
-    -gitHub:String?
-    --Constructors--
-    +Student(surname:String,name:String, patronymic:String,
-       phoneNumber:String?=null,telegram:String?=null,
-       email:String?=null, gitHub:String?=null)
+    +surname: String
+    +name: String
+    +patronymic: String
+    +idValue:Int
+    +phoneNumber: String?
+    +telegram: String?
+    +email: String?
+    +gitHub: String?
+    --Setters--
+    +setSurname(value: String)
+    +setName(value: String)
+    +setPatronymic(value: String)
+    +setIdValue(value:Int)
+    +setPhoneNumber(value: String?)
+    +setTelegram(value: String?)
+    +setEmail(value: String?)
+    +setGitHub(value: String?)
+    --Constructor--
+    +Student(surnameValue: String,nameValue: String,
+        patronymicValue: String,idValue:Int,phoneNumberValue: String?,
+        telegramValue: String?,emailValue: String?,gitHubValue: String?)
     +Student(studentArgs: HashMap<String,Any?>)
     +Student(data: String)
-    --Getters--
-    +surname():String
-    +name():String
-    +patronymic():String
-    +id():Int
-    +phoneNumber():String?
-    +telegram():String?
-    +email():String?
-    +gitHub():String?
-    --Setters--
-    +surname = (String)
-    +name = (String)
-    +patronymic = (String)
-    +phoneNumber = (String?)
-    +telegram = (String?)
-    +email = (String?)
-    +gitHub = (String?)
     --Methods--
-    -gitExist():Boolean
-    -contactExist():Boolean
-    -validate():Boolean
-    -checkValueAndPropertyNotNull(value:String?,propertyValue:String?): Boolean
+    -gitExist():boolean
+    -contactExist():boolean
+    +validate():boolean
     +setContacts(contacts:HashMap<String,String?>)
-    -{static}cutStudent(data:String)
-    +{static}returnPropertyNames(): Set<String>
+    -checkValueAndPropertyNotNull(value:String?,propertyValue:String?):boolean
+    -{static}cutStudent(data:String):String
+    +{static}parseString(data:String):HashMap<String,Any?>
+    +returnPropertyNames():Array<String>
     +propertiesReturn(): Map<String, Any?>
     +toString(): String
     +getInitials():String
     +getOneContact(): HashMap<String,String>?
     -getFormattedContactShort():String
-    +getInfo():String
+    -getInfo():String
 }
-
-class StudentBase{
-    +idValue:Int = autoGenerateId()
-    +gitHub: String? = 0
-    -{static} classId:Int = 0
-    -{static} maxId:Int = 0
-    --Getters--
-    +idValue():Int
-    +gitHub():String?
-    -{static} classId():Int
-    -{static} maxId():Int
-    --Setters--
-    -{static} classId=(Int)
-    -{static} maxId=(Int)
-    --Constructors--
-    +StudentBase(idValue: Int = autoGenerateId(), gitHub: String?=null)
-    --Methods--
-    +{abstract}propertiesReturn():Map<String,Any?>
-    +{static}autoGenerateId():Int
-    +{static}setMaxId(newId:Int?)
-    +{static}formatPropertyOutput(propertyName:String,propertyValue: Any?):String
-    +{static}parseString(data:String):HashMap<String,Any?>
-    +toString(): String
-}
-
-
-class StudentShort{
-     +initials:String
-     +contact:Map<String,String>?
-     --Constructors--
-     +StudentShort(studentLong:Student)
-     +StudentShort(studentId:Int,stringInfo:String)
-     --Getters--
-     +initials():String
-     +contact:Map<String,String>?
-     --Methods--
-     -{static}passGit(stringInfo:String):String?
-     -{static}validatorContact(contact:Map<String,String>?):Boolean
-     -{static}validatorInitials(initials:String)
-     -{static}validateContact(value: String?):Map<String,String>? =
-     -{static}validateSurnameInitials(value:String?):String
-     +propertiesReturn():Map<String,Any?>
-     +{static}returnPropertyNames():Set<String>
-     +toString(): String
-}
-
-class StudentValidator{
-        +{static} isValidPhone(phone: String?): Boolean
-        +{static} isValidSurname(surname: String): Boolean
-        +{static} isValidName(name: String): Boolean
-        +{static} isValidPatronymic(patronymic: String): Boolean
-        +{static} isValidTelegram(telegram: String?): Boolean
-        +{static} isValidEmail(email: String?): Boolean
-        +{static} isValidGitHub(gitHub: String?): Boolean
-        +{static} <T>validatorFunc(value:T, errorMessage:String, valudatorFunction: KFunction1<T, Boolean>)
-        +{static} validatorGit(gitHub: String?)
-        +{static} validatorEmail(email: String?)
-        +{static} validatorPhoneNumber(phone: String?)
-        +{static} validatorTelegram(telegram: String?)
-        +{static} validatorSurname(surname: String)
-        +{static} validatorName(name: String)
-        +{static} validatorPatronymic(patronymic: String)
-}
-
-class DataTable{
-    -data:Array<Array<Any?>>
-    --Constructors--
-    +DataTable(val data: Array<Array<Any?>>)
-    --Methods--
-    +getElement(row: Int, col: Int):Any?
-    +getColumnCount(): Int
-    +getRowCount(): Int
-    +toString(): String
-}
-
-class DataList<T>{
-    +elements: Array<T>
-    -selectedIndices = mutableSetOf<Int>()
-    --Getters--
-    elements():Array<T>
-    --Constructors--
-    DataList(elements:Array<T>)
-    --Methods--
-    +select(number: Int)
-    +getSelectedIds():Array<Int>
-    +getNames(): Array<String>
-    +getPropertiesOfClass(value:T):List<Any?>
-    +getData(): DataTable
-}
-
-
 StudentValidator <.. Student
-StudentValidator <.. StudentBase
-StudentValidator <.. StudentShort
-StudentBase<|-- Student
-StudentBase<|--StudentShort
 
-StudentShort <.. DataList
-DataTable <.. DataList
+abstract class StudentBase {
+    +id:Int
+    +gitHub: String?=null
+    -{static}classId:Int
+    -{static}maxId:Int
+    --Getters--
+    +getId():Int
+    +getGitHub():String?
+    -getClassId():Int
+    -getMaxId():Int
+    --Setters--
+    -setClassId(value:Int)
+    -setMaxId(value:Int)
+    --Constructor--
+    StudentBase(id:Int,gitHub: String?)
+    --Methods--
+    abstract fun propertiesReturn():Map<String,Any?>
+    {static}autoGenerateId():Int
+    {static}setMaxId(newId:Int?)
+    {static}formatPropertyOutput(propertyName:String,propertyValue: Any?) = if(propertyValue==null) "${propertyName}:" else "${propertyName}:${propertyValue}"
+    {static}fun parseString(data:String):HashMap<String,Any?>
+    +toString(): String
+}
 
 
+class StudentShort extends StudentBase {
+    +initials:String
+    +contact:Map<String,String>?;
+    --Constructor--
+    StudentShort(studentLong: Student):super(studentLong.id,studentLong.gitHub)
+    StudentShort(studentId:Int,stringInfo:String):super(studentId, passGit(stringInfo))
+    -{static}passGit(stringInfo:String):String?
+    -{static}validatorContact(contact:Map<String,String>?):Boolean
+    -{static}validatorInitials(initials:String)
+    -{static}validateContact(value: String?):Map<String,String>?
+    -{static}validateSurnameInitials(value:String?):String
+    +propertiesReturn():Map<String,Any?>
+    +toString(): String
+}
+Student <.. StudentShort
 
+class StudentValidator {
+    #{static}isValidSurname(surname: String): Boolean
+    #{static}isValidName(name: String): Boolean
+    #{static}isValidPatronymic(patronymic: String): Boolean
+    #{static}isValidPhone(phone: String?): Boolean
+    #{static}isValidTelegram(telegram: String?): Boolean
+    #{static}isValidEmail(email: String?): Boolean
+    #{static}isValidGitHub(gitHub: String?): Boolean
+    #{static}<T>validatorFunc(value:T, errorMessage:String, valudatorFunction: (T)->Boolean)
+    #{static}validatorSurname(surname: String)
+    #{static}validatorName(name: String)
+    #{static}validatorPatronymic(patronymic: String)
+    #{static}validatorGit(gitHub: String?)
+    #{static}validatorEmail(email: String?)
+    #{static}validatorPhoneNumber(phone: String?)
+    #{static}validatorTelegram(telegram: String?)
+}
 
 class StudentList {
-    -studentList:StudentListAdapter
-    --Constructors--
-    StudentList(studentList:StudentListAdapter)
+    -studentList: StudentListAdapter
+    -subscribers: MutableList<UpdateDataInterface> = mutableListOf();
+    --Constructor--
+    StudentList(studentList: StudentListAdapter)
     --Methods--
-    +getStudentById(id: Int):Student
-    +getKNStudentShortList(k: Int, n: Int):DataList<StudentShort>
-    +sortByInitials():List<Student>
-    +addNewStudent(student: Student)
-    +replaceById(id: Int, newStudent: Student)
-    +deleteById(id: Int)
-    +getStudentShortCount():Int
-    +toString():String
-}
-
-class StudentListExtend{
-    -studentListExtend: StudentListAdapterExtend
-    --Constructors--
-    +StudentListExtend(studentListExtend: StudentListAdapterExtend)
-    --Methods--
-    +processWrite(filePath: String, fileName: String)
-    +processRead(filePath: String)
-}
-StudentList<|-- StudentListExtend
-
-
-
-interface StudentListInterface {
-    +createMap(el: Any): HashMap<String, Any?>
-    +convertMap(hashM: Map<String, Any?>): Map<String, Any>
-}
-
-class StudentListBaseExtend{
-    #studentList: MutableList<Student>
-    --Methods--
-    {abstract}writeToFile(fileWriter:FileWriter, students:MutableList<Student>)
-    {abstract}readFromFile(mainString:String, students:MutableList<Student>)
-    +processWrite(filePath: String, fileName: String)
-    +processRead(filePath: String)
-    +getStudentById(id: Int):Student?
+    +subscribe(sub: UpdateDataInterface)
+    +notifySubs()
+    +getStudentById(id: Int): Student?
     +getKNStudentShortList(k: Int, n: Int): DataList<StudentShort>
-    +sortByInitials():List<Student>?
-    -addNewStudent(student: Student, id: Int = studentList.maxOf { it.id } + 1)
     +addNewStudent(student: Student)
     +replaceById(id: Int, newStudent: Student)
     +deleteById(id: Int)
-    +getStudentShortCount():Int
-    +toString():String
+    +getStudentShortCount(): Int
+    +sortByInitials(order: Int)
+    +toString(): String
+    +checkStExists(): Boolean
 }
+StudentList *-- StudentListAdapter
+UpdateDataInterface <.. StudentList
 
-class StudentListJson{
-    +createMap(el:Any):HashMap<String,Any?>
-    +readFromFile(filePath: String)
-    +convertMap(hashM:Map<String,Any?>):Map<String,Any>
-    +fun writeToFile(filePath: String, fileName: String)
-}
-
-class StudentListYaml{
-    +createMap(el: Any): HashMap<String, Any?>
-    +readFromFile(filePath: String)
-    +convertMap(hashM: Map<String, Any?>): Map<String, Any>
-    +writeToFile(filePath: String, fileName: String)
-}
-
-class StudentListTxt{
-    +readFromFile(filePath: String)
-    +writeToFile(filePath: String, fileName: String)
-}
 interface StudentListAdapter {
     +getStudentById(id: Int): Student?
     +getKNStudentShortList(k: Int, n: Int): DataList<StudentShort>
@@ -227,55 +720,81 @@ interface StudentListAdapter {
     +replaceById(id: Int, newStudent: Student)
     +deleteById(id: Int)
     +getStudentShortCount():Int
-    +sortByInitials():List<Student>?
+    +sortByInitials(order:Int)
+    +checkAdapterExisting():Boolean
 }
-interface StudentListAdapterExtend{
+Student <.. StudentListAdapter
+StudentShort <.. StudentListAdapter
+DataList <.. StudentListAdapter
+
+
+interface StudentListAdapterExtend extends StudentListAdapter  {
     +processWrite(filePath: String, fileName: String)
     +processRead(filePath: String)
 }
-StudentListAdapter<|--StudentListAdapterExtend
-
-
-StudentListAdapterExtend<|..StudentListBaseExtend
-
-StudentListBaseExtend<|-- StudentListJson
-StudentListBaseExtend<|-- StudentListYaml
-StudentListBaseExtend<|-- StudentListTxt
-
-StudentListInterface<|..StudentListYaml
-StudentListInterface<|..StudentListJson
-
-object DbCon {
-    -conn: Connection?
-    --Methods--
-    +createConnection()
-    +executeSqlSelect(query:String): ResultSet?
-    +executeSql(query:String)
+abstract class StudentListBaseExtend implements StudentListAdapterExtend {
+    #studentList: MutableList<Student>
+    -orderStudentList: MutableList<Student>
     --Getters--
-    +getConnection():Connection?;
-}
-
-class StudentListDB {
-     -conn:Connection?
-    --Constructors--
-    +StudentListDB()
+    -getStudentList():MutableList<Student>
+    -getOrderStudentList():MutableList<Student>
+    --Setters--
+    -setStudentList(value:MutableList<Student>)
+    -setOrderStudentList(value:MutableList<Student>)
     --Methods--
-    +getStudentById(id: Int): Student?
-    +getKNStudentShortList(n: Int, k: Int): DataList<StudentShort>
+    +abstract writeToFile(fileWriter:FileWriter, students:MutableList<Student>)
+    +abstract readFromFile(mainString:String, students:MutableList<Student>)
+    +processWrite(filePath: String, fileName: String)
+    +processRead(filePath: String)
+    +checkAdapterExisting(): Boolean
+    +getStudentById(id: Int):Student?
+    +getKNStudentShortList(k: Int, n: Int):DataList
+    +sortByInitials(order:Int)
+    -addNewStudent(student: Student, id: Int)
     +addNewStudent(student: Student)
-    +replaceById(id:Int,student: Student)
+    +replaceById(id: Int, newStudent: Student)
     +deleteById(id: Int)
-    +getStudentShortCount(): Int
+    +getStudentShortCount():Int
+    +toString():String
 }
-StudentListAdapter<|..StudentListDB
-StudentListDB o-- DbCon
 
-StudentList *-- StudentListAdapter
+class StudentListExtend extends StudentList {
+    -studentListExtend: StudentListAdapterExtend
+    --Constructor--
+    StudentListExtend(studentListExtend: StudentListAdapterExtend)
+    --Methods--
+    +processWrite(filePath: String, fileName: String)
+    +processRead(filePath: String)
+}
 StudentListExtend *-- StudentListAdapterExtend
 
+interface StudentListInterface {
+    +createMap(el: Any): HashMap<String, Any?>;
+    +convertMap(hashM: Map<String, Any?>): Map<String, Any>;
+}
+class StudentListJson extends StudentListBaseExtend implements StudentListInterface {
+    +createMap(el: Any): HashMap<String, Any?>
+    +convertMap(hashM: Map<String, Any?>): Map<String, Any>
+    +writeToFile(fileWriter: FileWriter, students: MutableList<Student>)
+    +readFromFile(mainString: String, students: MutableList<Student>)
+}
+class StudentListTxt extends StudentListBaseExtend {
+    +readFromFile(mainString: String, students: MutableList<Student>)
+    +writeToFile(fileWriter: FileWriter, students: MutableList<Student>)
+}
+class StudentListYaml extends StudentListBaseExtend implements StudentListInterface {
+    +createMap(el: Any): HashMap<String, Any?>
+    +convertMap(hashM: Map<String, Any?>): Map<String, Any>
+    +writeToFile(fileWriter: FileWriter, students: MutableList<Student>)
+    +readFromFile(mainString: String, students: MutableList<Student>)
+}
+NumberOrStringSerializer <.. StudentListYaml
+NumberOrStringSerializer <.. StudentListJson
 
-Student <.. StudentList
-StudentShort <.. StudentList
-DataTable <.. StudentList
-DataList <.. StudentList
+object NumberOrStringSerializer {
+    +descriptor: SerialDescriptor
+    --Methods--
+    +serialize(encoder: Encoder, value: Any):Any?
+    +deserialize(decoder: Decoder): Any
+}
 @enduml

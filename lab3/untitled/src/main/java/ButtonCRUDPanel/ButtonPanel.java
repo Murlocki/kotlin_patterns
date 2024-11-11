@@ -10,17 +10,17 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 public class ButtonPanel extends JPanel implements UpdateDataInterface {
-    public JButton createButton;
-    public JButton deleteButton;
-    public JButton updateButton;
+    public CrudButton createButton;
+    public CrudButton deleteButton;
+    public CrudButton updateButton;
 
-    public JButton updateGitButton;
-    public JButton updateEmailButton;
-    public JButton updateTelegramButton;
-    public JButton updatePhoneButton;
+    public CrudButton updateGitButton;
+    public CrudButton updateEmailButton;
+    public CrudButton updateTelegramButton;
+    public CrudButton updatePhoneButton;
 
-    public JButton reloadButton;
-    public JButton clearButton;
+    public CrudButton reloadButton;
+    public CrudButton clearButton;
 
     //Создаем контроллер панели
     public ButtonPanelController buttonPanelController;
