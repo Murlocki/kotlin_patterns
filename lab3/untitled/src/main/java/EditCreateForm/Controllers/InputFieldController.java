@@ -15,6 +15,7 @@ public class InputFieldController {
     public InputField inputField;
     private Predicate<String> validateFunc;
     public InputFieldModel inputFieldModel;
+
     public InputFieldController(InputField inputField,Predicate<String> validateFunc,boolean optional){
         this.inputField = inputField;
         this.validateFunc = validateFunc;
@@ -60,5 +61,17 @@ public class InputFieldController {
     public void setTextValue(){
         this.inputFieldModel.setInputText(this.inputField.mainInputField.getText());
     }
+
+    public void setInputText(String val){
+        this.inputField.mainInputField.setText(val);
+    }
+    public void setInputText(){
+        this.inputField.mainInputField.setText(this.inputFieldModel.inputText);
+    }
+
     public String getTextValue() {return this.inputField.mainInputField.getText();}
+
+    public void changeEditable(boolean edit){
+        this.inputField.mainInputField.setEnabled(edit);
+    }
 }

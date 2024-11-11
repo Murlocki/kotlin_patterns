@@ -33,7 +33,6 @@ public class MainTableController implements TableParamsInterfaceSetter {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
                     int[] selectedRows = MainTableController.this.mainTable.getSelectedRows();
-                    System.out.println("Выбранные строки"+Arrays.toString(selectedRows));
                     MainTableController.this.dataStudentListModel.unSelectAll();
                     for (int rowIndex : selectedRows) {
                         MainTableController.this.dataStudentListModel.select(rowIndex);

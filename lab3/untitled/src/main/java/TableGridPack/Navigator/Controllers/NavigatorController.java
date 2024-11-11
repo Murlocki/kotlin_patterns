@@ -38,7 +38,6 @@ public class NavigatorController implements UpdateDataInterface {
     }
     public void elementPerPageSelected(ItemEvent e){
         if (e.getStateChange() == ItemEvent.SELECTED) {
-            System.out.println("Количество элементов на странице" + e.getItem());
             this.navigationPageModel.elementPerPageSelected((Integer) e.getItem());
         }
     }

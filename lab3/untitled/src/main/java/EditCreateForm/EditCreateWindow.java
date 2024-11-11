@@ -24,20 +24,20 @@ public class EditCreateWindow extends JDialog implements UpdateDataInterface {
 
     public EditCreateWindowController editCreateWindowController;
 
-    public EditCreateWindow(StudentList studentList){
+    public EditCreateWindow(){
         super();
         this.setSize(300,600);
         this.setTitle("Student edit form");
 
         this.setModal(true);
 
-        this.createWindow(studentList);
+        this.createWindow();
         // Делаем дополнительное окно видимым
-        this.setVisible(true); // Это блокирует основное окно до закрытия диалога
+        this.setVisible(false); // Это блокирует основное окно до закрытия диалога
     }
 
     //Добавляем компоненты
-    public void createWindow(StudentList studentList){
+    public void createWindow(){
         this.setLayout(new FlowLayout());
         this.mainPanel = new JPanel(new GridLayout(8,1,0,10));
 
@@ -73,8 +73,10 @@ public class EditCreateWindow extends JDialog implements UpdateDataInterface {
 
 
         this.getContentPane().add(mainPanel);
+    }
 
-        this.editCreateWindowController = new EditCreateWindowController(this,studentList);
+    public void setEditCreateWindowController(EditCreateWindowController editCreateWindowController){
+        this.editCreateWindowController = editCreateWindowController;
     }
 
     @Override

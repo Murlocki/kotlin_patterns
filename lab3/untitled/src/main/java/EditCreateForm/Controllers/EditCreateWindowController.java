@@ -40,6 +40,7 @@ public class EditCreateWindowController implements UpdateDataInterface {
         this.emailFieldController.inputFieldModel.setSubscriber(this.editCreateWindow);
         this.gitHubFieldController.inputFieldModel.setSubscriber(this.editCreateWindow);
 
+
         this.editCreateWindow.acceptButton.setEnabled(false);
 
         //Вешаем действия
@@ -84,7 +85,7 @@ public class EditCreateWindowController implements UpdateDataInterface {
         this.studentList.addNewStudent(new Student(hashForStudent));
         this.editCreateWindow.dispose();
     }
-    private String checkEmpty(String input){
+    protected String checkEmpty(String input){
         return input.isEmpty()?null:input;
     }
 }
