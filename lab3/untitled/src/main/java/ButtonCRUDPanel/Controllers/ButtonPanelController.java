@@ -86,6 +86,12 @@ public class ButtonPanelController implements UpdateDataInterface {
             }
         });
 
+        this.buttonPanel.reloadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ButtonPanelController.this.tableViewController.setDefaultParams();
+            }
+        });
 
         turnOffButtons(0);
     }
