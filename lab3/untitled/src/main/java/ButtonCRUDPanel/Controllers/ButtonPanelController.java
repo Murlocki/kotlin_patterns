@@ -2,21 +2,15 @@ package ButtonCRUDPanel.Controllers;
 
 import ButtonCRUDPanel.ButtonPanel;
 import DataListPack.DataList;
-import DataListPack.DataTable;
-import EditCreateForm.Controllers.EditCreateWindowController;
 import EditCreateForm.Controllers.UpdateController;
-import EditCreateForm.Controllers.UpdateFIOController;
 import EditCreateForm.EditCreateWindow;
 import EditCreateForm.Factory.ControllerFactory;
 import MainPack.UpdateDataInterface;
 import Student.StudentShort;
-import StudentList.StudentList;
 import TableGridPack.Controllers.TableViewController;
-import TableGridPack.Navigator.Models.NavigationPageModel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 import java.util.LinkedList;
 
 public class ButtonPanelController implements UpdateDataInterface {
@@ -41,7 +35,7 @@ public class ButtonPanelController implements UpdateDataInterface {
             @Override
             public void actionPerformed(ActionEvent e) {
                 EditCreateWindow window = new EditCreateWindow();
-                ButtonPanelController.this.updateButtonClick(ControllerFactory.createUpdateController(window,ButtonPanelController.this.tableViewController.studentList),window);
+                ButtonPanelController.this.updateButtonClick(ControllerFactory.createUpdateFIOController(window,ButtonPanelController.this.tableViewController.studentList),window);
             }
         });
 

@@ -98,31 +98,6 @@ class UpdateController{
 }
 UpdateController <|-- EditCreateWindowController
 
-class UpdateEmailController{
-    +UpdateEmailController(editCreateWindow:EditCreateWindow,studentList:StudentList)
-}
-UpdateEmailController <|-- UpdateController
-
-+class UpdateFIOController{
-    +UpdateFIOController(editCreateWindow:EditCreateWindow,studentList:StudentList)
-}
-UpdateFIOController <|-- UpdateController
-
-class UpdateGitController{
-    +UpdateGitController(editCreateWindow:EditCreateWindow,studentList:StudentList)
-}
-UpdateGitController <|-- UpdateController
-
-class UpdatePhoneController{
-    +UpdatePhoneController(editCreateWindow:EditCreateWindow,studentList:StudentList)
-}
-UpdatePhoneController <|-- UpdateController
-
-class UpdateTelegramController{
-    +UpdateTelegramController(editCreateWindow:EditCreateWindow,studentList:StudentList)
-}
-UpdateTelegramController <|-- UpdateController
-
 class ControllerFactory {
     +{static}createCreateController(editCreateWindow:EditCreateWindow,studentList:StudentList):EditCreateWindowController
     +{static}createUpdateController(editCreateWindow:EditCreateWindow,studentList:StudentList):UpdateController
@@ -132,7 +107,7 @@ class ControllerFactory {
     +{static}createUpdateTelegramController(editCreateWindow:EditCreateWindow,studentList:StudentList):UpdateController
 }
 
-ControllerFactory <.. EditCreateWindowController
+UpdateController <.. ControllerFactory
 
 class InputFieldModel {
     +inputText:String
