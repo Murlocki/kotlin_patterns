@@ -7,33 +7,39 @@ import java.io.File
 import java.io.FileWriter
 import kotlin.math.min
 
-abstract class StudentListBaseExtend():StudentListAdapterExtend {
+abstract class StudentListBaseExtend(var readFilePath:String?, var writeFilePath:String?):StudentListAdapterExtend {
     protected val studentList: MutableList<Student> = mutableListOf();
     private var orderStudentList: MutableList<Student> = mutableListOf();
+
     abstract fun writeToFile(fileWriter:FileWriter, students:MutableList<Student>)
     abstract fun readFromFile(mainString:String, students:MutableList<Student>)
 
     // Запись в файл
-    open override fun processWrite(filePath: String, fileName: String) {
-        val file = File(filePath + "/${fileName}")
-        if (!file.exists()) {
+    open override fun processWrite() {
+        val file = File(writeFilePath)
+        if (!this.checkAdapterExisting()) {
             file.createNewFile()
         }
-        val fileWriter = FileWriter(filePath + "/${fileName}")
+        val fileWriter = FileWriter(writeFilePath)
         this.writeToFile(fileWriter,this.studentList)
         fileWriter.close()
     }
     // Чтение из файла
-    open override fun processRead(filePath: String){
-        if (!File(filePath).exists()) throw Exception("Ты откуда взял этот файл")
+    open override fun processRead(){
+        if (!this.checkAdapterExisting()) throw Exception("Ошибка")
         else {
-            val mainString = File(filePath).readText()
+            val mainString = File(readFilePath).readText()
             this.readFromFile(mainString,this.studentList)
             this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
         }
     }
-    override fun checkAdapterExisting(): Boolean {
-        return this.studentList.size!=0;
+    override fun checkAdapterExisting(): Boolean =
+        when{
+        readFilePath==null -> false;
+        writeFilePath==null -> false;
+        !File(readFilePath!!).exists()-> false;
+        !File(writeFilePath!!).exists() -> false;
+        else -> true;
     }
     open override fun getStudentById(id: Int) = studentList.find { it.id == id }
 
@@ -54,6 +60,7 @@ abstract class StudentListBaseExtend():StudentListAdapterExtend {
         this.studentList.add(stud);
 
         this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+        this.processWrite();
     }
 
     open override fun addNewStudent(student: Student) {
@@ -62,6 +69,7 @@ abstract class StudentListBaseExtend():StudentListAdapterExtend {
         this.studentList.add(stud)
 
         this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+        this.processWrite();
     }
 
     open override fun replaceById(id: Int, newStudent: Student) {
@@ -72,11 +80,13 @@ abstract class StudentListBaseExtend():StudentListAdapterExtend {
         else this.addNewStudent(newStudent, id)
 
         this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+        this.processWrite();
     }
 
     open override fun deleteById(id: Int) {
         this.studentList.removeAt(this.studentList.indexOf(this.studentList.find { it.id == id }))
         this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+        this.processWrite();
     }
 
     open override fun getStudentShortCount() = this.studentList.size

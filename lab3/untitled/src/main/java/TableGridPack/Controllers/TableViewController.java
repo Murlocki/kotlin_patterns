@@ -3,6 +3,12 @@ package TableGridPack.Controllers;
 import ButtonCRUDPanel.Controllers.ButtonPanelController;
 import DataBasePack.DbCon;
 import DataBasePack.StudentListDB;
+import StudentList.StudentListJson;
+import StudentList.StudentListTxt;
+import StudentList.StudentListYaml;
+import StudentList.StudentListAdapterExtend;
+
+
 import DataListPack.DataList;
 import DataListPack.DataTable;
 import InputFilterPack.Controllers.FilterPanelController;
@@ -16,6 +22,8 @@ import TableGridPack.TableView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TableViewController implements UpdateDataInterface, TableParamsInterfaceSetter {
     public TableView tableView;
@@ -62,6 +70,8 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
 
     @Override
     public void updatePage(){
+        this.checkStudentList();
+
 
         this.studentList.sortByInitials(this.mainTableController.mainTableModel.order);
         this.currentDataList = this.studentList.getKNStudentShortList(this.navigationPageModel.currentPage,this.navigationPageModel.elementsPerPage);
@@ -74,13 +84,44 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
 
         this.navigationPageModel.setMaxCountOfPages(this.studentList.getStudentShortCount());
 
+    }
+
+    private void checkStudentList(){
         //Описываем обработку случая отсутствия списка
+        this.studentList = this.createSourceStudentList();
+
         if(!studentList.checkStExists()){
             SwingUtilities.invokeLater(()->{
-                    JOptionPane.showMessageDialog(this.tableView, "Не удалось подключиться к базе данных", "Информация", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this.tableView, "Не удалось подключиться к базе данных", "Информация", JOptionPane.INFORMATION_MESSAGE);
             });
         }
     }
+
+    private StudentList createSourceStudentList(){
+        //Создаем модель списка студентов
+        StudentListDB st = new StudentListDB();
+        if(st.checkAdapterExisting()){
+            return new StudentList(st);
+        }
+
+        //Проверка для других списков
+        LinkedList<StudentListAdapterExtend> list = new LinkedList<>();
+        list.add(new StudentListTxt("src/main/resources/t.txt","src/main/resources/t.txt"));
+        list.add(new StudentListYaml("src/main/resources/test.yaml","src/main/resources/test.yaml"));
+        list.add(new StudentListJson("src/main/resources/file.json","src/main/resources/file.json"));
+
+        StudentListAdapterExtend resultList = null;
+        for (StudentListAdapterExtend studentListAdapter : list) {
+            if (studentListAdapter.checkAdapterExisting()) {
+                resultList = studentListAdapter;
+                resultList.processRead();
+                return new StudentList(resultList);
+            }
+        }
+        return new StudentList(new StudentListDB());
+    }
+
+
 
     public void refreshData() {
         this.updatePage();

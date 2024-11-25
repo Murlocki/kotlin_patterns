@@ -7,7 +7,7 @@ import java.io.File
 import java.io.FileWriter
 import kotlin.math.min
 
-class StudentListTxt:StudentListBaseExtend() {
+class StudentListTxt(readFilePath:String?,writeFilePath:String?):StudentListBaseExtend(readFilePath,writeFilePath) {
 
     // Чтение из файла
     override fun readFromFile(mainString: String, students: MutableList<Student>) = mainString.split('\n').forEach { students.add(

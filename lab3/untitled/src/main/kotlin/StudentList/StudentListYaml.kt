@@ -7,7 +7,7 @@ import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import java.io.FileWriter
 
-class StudentListYaml: StudentListBaseExtend(),StudentListInterface {
+class StudentListYaml(readFilePath:String?,writeFilePath:String?): StudentListBaseExtend(readFilePath,writeFilePath),StudentListInterface {
     override fun createMap(el: Any): HashMap<String, Any?> {
         val map = HashMap<String, Any?>()
         for ((key, value) in (el as YamlMap).entries.entries) {

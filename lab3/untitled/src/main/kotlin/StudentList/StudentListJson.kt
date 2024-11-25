@@ -9,7 +9,7 @@ import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.*
 
-class StudentListJson : StudentListBaseExtend(),StudentListInterface {
+class StudentListJson(readFilePath:String?,writeFilePath:String?) : StudentListBaseExtend(readFilePath,writeFilePath),StudentListInterface {
 
     override fun createMap(el: Any): HashMap<String, Any?> {
         val map = HashMap<String, Any?>()
