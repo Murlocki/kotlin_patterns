@@ -1,0 +1,54 @@
+[
+    {
+        "id": 0,
+        "surname": "Aaaaa",
+        "name": "Bbbbbb",
+        "patronymic": "Cccccc"
+    },
+    {
+        "id": 1,
+        "surname": "Aaabbb",
+        "name": "Bbb-Cbbb",
+        "patronymic": "Cccccc",
+        "gitHub": "eeefefefef"
+    },
+    {
+        "id": 2,
+        "surname": "Aaabbb",
+        "name": "Bbb-Cbbb",
+        "patronymic": "Cccccc",
+        "email": "kk@gmial.com"
+    },
+    {
+        "id": 3,
+        "surname": "Araaa",
+        "name": "Bbbbbb",
+        "patronymic": "Cccccc"
+    },
+    {
+        "id": 0,
+        "surname": "Aaaaa",
+        "name": "Bbbbbb",
+        "patronymic": "Cccccc"
+    },
+    {
+        "id": 1,
+        "surname": "Aaabbb",
+        "name": "Bbb-Cbbb",
+        "patronymic": "Cccccc",
+        "gitHub": "eeefefefef"
+    },
+    {
+        "id": 2,
+        "surname": "Aaabbb",
+        "name": "Bbb-Cbbb",
+        "patronymic": "Cccccc",
+        "email": "kk@gmial.com"
+    },
+    {
+        "id": 3,
+        "surname": "Araaa",
+        "name": "Bbbbbb",
+        "patronymic": "Cccccc"
+    }
+]

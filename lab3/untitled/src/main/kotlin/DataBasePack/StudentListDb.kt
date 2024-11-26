@@ -10,13 +10,14 @@ class StudentListDB():StudentListAdapter {
     private var conn: DbCon? = DbCon;
     private var studentList: MutableList<Student> = mutableListOf();
     private var orderedStudentList: MutableList<Student> = mutableListOf();
+    public var tableName = "ref_student"
     init {
         conn?.createConnection()
         this.read()
     }
 
     fun read() {
-        val request = "SELECT * FROM ref_student"
+        val request = "SELECT * FROM $tableName"
         val result = this.conn?.executeSqlSelect(request);
         if (result != null) {
             val resultList: MutableList<Student> = mutableListOf()
@@ -63,7 +64,7 @@ class StudentListDB():StudentListAdapter {
         }
         columns=columns.dropLast(1)
         values=values.dropLast(1)
-        val request = "insert into ref_student(${columns}) values (${values})"
+        val request = "insert into $tableName(${columns}) values (${values})"
         this.conn?.executeSql(request);
         this.read()
     }
@@ -75,15 +76,18 @@ class StudentListDB():StudentListAdapter {
             if(studentProps[key] !=null && key!="id"){
                 values+="${key}='${studentProps[key]}',"
             }
+            else if (studentProps[key] ==null && key!="id"){
+                values+="${key}=${studentProps[key]},"
+            }
         }
         values=values.dropLast(1)
-        val request = "update ref_student t set ${values} where t.id=${id}"
+        val request = "update $tableName t set ${values} where t.id=${id}"
         this.conn?.executeSql(request);
         this.read()
     }
 
     override fun deleteById(id: Int) {
-        val request = "delete from ref_student as t where t.id=${id}"
+        val request = "delete from $tableName as t where t.id=${id}"
         this.conn?.executeSql(request);
         this.read()
     }

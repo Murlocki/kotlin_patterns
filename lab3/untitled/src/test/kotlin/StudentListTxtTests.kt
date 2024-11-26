@@ -6,23 +6,14 @@ import kotlin.test.assertEquals
 
 class StudentListTxtTests {
     @Test
-    fun testRead(){
-        val studentListTxt = StudentListTxt("src/main/resources/out.txt","src/main/resources/out.txt");
-        studentListTxt.processRead()
-        val resultStudent = Student("Student(id:0,surname:Aaaaa,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:,telegram:,gitHub:)")
-        assert(resultStudent.toString() == studentListTxt.studentList[0].toString())
-    }
-    @Test
     fun testGetById(){
-        val studentListTxt = StudentListTxt("src/main/resources/out.txt","src/main/resources/out.txt");
-        studentListTxt.processRead()
+        val studentListTxt = StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt");
         val resultStudent = Student("Student(id:0,surname:Aaaaa,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:,telegram:,gitHub:)")
         assert(resultStudent.toString()==studentListTxt.getStudentById(0).toString())
     }
     @Test
     fun testGetNKStudentShort(){
-        val studentListTxt = StudentListTxt("src/main/resources/out.txt","src/main/resources/out.txt");
-        studentListTxt.processRead()
+        val studentListTxt = StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt");
         val resultStudent = Student("Student(id:0,surname:Aaaaa,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:,telegram:,gitHub:)")
         assert(0==studentListTxt.getKNStudentShortList(6,6).elements.size)
         assert(StudentShort(resultStudent).toString() == studentListTxt.getKNStudentShortList(1,1).elements[0].toString())
@@ -30,8 +21,7 @@ class StudentListTxtTests {
 
     @Test
     fun testSortByInitials(){
-        val studentListTxt = StudentListTxt("src/main/resources/out.txt","src/main/resources/out.txt");
-        studentListTxt.processRead()
+        val studentListTxt = StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt");
         val resultStudent = Student("Student(id:3,surname:A-B,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:kk@gmial.com,telegram:,gitHub:)")
         studentListTxt.sortByInitials(1)
         assert(StudentShort(resultStudent).toString() == studentListTxt.getKNStudentShortList(1,6).elements[0].toString())
@@ -40,8 +30,7 @@ class StudentListTxtTests {
     }
     @Test
     fun testAddDelete(){
-        val studentListTxt = StudentListTxt("src/main/resources/out.txt","src/main/resources/out.txt");
-        studentListTxt.processRead()
+        val studentListTxt = StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt");
         val resultStudent = Student("Student(id:6,surname:A-B,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:kk@gmial.com,telegram:,gitHub:)")
         studentListTxt.addNewStudent(resultStudent)
         assert(resultStudent.toString() == studentListTxt.getStudentById(6).toString())
@@ -50,8 +39,7 @@ class StudentListTxtTests {
     }
     @Test
     fun testReplaceById(){
-        val studentListTxt = StudentListTxt("src/main/resources/out.txt","src/main/resources/out.txt");
-        studentListTxt.processRead()
+        val studentListTxt = StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt");
         val resultStudent = Student("Student(id:5,surname:A-B,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:kk@gmial.com,telegram:,gitHub:)")
         studentListTxt.replaceById(5,resultStudent)
         assert(resultStudent.toString() == studentListTxt.getStudentById(5).toString())
@@ -59,8 +47,7 @@ class StudentListTxtTests {
     }
     @Test
     fun testGetStudentCount(){
-        val studentListTxt = StudentListTxt("src/main/resources/out.txt","src/main/resources/out.txt");
-        studentListTxt.processRead()
+        val studentListTxt = StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt");
         assert(6==studentListTxt.getStudentShortCount())
     }
 }

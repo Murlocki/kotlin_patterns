@@ -8,8 +8,12 @@ import java.io.FileWriter
 import kotlin.math.min
 
 abstract class StudentListBaseExtend(var readFilePath:String?, var writeFilePath:String?):StudentListAdapterExtend {
-    open val studentList: MutableList<Student> = mutableListOf();
+    protected val studentList: MutableList<Student> = mutableListOf();
     private var orderStudentList: MutableList<Student> = mutableListOf();
+
+    init {
+        this.processRead()
+    }
 
     abstract fun writeToFile(fileWriter:FileWriter, students:MutableList<Student>)
     abstract fun readFromFile(mainString:String, students:MutableList<Student>)
