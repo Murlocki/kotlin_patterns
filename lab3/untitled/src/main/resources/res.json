@@ -6,14 +6,6 @@
         "patronymic": "Cccccc"
     },
     {
-        "id": 1233,
-        "surname": "Aabbb-Abbb",
-        "name": "Bbbbbb",
-        "patronymic": "Cccccc",
-        "email": "kkkk@ele.com",
-        "telegram": "@elelelelele"
-    },
-    {
         "id": 1,
         "surname": "Aaabbb",
         "name": "Bbb-Cbbb",
@@ -29,9 +21,8 @@
     },
     {
         "id": 3,
-        "surname": "B",
-        "name": "Vbbbbb",
-        "patronymic": "Cccccc",
-        "phoneNumber": "+79889889898"
+        "surname": "Araaa",
+        "name": "Bbbbbb",
+        "patronymic": "Cccccc"
     }
 ]

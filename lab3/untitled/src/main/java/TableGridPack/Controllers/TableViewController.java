@@ -89,7 +89,7 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
     private void checkStudentList(){
         //Описываем обработку случая отсутствия списка
         this.studentList = this.createSourceStudentList();
-
+        this.studentList.subscribe(this);
         if(!studentList.checkStExists()){
             SwingUtilities.invokeLater(()->{
                 JOptionPane.showMessageDialog(this.tableView, "Не удалось подключиться к базе данных", "Информация", JOptionPane.INFORMATION_MESSAGE);

@@ -9,7 +9,7 @@ object DbCon {
     private var conn: Connection? = null
 
     fun createConnection(){
-        val url = "jdbc:postgresql://localhost:543/Student" // e.g., jdbc:postgresql://localhost:5432/your_database_name
+        val url = "jdbc:postgresql://localhost:5433/Student" // e.g., jdbc:postgresql://localhost:5432/your_database_name
         val user = "postgres"
         val password = "18092003"
         this.conn = null

@@ -8,7 +8,7 @@ import java.io.FileWriter
 import kotlin.math.min
 
 abstract class StudentListBaseExtend(var readFilePath:String?, var writeFilePath:String?):StudentListAdapterExtend {
-    protected val studentList: MutableList<Student> = mutableListOf();
+    open val studentList: MutableList<Student> = mutableListOf();
     private var orderStudentList: MutableList<Student> = mutableListOf();
 
     abstract fun writeToFile(fileWriter:FileWriter, students:MutableList<Student>)
@@ -48,8 +48,8 @@ abstract class StudentListBaseExtend(var readFilePath:String?, var writeFilePath
             .toTypedArray<StudentShort>());
 
     open override fun sortByInitials(order:Int){
-        if(order==-1) this.studentList.sortByDescending { it.getInitials() }
-        else if(order==1) this.studentList.sortBy { it.getInitials() }
+        if(order==-1) this.orderStudentList.sortByDescending { it.getInitials() }
+        else if(order==1) this.orderStudentList.sortBy { it.getInitials() }
         else this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
     }
 
