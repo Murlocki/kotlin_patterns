@@ -6,9 +6,12 @@ import InputFilterPack.States.FilterStateNo;
 import InputFilterPack.States.FilterStateNoMatter;
 import InputFilterPack.States.FilterStateYes;
 import MainPack.UpdateDataInterface;
+import Student.Student;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Function;
 
 public class ContactFilterModel {
     public ContactFieldController contactFieldController;
@@ -35,11 +38,12 @@ public class ContactFilterModel {
     public void setSelectedOption(int selectedOptionIndex) {
         this.selectedOptionIndex = selectedOptionIndex;
         this.filterState = this.states[selectedOptionIndex];
-        System.out.println(this.filterState);
+        this.setFilterInput(this.filterInput);
         this.notifySubs();
     }
     public void setFilterInput(String text) {
         this.filterInput = text;
+        this.filterState.setValueField(text);
         this.notifySubs();
     }
 
@@ -50,7 +54,10 @@ public class ContactFilterModel {
     }
 
     public void clearFilterInput(){
-        this.filterInput = "";
+        this.setFilterInput("");
         this.selectedOptionIndex = 2;
+    }
+    public Function<List<Student>,List<Student>> getRequest(){
+        return this.filterState.getRequestPart();
     }
 }

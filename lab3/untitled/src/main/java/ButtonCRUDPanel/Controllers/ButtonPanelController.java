@@ -95,11 +95,17 @@ public class ButtonPanelController implements UpdateDataInterface {
         this.buttonPanel.reloadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ButtonPanelController.this.tableViewController.setDefaultParams();
+                ButtonPanelController.this.reloadButtonClick();
             }
         });
 
         turnOffButtons(0);
+    }
+
+
+    public void reloadButtonClick(){
+        this.tableViewController.filterStudentList();
+        this.tableViewController.refreshData();
     }
 
     //Включение кнопок редактирования

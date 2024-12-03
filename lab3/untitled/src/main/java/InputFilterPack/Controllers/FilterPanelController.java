@@ -2,6 +2,10 @@ package InputFilterPack.Controllers;
 
 import InputFilterPack.FilterPanel;
 
+import java.util.List;
+import java.util.function.Function;
+import Student.Student;
+
 public class FilterPanelController {
     public FilterPanel filterPanel;
     public SurnameInitialsFieldController surnameInitialsFieldController;
@@ -32,5 +36,14 @@ public class FilterPanelController {
         this.telegramController.clearInput();
         this.gitHubController.clearInput();
         this.phoneController.clearInput();
+    }
+    public Function<List<Student>, List<Student>>[] getFilters(){
+        return new Function[]{
+                this.surnameInitialsFieldController.getRequest(),
+                this.emailController.getRequest(),
+                this.telegramController.getRequest(),
+                this.gitHubController.getRequest(),
+                this.phoneController.getRequest(),
+        };
     }
 }

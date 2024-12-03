@@ -4,6 +4,7 @@ import Student.Student
 import DataListPack.DataList
 import Student.StudentShort
 import StudentList.StudentListAdapter
+import java.util.function.Function
 import kotlin.math.min
 
 class StudentListDB():StudentListAdapter {
@@ -42,6 +43,16 @@ class StudentListDB():StudentListAdapter {
     override fun checkAdapterExisting():Boolean {
         return this.conn?.getConnection()!=null
     }
+
+    override fun filterList(function: Function<MutableList<Student>, MutableList<Student>>) {
+        this.orderedStudentList = function.apply(this.orderedStudentList)
+        println(this.orderedStudentList.toString())
+    }
+
+    override fun restoreOrderList() {
+        this.orderedStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+    }
+
     override fun getStudentById(id: Int): Student? {
         this.read()
         return this.studentList.find { it.id == id }
@@ -93,7 +104,7 @@ class StudentListDB():StudentListAdapter {
     }
 
     override fun getStudentShortCount(): Int {
-        return this.studentList.size
+        return this.orderedStudentList.size
     }
 
     override fun sortByInitials(order:Int) {

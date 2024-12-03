@@ -2,12 +2,12 @@ package EditCreateForm.Controllers;
 
 import EditCreateForm.EditCreateWindow;
 import Student.Student;
-import StudentList.StudentList;
+import StudentList.StudentListComponent;
 
 import java.util.HashMap;
 
 public class UpdateController extends EditCreateWindowController{
-    public UpdateController(EditCreateWindow editCreateWindow, StudentList studentList){
+    public UpdateController(EditCreateWindow editCreateWindow, StudentListComponent studentList){
         super(editCreateWindow, studentList);
     }
     public int id;

@@ -34,7 +34,7 @@ public class TableView extends JPanel implements TableParamsInterfaceSetter,Upda
         this.buttonPanel = new ButtonPanel();
         this.add(this.buttonPanel, BorderLayout.EAST);
 
-        //Создаем наш главный контроллер
+        //РЎРѕР·РґР°РµРј РЅР°С€ РіР»Р°РІРЅС‹Р№ РєРѕРЅС‚СЂРѕР»Р»РµСЂ
         this.tableViewController = new TableViewController(
                 this,
                 this.mainTable.mainTableController,

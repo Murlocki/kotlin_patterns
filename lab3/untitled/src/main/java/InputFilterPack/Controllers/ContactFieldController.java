@@ -3,11 +3,14 @@ package InputFilterPack.Controllers;
 import InputFilterPack.ContactField;
 import InputFilterPack.InputField;
 import InputFilterPack.Models.ContactFilterModel;
+import Student.Student;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
+import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 
 public class ContactFieldController implements InputControllerInterface {
     public ContactField contactField;
@@ -19,12 +22,10 @@ public class ContactFieldController implements InputControllerInterface {
         this.contactField.inputField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                // Действия при получении фокуса (не обязательно)
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                // Действия при потере фокуса
                 ContactFieldController.this.changeInputText();
             }
         });
@@ -51,8 +52,13 @@ public class ContactFieldController implements InputControllerInterface {
     }
 
     public void changeInputText(){
-        System.out.println("Текущий текст: " + this.contactField.inputField.getText());
+        System.out.println(this.contactField.inputField.getText());
         this.contactFilterModel.setFilterInput(this.contactField.inputField.getText());
+    }
+
+    @Override
+    public Function<List<Student>, List<Student>> getRequest() {
+        return this.contactFilterModel.getRequest();
     }
 
 }

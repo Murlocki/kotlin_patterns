@@ -21,7 +21,7 @@ public class StudentManagementApp extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                StudentManagementApp m = new StudentManagementApp("Менеджер студентов");
+                StudentManagementApp m = new StudentManagementApp("???????? ?????????");
                 m.createWindow();
             }
         });

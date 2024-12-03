@@ -7,7 +7,7 @@ import java.util.function.Function;
 
 public class FilterStateSurname implements FilterState {
 
-    private String valueField;
+    private String valueField="";
 
     public void setValueField(String valueField) {
         this.valueField = valueField;

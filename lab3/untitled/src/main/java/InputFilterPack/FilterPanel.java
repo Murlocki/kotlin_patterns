@@ -24,28 +24,28 @@ public class FilterPanel extends JPanel {
         this.setBackground(Color.WHITE);
         this.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        //Создаем поле для ввода фамилии и инициалов
+        //Create surname and initials
         this.surnameInitialsField = new SurnameInitialsField();
         this.add(surnameInitialsField);
 
-        //Создаем поле для фильтрации гита
+        //Create git
         this.githubField = new ContactField("Git","gitHub");
         this.add(this.githubField);
 
-        //Создаем поле для фильтрации почты
+        //Create email
         this.emailField = new ContactField("Email","email");
         this.add(this.emailField);
 
-        //Создаем поле для фильтрации телеграмма
+        //Create telegram
         this.phoneField = new ContactField("Telegram","telegram");
         this.add(this.phoneField);
 
 
-        //Создаем поле для фильтрации телефон
+        //Create phone number
         this.telegramField = new ContactField("Phone","phoneNumber");
         this.add(this.telegramField);
 
-        //Создаем контроллер
+        //Create controller
         this.filterPanelController = new FilterPanelController(
                 this,
                 this.surnameInitialsField.surnameInitialsFieldController,

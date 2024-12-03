@@ -8,7 +8,8 @@ import java.util.function.Function;
 
 public class FilterStateNo implements FilterState {
 
-    private String fieldName;
+    private final String fieldName;
+    private String valueField = "";
 
     public FilterStateNo(String fieldName) {
         this.fieldName = fieldName;
@@ -16,6 +17,11 @@ public class FilterStateNo implements FilterState {
 
     public Function<List<Student>,List<Student>> getRequestPart() {
         return this::filter;
+    }
+
+    @Override
+    public void setValueField(String valueField) {
+        this.valueField = valueField;
     }
 
 

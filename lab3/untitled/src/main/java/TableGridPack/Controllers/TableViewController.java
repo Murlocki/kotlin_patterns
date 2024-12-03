@@ -3,6 +3,7 @@ package TableGridPack.Controllers;
 import ButtonCRUDPanel.Controllers.ButtonPanelController;
 import DataBasePack.DbCon;
 import DataBasePack.StudentListDB;
+import Student.Student;
 import StudentList.StudentListJson;
 import StudentList.StudentListTxt;
 import StudentList.StudentListYaml;
@@ -15,15 +16,18 @@ import InputFilterPack.Controllers.FilterPanelController;
 import MainPack.UpdateDataInterface;
 import Student.StudentShort;
 import StudentList.StudentList;
+import StudentList.StudentListDecorator;
+import StudentList.StudentListComponent;
 import TableGridPack.Navigator.Controllers.NavigatorController;
 import TableGridPack.Navigator.Models.NavigationPageModel;
 import TableGridPack.TableParamsInterfaceSetter;
 import TableGridPack.TableView;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 
 public class TableViewController implements UpdateDataInterface, TableParamsInterfaceSetter {
     public TableView tableView;
@@ -31,30 +35,30 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
     private NavigatorController navigatorController;
     private ButtonPanelController buttonPanelController;
 
-    private FilterPanelController filterPanelController;
+    public FilterPanelController filterPanelController;
 
     private NavigationPageModel navigationPageModel;
 
-    //Запихиваем две модели для таблицы
-    public StudentList studentList;
+    //Р—Р°РїРёС…РёРІР°РµРј РґРІРµ РјРѕРґРµР»Рё РґР»СЏ С‚Р°Р±Р»РёС†С‹
+    public StudentListComponent studentList;
     public DataList<StudentShort> currentDataList;
 
     public TableViewController(TableView tableView,MainTableController mainTableController, NavigatorController navigatorController, ButtonPanelController buttonPanelController,FilterPanelController filterPanelController){
-        //Встраиваем существующие контроллеры для удобства их вызова в будущем
+        //Р’СЃС‚СЂР°РёРІР°РµРј СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРµ РєРѕРЅС‚СЂРѕР»Р»РµСЂС‹ РґР»СЏ СѓРґРѕР±СЃС‚РІР° РёС… РІС‹Р·РѕРІР° РІ Р±СѓРґСѓС‰РµРј
         this.tableView = tableView;
         this.mainTableController = mainTableController;
         this.navigatorController = navigatorController;
         this.buttonPanelController = buttonPanelController;
         this.filterPanelController = filterPanelController;
 
-        //Фильтры очищаем в умолчанию
+        //Р¤РёР»СЊС‚СЂС‹ РѕС‡РёС‰Р°РµРј РІ СѓРјРѕР»С‡Р°РЅРёСЋ
         this.filterPanelController.clearFilters();
 
-        //Создаем модель списка студентов
-        this.studentList = new StudentList(new StudentListDB());
+        //РЎРѕР·РґР°РµРј РјРѕРґРµР»СЊ СЃРїРёСЃРєР° СЃС‚СѓРґРµРЅС‚РѕРІ
+        this.studentList = new StudentListDecorator(new StudentList(new StudentListDB()),this);
         this.studentList.subscribe(this);
 
-        //Создаем модель для навигации по страницам
+        //РЎРѕР·РґР°РµРј РјРѕРґРµР»СЊ РґР»СЏ РЅР°РІРёРіР°С†РёРё РїРѕ СЃС‚СЂР°РЅРёС†Р°Рј
         this.navigationPageModel = new NavigationPageModel(this.studentList.getStudentShortCount());
 
         this.navigatorController.navigationPageModel = this.navigationPageModel;
@@ -68,13 +72,16 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
 
     }
 
+
+
     @Override
     public void updatePage(){
         this.checkStudentList();
 
-
-        this.studentList.sortByInitials(this.mainTableController.mainTableModel.order);
+        //this.studentList.sortByInitials(this.mainTableController.mainTableModel.order);
+        this.navigationPageModel.setMaxCountOfPages(this.studentList.getStudentShortCount());
         this.currentDataList = this.studentList.getKNStudentShortList(this.navigationPageModel.currentPage,this.navigationPageModel.elementsPerPage);
+
 
         this.currentDataList.setTableView(this.tableView);
 
@@ -82,29 +89,29 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
         this.mainTableController.dataStudentListModel.subscribe(this.buttonPanelController.buttonPanel);
         this.buttonPanelController.dataListModel = this.currentDataList;
 
-        this.navigationPageModel.setMaxCountOfPages(this.studentList.getStudentShortCount());
 
     }
 
     private void checkStudentList(){
-        //Описываем обработку случая отсутствия списка
+        //РћРїРёСЃС‹РІР°РµРј РѕР±СЂР°Р±РѕС‚РєСѓ СЃР»СѓС‡Р°СЏ РѕС‚СЃСѓС‚СЃС‚РІРёСЏ СЃРїРёСЃРєР°
+        if(studentList.checkStExists()) return;
         this.studentList = this.createSourceStudentList();
         this.studentList.subscribe(this);
         if(!studentList.checkStExists()){
             SwingUtilities.invokeLater(()->{
-                JOptionPane.showMessageDialog(this.tableView, "Не удалось подключиться к базе данных", "Информация", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this.tableView, "РќРµ СѓРґР°Р»РѕСЃСЊ РїРѕРґРєР»СЋС‡РёС‚СЊСЃСЏ Рє Р±Р°Р·Рµ РґР°РЅРЅС‹С…", "РРЅС„РѕСЂРјР°С†РёСЏ", JOptionPane.INFORMATION_MESSAGE);
             });
         }
     }
 
-    private StudentList createSourceStudentList(){
-        //Создаем модель списка студентов
+    private StudentListDecorator createSourceStudentList(){
+        //РЎРѕР·РґР°РµРј РјРѕРґРµР»СЊ СЃРїРёСЃРєР° СЃС‚СѓРґРµРЅС‚РѕРІ
         StudentListDB st = new StudentListDB();
         if(st.checkAdapterExisting()){
-            return new StudentList(st);
+            return new StudentListDecorator(new StudentList(st),this);
         }
 
-        //Проверка для других списков
+        //РџСЂРѕРІРµСЂРєР° РґР»СЏ РґСЂСѓРіРёС… СЃРїРёСЃРєРѕРІ
         LinkedList<StudentListAdapterExtend> list = new LinkedList<>();
         list.add(new StudentListTxt("src/main/resources/t.txt","src/main/resources/t.txt"));
         list.add(new StudentListYaml("src/main/resources/test.yaml","src/main/resources/test.yaml"));
@@ -115,10 +122,10 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
             if (studentListAdapter.checkAdapterExisting()) {
                 resultList = studentListAdapter;
                 resultList.processRead();
-                return new StudentList(resultList);
+                return new StudentListDecorator(new StudentList(resultList),this);
             }
         }
-        return new StudentList(new StudentListDB());
+        return new StudentListDecorator(new StudentList(new StudentListDB()),this);
     }
 
 
@@ -138,7 +145,15 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
     }
 
     public void setDefaultParams(){
-        this.navigationPageModel.setDefaultParams();
         this.filterPanelController.clearFilters();
+        this.filterStudentList();
+        this.navigationPageModel.setDefaultParams();
+    }
+
+    public void filterStudentList(){
+        this.navigationPageModel.setDefaultWithoutNotify();
+        this.studentList.restoreOrderList();
+        Function<List<Student>, List<Student>>[] filters = this.filterPanelController.getFilters();
+        Arrays.stream(filters).toList().forEach(it->this.studentList.filterList(it));
     }
 }

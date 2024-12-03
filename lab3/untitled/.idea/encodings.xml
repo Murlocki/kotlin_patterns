@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/src/main/java/EditCreateForm/Controllers/InputFieldController.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/EditCreateForm/EditCreateWindow.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/InputFilterPack/ContactFilterComboBox.java" charset="windows-1251" />
@@ -10,16 +10,16 @@
     <file url="file://$PROJECT_DIR$/src/main/java/InputFilterPack/FilterPanel.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/InputFilterPack/InputField.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/InputFilterPack/Models/SurnameInitialsModel.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/main/java/InputFilterPack/SurnameInitialsField.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java/InputFilterPack/SurnameInitialsField.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/MainPack/Controllers/TabbedPanelController.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/MainPack/StudentManagementApp.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/main/java/MainPack/TabbedPanel.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/main/java/TableGridPack/Controllers/TableViewController.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java/MainPack/TabbedPanel.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/TableGridPack/Controllers/TableViewController.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/TableGridPack/MainTable.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/TableGridPack/Navigator/Controllers/NavigatorController.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/TableGridPack/Navigator/ElemsForPageSelector.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/TableGridPack/Navigator/Models/NavigationPageModel.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/TableGridPack/Navigator/NavigatorPanel.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/main/java/TableGridPack/TableView.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java/TableGridPack/TableView.java" charset="UTF-8" />
   </component>
 </project>

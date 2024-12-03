@@ -16,30 +16,30 @@ public class TabbedPanel extends JTabbedPane {
 
 
         this.setBorder(BorderFactory.createEmptyBorder(10, 1, 0, 1));
-        //Создаем вкладки
+        // РЎРѕР·РґР°РµРј РІРєР»Р°РґРєРё
         this.tableView= new TableView();
 
         this.tab2 = new JPanel();
-        this.tab2.add(new JLabel("Содержимое Вкладки 2"));
+        this.tab2.add(new JLabel("РЎРѕРґРµСЂР¶РёРјРѕРµ Р’РєР»Р°РґРєРё 2"));
 
         this.tab3= new JPanel();
-        this.tab3.add(new JLabel("Содержимое Вкладки 3"));
+        this.tab3.add(new JLabel("РЎРѕРґРµСЂР¶РёРјРѕРµ Р’РєР»Р°РґРєРё 3"));
 
-        // Установка цвета фона для содержимого вкладок
+        // РЈСЃС‚Р°РЅРѕРІРєР° С†РІРµС‚Р° С„РѕРЅР° РґР»СЏ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ РІРєР»Р°РґРѕРє
         this.tableView.setBackground(Color.WHITE);
         this.tab2.setBackground(Color.WHITE);
         this.tab3.setBackground(Color.WHITE);
 
-        // Добавление вкладок
+        // Р”РѕР±Р°РІР»РµРЅРёРµ РІРєР»Р°РґРѕРє
         this.addTab("Student View List", this.tableView);
         this.addTab("Tab 2", this.tab2);
         this.addTab("Tab 3", this.tab3);
 
-        // Создаем пользовательский компонент вкладки с увеличенным текстом
-        this.setTabComponentAt(0, new CustomTabComponent("Student View List", 14,Color.CYAN)); // Вкладка с текстом размера 20
-        this.setTabComponentAt(1, new CustomTabComponent("Tab 2", 18,Color.CYAN)); // Вкладка с текстом размера 18
+        // РЎРѕР·РґР°РµРј РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёР№ РєРѕРјРїРѕРЅРµРЅС‚ РІРєР»Р°РґРєРё СЃ СѓРІРµР»РёС‡РµРЅРЅС‹Рј С‚РµРєСЃС‚РѕРј
+        this.setTabComponentAt(0, new CustomTabComponent("Student View List", 14,Color.CYAN)); // Р’РєР»Р°РґРєР° СЃ С‚РµРєСЃС‚РѕРј СЂР°Р·РјРµСЂР° 20
+        this.setTabComponentAt(1, new CustomTabComponent("Tab 2", 18,Color.CYAN)); // Р’РєР»Р°РґРєР° СЃ С‚РµРєСЃС‚РѕРј СЂР°Р·РјРµСЂР° 18
 
-        //Создаем контроллер окна
+        //РЎРѕР·РґР°РµРј РєРѕРЅС‚СЂРѕР»Р»РµСЂ РѕРєРЅР°
         this.tabbedPanelController = new TabbedPanelController(this,this.tableView.tableViewController);
 
     }

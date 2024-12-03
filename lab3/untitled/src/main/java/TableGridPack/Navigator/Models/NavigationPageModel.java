@@ -63,9 +63,13 @@ public class NavigationPageModel {
         this.notifyNavigatorSub();
     }
 
-    public void setDefaultParams() {
+    public void setDefaultWithoutNotify() {
         this.currentPage = 1;
         this.elementsPerPage = 10;
+    }
+
+    public void setDefaultParams() {
+        this.setDefaultWithoutNotify();
         this.notifyPageSubs();
         this.notifyNavigatorSub();
     }

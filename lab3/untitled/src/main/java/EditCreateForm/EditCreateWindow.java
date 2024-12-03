@@ -32,11 +32,11 @@ public class EditCreateWindow extends JDialog implements UpdateDataInterface {
         this.setModal(true);
 
         this.createWindow();
-        // ƒелаем дополнительное окно видимым
-        this.setVisible(false); // Ёто блокирует основное окно до закрыти€ диалога
+
+        this.setVisible(false);
     }
 
-    //ƒобавл€ем компоненты
+
     public void createWindow(){
         this.setLayout(new FlowLayout());
         this.mainPanel = new JPanel(new GridLayout(8,1,0,10));

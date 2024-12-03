@@ -2,7 +2,7 @@ package EditCreateForm.Controllers;
 import EditCreateForm.EditCreateWindow;
 import MainPack.UpdateDataInterface;
 import Student.Student;
-import StudentList.StudentList;
+import StudentList.StudentListComponent;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,8 +17,8 @@ public class EditCreateWindowController implements UpdateDataInterface {
     public InputFieldController telegramFieldController;
     public InputFieldController emailFieldController;
     public InputFieldController gitHubFieldController;
-    public StudentList studentList;
-    public EditCreateWindowController(EditCreateWindow editCreateWindow,StudentList studentList)
+    public StudentListComponent studentList;
+    public EditCreateWindowController(EditCreateWindow editCreateWindow, StudentListComponent studentList)
     {
         this.editCreateWindow = editCreateWindow;
 

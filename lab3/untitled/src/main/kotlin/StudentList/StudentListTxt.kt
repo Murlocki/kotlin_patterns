@@ -1,11 +1,8 @@
 package StudentList
 
-import DataListPack.DataList
 import Student.Student
-import Student.StudentShort
-import java.io.File
 import java.io.FileWriter
-import kotlin.math.min
+import java.util.function.Function
 
 class StudentListTxt(readFilePath:String?,writeFilePath:String?):StudentListBaseExtend(readFilePath,writeFilePath) {
 
@@ -16,6 +13,14 @@ class StudentListTxt(readFilePath:String?,writeFilePath:String?):StudentListBase
                 Student(it)
             )
         }
+    }
+
+    override fun filterList(function: Function<MutableList<Student>, MutableList<Student>>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun restoreOrderList() {
+        TODO("Not yet implemented")
     }
 
     // Запись в файл

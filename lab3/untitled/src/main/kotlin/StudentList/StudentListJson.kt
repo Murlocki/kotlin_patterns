@@ -8,6 +8,7 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.*
+import java.util.function.Function
 
 class StudentListJson(readFilePath:String?,writeFilePath:String?) : StudentListBaseExtend(readFilePath,writeFilePath),StudentListInterface {
 
@@ -39,5 +40,14 @@ class StudentListJson(readFilePath:String?,writeFilePath:String?) : StudentListB
         val jsonOb = Json.parseToJsonElement(mainString).jsonArray
         jsonOb.forEach { students.add(Student(createMap(it.jsonObject))) }
     }
+
+    override fun filterList(function: Function<MutableList<Student>, MutableList<Student>>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun restoreOrderList() {
+        TODO("Not yet implemented")
+    }
+
 
 }

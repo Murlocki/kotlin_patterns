@@ -4,8 +4,11 @@ import InputFilterPack.States.FilterState;
 import InputFilterPack.States.FilterStateSurname;
 import InputFilterPack.States.FilterStateYes;
 import MainPack.UpdateDataInterface;
+import Student.Student;
 
 import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Function;
 
 public class SurnameInitialsModel {
     public String filterInput = "";
@@ -22,6 +25,7 @@ public class SurnameInitialsModel {
 
     public void setFilterInput(String text) {
         this.filterInput = text;
+        this.filterState.setValueField(this.filterInput);
         this.notifySubs();
     }
 
@@ -32,6 +36,9 @@ public class SurnameInitialsModel {
     }
 
     public void clearFilterInput(){
-        this.filterInput = "";
+        this.setFilterInput("");
+    }
+    public Function<List<Student>,List<Student>> getRequest(){
+        return this.filterState.getRequestPart();
     }
 }

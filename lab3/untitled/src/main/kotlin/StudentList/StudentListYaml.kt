@@ -6,6 +6,7 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import java.io.FileWriter
+import java.util.function.Function
 
 class StudentListYaml(readFilePath:String?,writeFilePath:String?): StudentListBaseExtend(readFilePath,writeFilePath),StudentListInterface {
     override fun createMap(el: Any): HashMap<String, Any?> {
@@ -36,4 +37,12 @@ class StudentListYaml(readFilePath:String?,writeFilePath:String?): StudentListBa
             val yamlOb = Yaml.default.parseToYamlNode(mainString).yamlList
             yamlOb.items.forEach {students.add(Student(createMap(it.yamlMap)))}
         }
+
+    override fun filterList(function: Function<MutableList<Student>, MutableList<Student>>) {
+        TODO("Not yet implemented")
     }
+
+    override fun restoreOrderList() {
+        TODO("Not yet implemented")
+    }
+}
