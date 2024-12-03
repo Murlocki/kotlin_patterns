@@ -41,13 +41,5 @@ class StudentListJson(readFilePath:String?,writeFilePath:String?) : StudentListB
         jsonOb.forEach { students.add(Student(createMap(it.jsonObject))) }
     }
 
-    override fun filterList(function: Function<MutableList<Student>, MutableList<Student>>) {
-        TODO("Not yet implemented")
-    }
-
-    override fun restoreOrderList() {
-        TODO("Not yet implemented")
-    }
-
 
 }

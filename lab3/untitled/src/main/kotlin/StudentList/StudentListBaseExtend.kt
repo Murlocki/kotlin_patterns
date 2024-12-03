@@ -5,6 +5,7 @@ import Student.Student
 import Student.StudentShort
 import java.io.File
 import java.io.FileWriter
+import java.util.function.Function
 import kotlin.math.min
 
 abstract class StudentListBaseExtend(var readFilePath:String?, var writeFilePath:String?):StudentListAdapterExtend {
@@ -93,7 +94,15 @@ abstract class StudentListBaseExtend(var readFilePath:String?, var writeFilePath
         this.processWrite();
     }
 
-    open override fun getStudentShortCount() = this.studentList.size
+    open override fun getStudentShortCount() = this.orderStudentList.size
 
-    open override fun toString() = this.studentList.toString()
+    open override fun toString() = this.orderStudentList.toString()
+
+    override fun filterList(function: Function<MutableList<Student>, MutableList<Student>>) {
+        this.orderStudentList = function.apply(this.orderStudentList)
+    }
+
+    override fun restoreOrderList() {
+        this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+    }
 }

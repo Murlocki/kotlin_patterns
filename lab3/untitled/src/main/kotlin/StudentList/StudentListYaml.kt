@@ -38,11 +38,4 @@ class StudentListYaml(readFilePath:String?,writeFilePath:String?): StudentListBa
             yamlOb.items.forEach {students.add(Student(createMap(it.yamlMap)))}
         }
 
-    override fun filterList(function: Function<MutableList<Student>, MutableList<Student>>) {
-        TODO("Not yet implemented")
-    }
-
-    override fun restoreOrderList() {
-        TODO("Not yet implemented")
-    }
 }

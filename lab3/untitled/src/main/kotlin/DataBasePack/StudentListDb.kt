@@ -46,7 +46,6 @@ class StudentListDB():StudentListAdapter {
 
     override fun filterList(function: Function<MutableList<Student>, MutableList<Student>>) {
         this.orderedStudentList = function.apply(this.orderedStudentList)
-        println(this.orderedStudentList.toString())
     }
 
     override fun restoreOrderList() {
