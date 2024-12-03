@@ -1,6 +1,8 @@
 package TableGridPack;
 import DataListPack.DataTable;
 import TableGridPack.Controllers.MainTableController;
+import TableGridPack.Controllers.TableViewController;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -12,27 +14,25 @@ public class MainTable extends JTable implements TableParamsInterfaceSetter {
 
     public MainTableController mainTableController;
 
-    public MainTable(){
+    public MainTable(TableViewController tableViewController){
         this.tableModel = new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Запрет редактирования ячеек
+                return false;
             }
         };
         this.setFillsViewportHeight(true);
         this.setModel(this.tableModel);
 
-        Font font = new Font("Arial", Font.PLAIN, 16); // Установка шрифта Arial, обычный, размер 16
+        Font font = new Font("Arial", Font.PLAIN, 16);
         this.setFont(font);
         this.setRowHeight(30);
 
         this.getTableHeader().setFont(font);
 
-        // Установка рендерера для центрирования текста
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER); // Центрирование текста
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // Применяем рендерер ко всем столбцам
         for (int i = 0; i < this.getColumnCount(); i++) {
             this.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }

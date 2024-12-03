@@ -24,7 +24,7 @@ public class TableView extends JPanel implements TableParamsInterfaceSetter,Upda
         this.filterPanel = new FilterPanel();
         this.add(filterPanel, BorderLayout.NORTH);
 
-        this.mainTable = new MainTable();
+        this.mainTable = new MainTable(this.tableViewController);
         JScrollPane scrollPane = new JScrollPane(this.mainTable);
         this.add(scrollPane, BorderLayout.CENTER);
 

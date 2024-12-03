@@ -25,7 +25,8 @@ public class MainTableController implements TableParamsInterfaceSetter {
         this.mainTable.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                MainTableController.this.mainTableModel.sortOrder(MainTableController.this.mainTable.columnAtPoint(e.getPoint()));
+                int col = MainTableController.this.mainTable.columnAtPoint(e.getPoint());
+                MainTableController.this.mainTableModel.sortOrder(MainTableController.this.mainTable.getColumnName(col));
             }
         });
         this.mainTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {

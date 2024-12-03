@@ -15,7 +15,7 @@ interface StudentListComponent {
     fun replaceById(id: Int, newStudent: Student)
     fun deleteById(id: Int)
     fun getStudentShortCount(): Int
-    fun sortByInitials(order: Int)
+    fun sortBy(order: Int,columnName:String)
     fun filterList(function: Function<MutableList<Student>, MutableList<Student>>)
     fun restoreOrderList();
     fun checkStExists(): Boolean

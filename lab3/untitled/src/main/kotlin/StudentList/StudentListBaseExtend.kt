@@ -52,10 +52,17 @@ abstract class StudentListBaseExtend(var readFilePath:String?, var writeFilePath
         DataList<StudentShort>(orderStudentList.slice((k-1) * n..<min((k-1) * n + n, orderStudentList.size)).map { StudentShort(it) }
             .toTypedArray<StudentShort>());
 
-    open override fun sortByInitials(order:Int){
-        if(order==-1) this.orderStudentList.sortByDescending { it.getInitials() }
-        else if(order==1) this.orderStudentList.sortBy { it.getInitials() }
-        else this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+    open override fun sortBy(order:Int,columnName:String){
+        if(order==-1){
+            println(columnName)
+            this.orderStudentList.sortByDescending{ StudentShort(it).propertiesReturn()[columnName].toString()}
+        }
+        else if (order==1){
+            this.orderStudentList.sortBy { StudentShort(it).propertiesReturn()[columnName].toString() }
+        }
+        else{
+            this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+        }
     }
 
 

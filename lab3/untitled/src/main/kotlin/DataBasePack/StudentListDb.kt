@@ -4,13 +4,16 @@ import Student.Student
 import DataListPack.DataList
 import Student.StudentShort
 import StudentList.StudentListAdapter
+import java.util.*
 import java.util.function.Function
+import kotlin.collections.HashMap
 import kotlin.math.min
 
 class StudentListDB():StudentListAdapter {
     private var conn: DbCon? = DbCon;
     private var studentList: MutableList<Student> = mutableListOf();
     private var orderedStudentList: MutableList<Student> = mutableListOf();
+    private var indexOrder:MutableList<Int> = mutableListOf()
     public var tableName = "ref_student"
     init {
         conn?.createConnection()
@@ -36,6 +39,7 @@ class StudentListDB():StudentListAdapter {
             }
             result.close();
             this.studentList = resultList;
+            this.indexOrder = this.studentList.map { it.id }.toMutableList();
             this.orderedStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
         }
     }
@@ -46,6 +50,7 @@ class StudentListDB():StudentListAdapter {
 
     override fun filterList(function: Function<MutableList<Student>, MutableList<Student>>) {
         this.orderedStudentList = function.apply(this.orderedStudentList)
+        this.indexOrder = this.indexOrder.filter { i->this.orderedStudentList.map { it.id }.toList().contains(i) }.toMutableList()
     }
 
     override fun restoreOrderList() {
@@ -106,16 +111,20 @@ class StudentListDB():StudentListAdapter {
         return this.orderedStudentList.size
     }
 
-    override fun sortByInitials(order:Int) {
-        this.read()
+    override fun sortBy(order:Int,columnName:String) {
         if(order==-1){
-            this.orderedStudentList.sortByDescending { it.getInitials() }
+            this.orderedStudentList.sortByDescending{ StudentShort(it).propertiesReturn()[columnName].toString()}
         }
         else if (order==1){
-            this.orderedStudentList.sortBy { it.getInitials() }
+            this.orderedStudentList.sortBy { StudentShort(it).propertiesReturn()[columnName].toString() }
         }
         else{
-            this.orderedStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+            val oldList = this.orderedStudentList;
+            this.orderedStudentList = mutableListOf<Student>();
+            for (i in indexOrder) {
+                this.orderedStudentList.add(oldList.first { it.id == i });
+            }
+
         }
     }
 

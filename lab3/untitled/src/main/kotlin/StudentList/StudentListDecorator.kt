@@ -41,8 +41,8 @@ class StudentListDecorator(private val wrapee:StudentList,private val tableViewC
         return this.wrapee.getStudentShortCount()
     }
 
-    override fun sortByInitials(order: Int) {
-        this.wrapee.sortByInitials(order)
+    override fun sortBy(order: Int,columnName:String) {
+        this.wrapee.sortBy(order,columnName)
     }
 
     override fun filterList(function: Function<MutableList<Student>, MutableList<Student>>) {

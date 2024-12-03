@@ -41,7 +41,7 @@ open class StudentList(private var studentList: StudentListAdapter): StudentList
     };
 
     public override fun getStudentShortCount(): Int = this.studentList.getStudentShortCount();
-    public override fun sortByInitials(order: Int) = this.studentList.sortByInitials(order)
+    public override fun sortBy(order: Int,columnName:String) = this.studentList.sortBy(order,columnName)
 
     public override fun filterList(function: Function<MutableList<Student>, MutableList<Student>>) = this.studentList.filterList(function);
     override fun restoreOrderList() {

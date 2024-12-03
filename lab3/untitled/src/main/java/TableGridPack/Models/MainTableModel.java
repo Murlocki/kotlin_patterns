@@ -5,16 +5,16 @@ import MainPack.UpdateDataInterface;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class MainTableModel {
     private int clickCount = 0;
 
     public int order = 0;
-
+    public String columnName = "";
     public LinkedList<UpdateDataInterface> subscribers = new LinkedList<>();
-    public void sortOrder(int column){
-        int lastSortedColumn = 1;
-        if (lastSortedColumn == column) {
+    public void sortOrder(String columnName){
+        if (Objects.equals(this.columnName, columnName)) {
             this.clickCount += 1;
             if(this.clickCount==1)  this.order = -1;
             else if (this.clickCount==2) this.order = 1;
@@ -22,9 +22,13 @@ public class MainTableModel {
                 this.order = 0;
                 this.clickCount = 0;
             }
-            this.notifySubs();
-
         }
+        else{
+            this.clickCount = 1;
+            this.order = -1;
+            this.columnName = columnName;
+        }
+        this.notifySubs();
     }
     public void notifySubs(){
         for(UpdateDataInterface in: subscribers){
