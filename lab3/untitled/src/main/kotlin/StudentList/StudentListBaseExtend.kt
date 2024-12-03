@@ -20,7 +20,7 @@ abstract class StudentListBaseExtend(var readFilePath:String?, var writeFilePath
 
     // Запись в файл
     open override fun processWrite() {
-        val file = File(writeFilePath)
+        val file = File(this.writeFilePath)
         if (!this.checkAdapterExisting()) {
             file.createNewFile()
         }

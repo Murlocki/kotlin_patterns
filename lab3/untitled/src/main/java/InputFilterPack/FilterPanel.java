@@ -29,20 +29,20 @@ public class FilterPanel extends JPanel {
         this.add(surnameInitialsField);
 
         //Создаем поле для фильтрации гита
-        this.githubField = new ContactField("Github");
+        this.githubField = new ContactField("Git","gitHub");
         this.add(this.githubField);
 
         //Создаем поле для фильтрации почты
-        this.emailField = new ContactField("Email");
+        this.emailField = new ContactField("Email","email");
         this.add(this.emailField);
 
         //Создаем поле для фильтрации телеграмма
-        this.phoneField = new ContactField("Telegram");
+        this.phoneField = new ContactField("Telegram","telegram");
         this.add(this.phoneField);
 
 
         //Создаем поле для фильтрации телефон
-        this.telegramField = new ContactField("Phone");
+        this.telegramField = new ContactField("Phone","phoneNumber");
         this.add(this.telegramField);
 
         //Создаем контроллер

@@ -12,7 +12,7 @@ import java.util.Objects;
 public class ContactFieldController implements InputControllerInterface {
     public ContactField contactField;
     public ContactFilterModel contactFilterModel;
-    public ContactFieldController(ContactField contactField){
+    public ContactFieldController(ContactField contactField,String fieldName){
         this.contactField = contactField;
 
         this.contactField.comboBox.addItemListener(this::changeSelectedItem);
@@ -30,7 +30,7 @@ public class ContactFieldController implements InputControllerInterface {
         });
 
 
-        this.contactFilterModel = new ContactFilterModel(this);
+        this.contactFilterModel = new ContactFilterModel(this,fieldName);
         this.contactFilterModel.subscribe(this.contactField);
 
     }
@@ -41,7 +41,7 @@ public class ContactFieldController implements InputControllerInterface {
 
     public void changeSelectedItem(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
-            this.contactFilterModel.setSelectedOptionIndex(this.contactField.comboBox.getSelectedIndex());
+            this.contactFilterModel.setSelectedOption(this.contactField.comboBox.getSelectedIndex());
         }
     }
     public void setParams(){

@@ -11,7 +11,7 @@ public class ContactField extends JPanel implements UpdateDataInterface {
     public InputField inputField ;
     public ContactFilterComboBox comboBox;
     public ContactFieldController  contactFieldController;
-    public ContactField(String title){
+    public ContactField(String title,String fieldName) {
         //Настройка окошка
         super();
         this.setLayout(new GridLayout(2,1));
@@ -39,7 +39,7 @@ public class ContactField extends JPanel implements UpdateDataInterface {
         this.add(panel);
 
         //Создаем контроллер
-        this.contactFieldController = new ContactFieldController(this);
+        this.contactFieldController = new ContactFieldController(this,fieldName);
     }
 
     @Override
