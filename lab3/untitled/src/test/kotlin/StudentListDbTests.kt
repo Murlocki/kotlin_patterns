@@ -73,9 +73,9 @@ class StudentListDbTests {
         resultStudent2.id = resultDbStudent2.id
 
 
-        studentListDB.sortByInitials(1)
+        studentListDB.sortBy(1,"initials")
         assert(StudentShort(resultStudent).toString() == studentListDB.getKNStudentShortList(1,6).elements[0].toString())
-        studentListDB.sortByInitials(-1)
+        studentListDB.sortBy(-1,"initials")
         assert(StudentShort(resultStudent2).toString() == studentListDB.getKNStudentShortList(1,6).elements[0].toString())
 
         studentListDB.deleteById(resultStudent.id)
@@ -111,6 +111,22 @@ class StudentListDbTests {
         val resultDbStudent = getStudentMockFromBD("Test")
         resultStudent.id = resultDbStudent.id
 
+        assert(1 == studentListDB.getStudentShortCount())
+        studentListDB.deleteById(resultStudent.id)
+    }
+
+    @Test
+    fun testFilter(){
+        val studentListDB = StudentListDB();
+        studentListDB.tableName = "ref_student_moc"
+
+        val resultStudent = Student("Student(id:4,surname:Test,name:Test,patronymic:Test,phoneNumber:,email:,telegram:@testtest,gitHub:)")
+        studentListDB.addNewStudent(resultStudent)
+
+        val resultDbStudent = getStudentMockFromBD("Test")
+        resultStudent.id = resultDbStudent.id
+
+        studentListDB.filterList(){it.filter { i->i.name=="Test" }.toMutableList()}
         assert(1 == studentListDB.getStudentShortCount())
         studentListDB.deleteById(resultStudent.id)
     }

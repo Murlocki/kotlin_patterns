@@ -5,12 +5,14 @@ import Student.Student
 import Student.StudentShort
 import java.io.File
 import java.io.FileWriter
+import java.util.*
 import java.util.function.Function
 import kotlin.math.min
 
 abstract class StudentListBaseExtend(var readFilePath:String?, var writeFilePath:String?):StudentListAdapterExtend {
     protected val studentList: MutableList<Student> = mutableListOf();
-    private var orderStudentList: MutableList<Student> = mutableListOf();
+    private var orderedStudentList: MutableList<Student> = mutableListOf();
+    private var indexOrder:MutableList<Int> = mutableListOf();
 
     init {
         this.processRead()
@@ -33,9 +35,10 @@ abstract class StudentListBaseExtend(var readFilePath:String?, var writeFilePath
     open override fun processRead(){
         if (!this.checkAdapterExisting()) throw Exception("Ошибка")
         else {
-            val mainString = File(readFilePath).readText()
+            val mainString = File(this.readFilePath).readText()
             this.readFromFile(mainString,this.studentList)
-            this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+            this.indexOrder = this.studentList.map { it.id }.toMutableList();
+            this.orderedStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
         }
     }
     override fun checkAdapterExisting(): Boolean =
@@ -46,22 +49,29 @@ abstract class StudentListBaseExtend(var readFilePath:String?, var writeFilePath
         !File(writeFilePath!!).exists() -> false;
         else -> true;
     }
-    open override fun getStudentById(id: Int) = studentList.find { it.id == id }
+    open override fun getStudentById(id: Int):Student?{
+        this.processRead()
+        return studentList.find { it.id == id }
+    }
 
     open override fun getKNStudentShortList(k: Int, n: Int) =
-        DataList<StudentShort>(orderStudentList.slice((k-1) * n..<min((k-1) * n + n, orderStudentList.size)).map { StudentShort(it) }
+        DataList<StudentShort>(orderedStudentList.slice((k-1) * n..<min((k-1) * n + n, orderedStudentList.size)).map { StudentShort(it) }
             .toTypedArray<StudentShort>());
 
     open override fun sortBy(order:Int,columnName:String){
         if(order==-1){
-            println(columnName)
-            this.orderStudentList.sortByDescending{ StudentShort(it).propertiesReturn()[columnName].toString()}
+            this.orderedStudentList.sortByDescending{ Objects.toString(StudentShort(it).propertiesReturn()[columnName],"")}
         }
         else if (order==1){
-            this.orderStudentList.sortBy { StudentShort(it).propertiesReturn()[columnName].toString() }
+            this.orderedStudentList.sortBy { Objects.toString(StudentShort(it).propertiesReturn()[columnName],"") }
         }
         else{
-            this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+            val oldList = this.orderedStudentList;
+            this.orderedStudentList = mutableListOf<Student>();
+            for (i in indexOrder) {
+                this.orderedStudentList.add(oldList.first { it.id == i });
+            }
+
         }
     }
 
@@ -71,7 +81,7 @@ abstract class StudentListBaseExtend(var readFilePath:String?, var writeFilePath
         stud.id = id
         this.studentList.add(stud);
 
-        this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+        this.orderedStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
         this.processWrite();
     }
 
@@ -80,8 +90,9 @@ abstract class StudentListBaseExtend(var readFilePath:String?, var writeFilePath
         stud.id = studentList.maxOf { it.id } + 1
         this.studentList.add(stud)
 
-        this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
         this.processWrite();
+        this.processRead()
+
     }
 
     open override fun replaceById(id: Int, newStudent: Student) {
@@ -91,25 +102,31 @@ abstract class StudentListBaseExtend(var readFilePath:String?, var writeFilePath
         if (ind != -1) this.studentList[ind] = stud
         else this.addNewStudent(newStudent, id)
 
-        this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
         this.processWrite();
+        this.processRead()
     }
 
     open override fun deleteById(id: Int) {
-        this.studentList.removeAt(this.studentList.indexOf(this.studentList.find { it.id == id }))
-        this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
-        this.processWrite();
+        val ind = this.studentList.indexOf(this.studentList.find { it.id == id })
+        if(ind!=-1)
+        {
+            this.studentList.removeAt(this.studentList.indexOf(this.studentList.find { it.id == id }))
+            this.orderedStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+            this.processWrite();
+        }
+        this.processRead()
     }
 
-    open override fun getStudentShortCount() = this.orderStudentList.size
+    open override fun getStudentShortCount() = this.orderedStudentList.size
 
-    open override fun toString() = this.orderStudentList.toString()
+    open override fun toString() = this.orderedStudentList.toString()
 
     override fun filterList(function: Function<MutableList<Student>, MutableList<Student>>) {
-        this.orderStudentList = function.apply(this.orderStudentList)
+        this.orderedStudentList = function.apply(this.orderedStudentList).toMutableList()
+        this.indexOrder = this.indexOrder.filter { i->this.orderedStudentList.map { it.id }.toList().contains(i) }.toMutableList()
     }
 
     override fun restoreOrderList() {
-        this.orderStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+        this.processRead()
     }
 }

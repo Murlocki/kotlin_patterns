@@ -2,5 +2,4 @@ Student(id:0,surname:Aaaaa,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:,tel
 Student(id:1,surname:Aabbb-Abbb,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:,telegram:@elelelelele,gitHub:)
 Student(id:2,surname:Aaabbb,name:Bbb-Cbbb,patronymic:Cccccc,phoneNumber:,email:,telegram:,gitHub:eeefefefef)
 Student(id:3,surname:A-B,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:kk@gmial.com,telegram:,gitHub:)
-Student(id:4,surname:B,name:Vbbbbb,patronymic:Cccccc,phoneNumber:+79889889898,email:,telegram:,gitHub:)
 Student(id:5,surname:Bbbbbb,name:E,patronymic:Cccccc,phoneNumber:,email:,telegram:,gitHub:)

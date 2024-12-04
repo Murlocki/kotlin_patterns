@@ -49,12 +49,12 @@ class StudentListDB():StudentListAdapter {
     }
 
     override fun filterList(function: Function<MutableList<Student>, MutableList<Student>>) {
-        this.orderedStudentList = function.apply(this.orderedStudentList)
+        this.orderedStudentList = function.apply(this.orderedStudentList).toMutableList()
         this.indexOrder = this.indexOrder.filter { i->this.orderedStudentList.map { it.id }.toList().contains(i) }.toMutableList()
     }
 
     override fun restoreOrderList() {
-        this.orderedStudentList = this.studentList.map{Student(it.toString())}.toMutableList()
+        this.read()
     }
 
     override fun getStudentById(id: Int): Student? {
@@ -112,11 +112,12 @@ class StudentListDB():StudentListAdapter {
     }
 
     override fun sortBy(order:Int,columnName:String) {
+        println(this.orderedStudentList)
         if(order==-1){
-            this.orderedStudentList.sortByDescending{ StudentShort(it).propertiesReturn()[columnName].toString()}
+            this.orderedStudentList.sortByDescending{ Objects.toString(StudentShort(it).propertiesReturn()[columnName],"")}
         }
         else if (order==1){
-            this.orderedStudentList.sortBy { StudentShort(it).propertiesReturn()[columnName].toString() }
+            this.orderedStudentList.sortBy { Objects.toString(StudentShort(it).propertiesReturn()[columnName],"") }
         }
         else{
             val oldList = this.orderedStudentList;

@@ -57,4 +57,7 @@ class StudentListDecorator(private val wrapee:StudentList,private val tableViewC
         return this.wrapee.checkStExists();
     }
 
+    override fun toString(): String {
+        return this.wrapee.toString();
+    }
 }

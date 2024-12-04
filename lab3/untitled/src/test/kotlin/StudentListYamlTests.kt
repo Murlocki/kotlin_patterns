@@ -1,6 +1,7 @@
 import Student.Student
 import Student.StudentShort
 import StudentList.StudentListJson
+import StudentList.StudentListTxt
 import StudentList.StudentListYaml
 import org.junit.jupiter.api.Test
 
@@ -23,9 +24,9 @@ class StudentListYamlTests {
     fun testSortByInitials(){
         val studentListYaml = StudentListYaml("src/test/resources/res.yaml","src/test/resources/res.yaml");
         val resultStudent = Student("Student(id:4,surname:Aaaaa,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:,telegram:,gitHub:)")
-        studentListYaml.sortByInitials(1)
+        studentListYaml.sortBy(1,"initials")
         assert(StudentShort(resultStudent).toString() == studentListYaml.getKNStudentShortList(1,6).elements[0].toString())
-        studentListYaml.sortByInitials(-1)
+        studentListYaml.sortBy(-1,"initials")
         assert(StudentShort(resultStudent).toString() == studentListYaml.getKNStudentShortList(1,6).elements[4].toString())
     }
     @Test
@@ -51,5 +52,18 @@ class StudentListYamlTests {
     fun testGetStudentCount(){
         val studentListYaml = StudentListYaml("src/test/resources/res.yaml","src/test/resources/res.yaml");
         assert(5==studentListYaml.getStudentShortCount())
+    }
+
+    @Test
+    fun testFilter(){
+        val studentListYaml = StudentListYaml("src/test/resources/res.yaml","src/test/resources/res.yaml");
+
+        val resultStudent = Student("Student(id:4,surname:Test,name:Test,patronymic:Test,phoneNumber:,email:,telegram:@testtest,gitHub:)")
+        studentListYaml.addNewStudent(resultStudent)
+
+
+        studentListYaml.filterList(){it.filter { i->i.name=="Test" }.toMutableList()}
+        assert(1 == studentListYaml.getStudentShortCount())
+        studentListYaml.deleteById(studentListYaml.getKNStudentShortList(1,1).elements[0].id)
     }
 }

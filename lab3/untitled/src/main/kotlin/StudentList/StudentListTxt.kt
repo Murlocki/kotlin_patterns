@@ -8,6 +8,7 @@ class StudentListTxt(readFilePath:String?,writeFilePath:String?):StudentListBase
 
     // Чтение из файла
     override fun readFromFile(mainString: String, students: MutableList<Student>) {
+        students.clear()
         mainString.split('\n').dropLast(1).forEach {
             students.add(
                 Student(it)

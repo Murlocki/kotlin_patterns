@@ -34,7 +34,8 @@ class StudentListYaml(readFilePath:String?,writeFilePath:String?): StudentListBa
 
     // Чтение из файла
     override fun readFromFile(mainString: String, students: MutableList<Student>) {
-            val yamlOb = Yaml.default.parseToYamlNode(mainString).yamlList
+        students.clear()
+        val yamlOb = Yaml.default.parseToYamlNode(mainString).yamlList
             yamlOb.items.forEach {students.add(Student(createMap(it.yamlMap)))}
         }
 

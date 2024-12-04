@@ -1,5 +1,6 @@
 import Student.Student
 import Student.StudentShort
+import StudentList.StudentListJson
 import StudentList.StudentListTxt
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -23,10 +24,10 @@ class StudentListTxtTests {
     fun testSortByInitials(){
         val studentListTxt = StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt");
         val resultStudent = Student("Student(id:3,surname:A-B,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:kk@gmial.com,telegram:,gitHub:)")
-        studentListTxt.sortByInitials(1)
+        studentListTxt.sortBy(1,"initials")
         assert(StudentShort(resultStudent).toString() == studentListTxt.getKNStudentShortList(1,6).elements[0].toString())
-        studentListTxt.sortByInitials(-1)
-        assert(StudentShort(resultStudent).toString() == studentListTxt.getKNStudentShortList(1,6).elements[5].toString())
+        studentListTxt.sortBy(-1,"initials")
+        assert(StudentShort(resultStudent).toString() == studentListTxt.getKNStudentShortList(1,6).elements[4].toString())
     }
     @Test
     fun testAddDelete(){
@@ -48,6 +49,19 @@ class StudentListTxtTests {
     @Test
     fun testGetStudentCount(){
         val studentListTxt = StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt");
-        assert(6==studentListTxt.getStudentShortCount())
+        assert(5==studentListTxt.getStudentShortCount())
+    }
+
+    @Test
+    fun testFilter(){
+        val studentListTxt =StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt");
+
+        val resultStudent = Student("Student(id:4,surname:Test,name:Test,patronymic:Test,phoneNumber:,email:,telegram:@testtest,gitHub:)")
+        studentListTxt.addNewStudent(resultStudent)
+
+
+        studentListTxt.filterList(){it.filter { i->i.name=="Test" }.toMutableList()}
+        assert(1 == studentListTxt.getStudentShortCount())
+        studentListTxt.deleteById(studentListTxt.getKNStudentShortList(1,1).elements[0].id)
     }
 }

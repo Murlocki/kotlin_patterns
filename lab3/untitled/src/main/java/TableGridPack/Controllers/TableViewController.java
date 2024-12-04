@@ -84,7 +84,6 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
         this.currentDataList = this.studentList.getKNStudentShortList(this.navigationPageModel.currentPage,this.navigationPageModel.elementsPerPage);
         this.currentDataList.setTableView(this.tableView);
 
-        this.studentList.sortBy(this.mainTableController.mainTableModel.order,this.mainTableController.mainTableModel.columnName);
 
         this.mainTableController.dataStudentListModel = this.currentDataList;
         this.mainTableController.dataStudentListModel.subscribe(this.buttonPanelController.buttonPanel);
@@ -122,7 +121,6 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
         for (StudentListAdapterExtend studentListAdapter : list) {
             if (studentListAdapter.checkAdapterExisting()) {
                 resultList = studentListAdapter;
-                resultList.processRead();
                 return new StudentListDecorator(new StudentList(resultList),this);
             }
         }
@@ -153,7 +151,6 @@ public class TableViewController implements UpdateDataInterface, TableParamsInte
 
     public void filterStudentList(){
         this.navigationPageModel.setDefaultWithoutNotify();
-        this.studentList.deleteById(-1);
         this.studentList.restoreOrderList();
         Function<List<Student>, List<Student>>[] filters = this.filterPanelController.getFilters();
         Arrays.stream(filters).toList().forEach(it->this.studentList.filterList(it));

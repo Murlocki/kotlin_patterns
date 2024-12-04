@@ -1,3 +1,4 @@
+import DataBasePack.StudentListDB
 import Student.Student
 import Student.StudentShort
 import StudentList.StudentListJson
@@ -22,9 +23,9 @@ class StudentListJsonTests {
     fun testSortByInitials(){
         val studentListJson = StudentListJson("src/test/resources/res.json","src/test/resources/res.json");
         val resultStudent = Student("Student(id:0,surname:Aaaaa,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:,telegram:,gitHub:)")
-        studentListJson.sortByInitials(1)
+        studentListJson.sortBy(1,"initials")
         assert(StudentShort(resultStudent).toString() == studentListJson.getKNStudentShortList(1,6).elements[0].toString())
-        studentListJson.sortByInitials(-1)
+        studentListJson.sortBy(-1,"initials")
         assert(StudentShort(resultStudent).toString() == studentListJson.getKNStudentShortList(4,1).elements[0].toString())
     }
     @Test
@@ -50,5 +51,18 @@ class StudentListJsonTests {
     fun testGetStudentCount(){
         val studentListJson = StudentListJson("src/test/resources/res.json","src/test/resources/res.json");
         assert(4==studentListJson.getStudentShortCount())
+    }
+
+    @Test
+    fun testFilter(){
+        val studentListJson = StudentListJson("src/test/resources/res.json","src/test/resources/res.json");
+
+        val resultStudent = Student("Student(id:4,surname:Test,name:Test,patronymic:Test,phoneNumber:,email:,telegram:@testtest,gitHub:)")
+        studentListJson.addNewStudent(resultStudent)
+
+
+        studentListJson.filterList(){it.filter { i->i.name=="Test" }.toMutableList()}
+        assert(1 == studentListJson.getStudentShortCount())
+        studentListJson.deleteById(resultStudent.id)
     }
 }

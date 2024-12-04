@@ -33,10 +33,11 @@ class StudentListJson(readFilePath:String?,writeFilePath:String?) : StudentListB
         val res = jsonFormat.encodeToString(
             ListSerializer(MapSerializer(String.serializer(), NumberOrStringSerializer)),
             students.map { convertMap(it.propertiesReturn()) })
-        fileWriter.appendLine(res)
+        fileWriter.write(res)
     }
 
     override fun readFromFile(mainString: String, students: MutableList<Student>) {
+        students.clear()
         val jsonOb = Json.parseToJsonElement(mainString).jsonArray
         jsonOb.forEach { students.add(Student(createMap(it.jsonObject))) }
     }

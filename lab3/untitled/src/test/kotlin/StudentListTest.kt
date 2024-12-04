@@ -27,9 +27,9 @@ class StudentListTest {
     fun testSortByInitialsJson(){
         val studentListJson = StudentList(StudentListJson("src/test/resources/res.json","src/test/resources/res.json"))
         val resultStudent = Student("Student(id:0,surname:Aaaaa,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:,telegram:,gitHub:)")
-        studentListJson.sortByInitials(1)
+        studentListJson.sortBy(1,"initials")
         assert(StudentShort(resultStudent).toString() == studentListJson.getKNStudentShortList(1,6).elements[0].toString())
-        studentListJson.sortByInitials(-1)
+        studentListJson.sortBy(-1,"initials")
         assert(StudentShort(resultStudent).toString() == studentListJson.getKNStudentShortList(4,1).elements[0].toString())
     }
     @Test
@@ -59,13 +59,13 @@ class StudentListTest {
 
     @Test
     fun testGetByIdTxt(){
-        val studentListTxt = StudentList(StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt"))
+        val studentListTxt = StudentList(StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt"));
         val resultStudent = Student("Student(id:0,surname:Aaaaa,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:,telegram:,gitHub:)")
         assert(resultStudent.toString()==studentListTxt.getStudentById(0).toString())
     }
     @Test
     fun testGetNKStudentShortTxt(){
-        val studentListTxt = StudentList(StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt"))
+        val studentListTxt = StudentList(StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt"));
         val resultStudent = Student("Student(id:0,surname:Aaaaa,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:,telegram:,gitHub:)")
         assert(0==studentListTxt.getKNStudentShortList(6,6).elements.size)
         assert(StudentShort(resultStudent).toString() == studentListTxt.getKNStudentShortList(1,1).elements[0].toString())
@@ -73,16 +73,16 @@ class StudentListTest {
 
     @Test
     fun testSortByInitialsTxt(){
-        val studentListTxt = StudentList(StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt"))
+        val studentListTxt = StudentList(StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt"));
         val resultStudent = Student("Student(id:3,surname:A-B,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:kk@gmial.com,telegram:,gitHub:)")
-        studentListTxt.sortByInitials(1)
+        studentListTxt.sortBy(1,"initials")
         assert(StudentShort(resultStudent).toString() == studentListTxt.getKNStudentShortList(1,6).elements[0].toString())
-        studentListTxt.sortByInitials(-1)
-        assert(StudentShort(resultStudent).toString() == studentListTxt.getKNStudentShortList(1,6).elements[5].toString())
+        studentListTxt.sortBy(-1,"initials")
+        assert(StudentShort(resultStudent).toString() == studentListTxt.getKNStudentShortList(1,6).elements[4].toString())
     }
     @Test
     fun testAddDeleteTxt(){
-        val studentListTxt = StudentList(StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt"))
+        val studentListTxt = StudentList(StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt"));
         val resultStudent = Student("Student(id:6,surname:A-B,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:kk@gmial.com,telegram:,gitHub:)")
         studentListTxt.addNewStudent(resultStudent)
         assert(resultStudent.toString() == studentListTxt.getStudentById(6).toString())
@@ -91,7 +91,7 @@ class StudentListTest {
     }
     @Test
     fun testReplaceByIdTxt(){
-        val studentListTxt = StudentList(StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt"))
+        val studentListTxt = StudentList(StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt"));
         val resultStudent = Student("Student(id:5,surname:A-B,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:kk@gmial.com,telegram:,gitHub:)")
         studentListTxt.replaceById(5,resultStudent)
         assert(resultStudent.toString() == studentListTxt.getStudentById(5).toString())
@@ -99,18 +99,18 @@ class StudentListTest {
     }
     @Test
     fun testGetStudentCountTxt(){
-        val studentListTxt = StudentList(StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt"))
-        assert(6==studentListTxt.getStudentShortCount())
+        val studentListTxt = StudentList(StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt"));
+        assert(5==studentListTxt.getStudentShortCount())
     }
     @Test
     fun testGetByIdYaml(){
-        val studentListYaml = StudentList(StudentListYaml("src/test/resources/res.yaml","src/test/resources/res.yaml"))
+        val studentListYaml = StudentList(StudentListYaml("src/test/resources/res.yaml","src/test/resources/res.yaml"));
         val resultStudent = Student("Student(id:4,surname:Aaaaa,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:,telegram:,gitHub:)")
         assert(resultStudent.toString()==studentListYaml.getStudentById(4).toString())
     }
     @Test
     fun testGetNKStudentShortYaml(){
-        val studentListYaml = StudentList(StudentListYaml("src/test/resources/res.yaml","src/test/resources/res.yaml"))
+        val studentListYaml = StudentList(StudentListYaml("src/test/resources/res.yaml","src/test/resources/res.yaml"));
         val resultStudent = Student("Student(id:4,surname:Aaaaa,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:,telegram:,gitHub:)")
         assert(studentListYaml.getKNStudentShortList(6, 6).elements.isEmpty())
         assert(StudentShort(resultStudent).toString() == studentListYaml.getKNStudentShortList(1,1).elements[0].toString())
@@ -118,16 +118,16 @@ class StudentListTest {
 
     @Test
     fun testSortByInitialsYaml(){
-        val studentListYaml = StudentList(StudentListYaml("src/test/resources/res.yaml","src/test/resources/res.yaml"))
+        val studentListYaml = StudentList(StudentListYaml("src/test/resources/res.yaml","src/test/resources/res.yaml"));
         val resultStudent = Student("Student(id:4,surname:Aaaaa,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:,telegram:,gitHub:)")
-        studentListYaml.sortByInitials(1)
+        studentListYaml.sortBy(1,"initials")
         assert(StudentShort(resultStudent).toString() == studentListYaml.getKNStudentShortList(1,6).elements[0].toString())
-        studentListYaml.sortByInitials(-1)
+        studentListYaml.sortBy(-1,"initials")
         assert(StudentShort(resultStudent).toString() == studentListYaml.getKNStudentShortList(1,6).elements[4].toString())
     }
     @Test
     fun testAddDeleteYaml(){
-        val studentListYaml = StudentList(StudentListYaml("src/test/resources/res.yaml","src/test/resources/res.yaml"))
+        val studentListYaml = StudentList(StudentListYaml("src/test/resources/res.yaml","src/test/resources/res.yaml"));
         val resultStudent = Student("Student(id:9,surname:Aaaaa,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:,telegram:,gitHub:)")
         studentListYaml.addNewStudent(resultStudent)
         assert(resultStudent.toString() ==  studentListYaml.getStudentById(9).toString())
@@ -136,7 +136,7 @@ class StudentListTest {
     }
     @Test
     fun testReplaceByIdYaml(){
-        val studentListYaml = StudentList(StudentListYaml("src/test/resources/res.yaml","src/test/resources/res.yaml"))
+        val studentListYaml = StudentList(StudentListYaml("src/test/resources/res.yaml","src/test/resources/res.yaml"));
         val resultStudent = Student("Student(id:8,surname:Aeeeeeaaa,name:Bbbbbb,patronymic:Cccccc,phoneNumber:,email:,telegram:,gitHub:)")
         studentListYaml.replaceById(8,resultStudent)
         assert(resultStudent.toString() == studentListYaml.getStudentById(8).toString())
@@ -146,7 +146,7 @@ class StudentListTest {
     }
     @Test
     fun testGetStudentCountYaml(){
-        val studentListYaml = StudentList(StudentListYaml("src/test/resources/res.yaml","src/test/resources/res.yaml"))
+        val studentListYaml = StudentListYaml("src/test/resources/res.yaml","src/test/resources/res.yaml");
         assert(5==studentListYaml.getStudentShortCount())
     }
     fun getStudentMockFromBD(surname:String): Student {
@@ -218,9 +218,9 @@ class StudentListTest {
         resultStudent2.id = resultDbStudent2.id
 
 
-        stD.sortByInitials(1)
+        stD.sortBy(1,"initials")
         assert(StudentShort(resultStudent).toString() == stD.getKNStudentShortList(1,6).elements[0].toString())
-        stD.sortByInitials(-1)
+        stD.sortBy(-1,"initials")
         assert(StudentShort(resultStudent2).toString() == stD.getKNStudentShortList(1,6).elements[0].toString())
 
         stD.deleteById(resultStudent.id)
@@ -258,6 +258,60 @@ class StudentListTest {
         val resultDbStudent = getStudentMockFromBD("Test")
         resultStudent.id = resultDbStudent.id
 
+        assert(1 == stD.getStudentShortCount())
+        stD.deleteById(resultStudent.id)
+    }
+    @Test
+    fun testFilterDB(){
+        val studentListDB = StudentListDB();
+        studentListDB.tableName = "ref_student_moc"
+        val stD = StudentList(studentListDB)
+
+        val resultStudent = Student("Student(id:4,surname:Test,name:Test,patronymic:Test,phoneNumber:,email:,telegram:@testtest,gitHub:)")
+        stD.addNewStudent(resultStudent)
+
+        val resultDbStudent = getStudentMockFromBD("Test")
+        resultStudent.id = resultDbStudent.id
+
+        stD.filterList(){it.filter { i->i.name=="Test" }.toMutableList()}
+        assert(1 == stD.getStudentShortCount())
+        stD.deleteById(resultStudent.id)
+    }
+    @Test
+    fun testFilterTxt(){
+        val studentListTxt =StudentList(StudentListTxt("src/test/resources/out.txt","src/test/resources/out.txt"));
+
+        val resultStudent = Student("Student(id:4,surname:Test,name:Test,patronymic:Test,phoneNumber:,email:,telegram:@testtest,gitHub:)")
+        studentListTxt.addNewStudent(resultStudent)
+
+
+        studentListTxt.filterList(){it.filter { i->i.name=="Test" }.toMutableList()}
+        assert(1 == studentListTxt.getStudentShortCount())
+        studentListTxt.deleteById(studentListTxt.getKNStudentShortList(1,1).elements[0].id)
+    }
+    @Test
+    fun testFilterYaml(){
+        val studentListYaml = StudentList(StudentListYaml("src/test/resources/res.yaml","src/test/resources/res.yaml"));
+
+        val resultStudent = Student("Student(id:4,surname:Test,name:Test,patronymic:Test,phoneNumber:,email:,telegram:@testtest,gitHub:)")
+        studentListYaml.addNewStudent(resultStudent)
+
+
+        studentListYaml.filterList(){it.filter { i->i.name=="Test" }.toMutableList()}
+        assert(1 == studentListYaml.getStudentShortCount())
+        studentListYaml.deleteById(studentListYaml.getKNStudentShortList(1,1).elements[0].id)
+    }
+    @Test
+    fun testFilterJson(){
+        val studentListJson = StudentListJson("src/test/resources/res.json","src/test/resources/res.json");
+        val stD = StudentList(studentListJson)
+
+
+        val resultStudent = Student("Student(id:4,surname:Test,name:Test,patronymic:Test,phoneNumber:,email:,telegram:@testtest,gitHub:)")
+        stD.addNewStudent(resultStudent)
+
+
+        stD.filterList(){it.filter { i->i.name=="Test" }.toMutableList()}
         assert(1 == stD.getStudentShortCount())
         stD.deleteById(resultStudent.id)
     }
