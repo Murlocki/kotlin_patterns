@@ -1,0 +1,9 @@
+### GET request to example server
+GET localhost:8080/students/count
+
+###
+
+### GET request to example server
+GET localhost:8080/students/1
+
+###

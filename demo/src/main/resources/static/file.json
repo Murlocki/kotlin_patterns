@@ -1,0 +1,33 @@
+[
+  {
+    "surname": "Aaaaa",
+    "name": "Bbbbbb",
+    "patronymic": "Cccccc"
+  },
+  {
+    "id": 1233,
+    "surname": "Aabbb-Abbb",
+    "name": "Bbbbbb",
+    "patronymic": "Cccccc",
+    "email": "kkkk@ele.com",
+    "telegram": "@elelelelele"
+  },
+  {
+    "surname": "Aaabbb",
+    "name": "Bbb-Cbbb",
+    "patronymic": "Cccccc",
+    "gitHub": "eeefefefef"
+  },
+  {
+    "surname": "Aaabbb",
+    "name": "Bbb-Cbbb",
+    "patronymic": "Cccccc",
+    "email": "kk@gmial.com"
+  },
+  {
+    "surname": "B",
+    "name": "Vbbbbb",
+    "patronymic": "Cccccc",
+    "phoneNumber" :"+79889889898"
+  }
+]
