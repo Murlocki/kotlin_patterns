@@ -5,8 +5,8 @@ class StudentShort: StudentBase {
     val contact:Map<String,String>?;
     // Конструктор по студенту
     constructor(studentLong: Student):super(studentLong.id,studentLong.gitHub) {
-        this.initials = studentLong.getInitials()
-        this.contact = studentLong.getOneContact()
+        this.initials = studentLong.formStudentInitials()
+        this.contact = studentLong.returnOneContact()
     }
 
     // Конструктор по строке

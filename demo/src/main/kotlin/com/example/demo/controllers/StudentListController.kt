@@ -4,6 +4,7 @@ import com.example.demo.models.student.StudentShort
 import com.example.demo.models.studentlist.FilterFuncs
 import com.example.demo.models.studentlist.StudentList
 import com.example.demo.models.studentlist.StudentListDB
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/students")
 class StudentListController() {
     private val studentService: StudentList = StudentList(StudentListDB());
+    private val logger = LoggerFactory.getLogger(StudentListController::class.java)
 
     @PostMapping
     fun addStudent(@RequestBody student: Student?): ResponseEntity<Void> {
+        logger.info(student.toString());
         if (student != null) {
             studentService.addNewStudent(student)
         }

@@ -16,12 +16,12 @@
     &quot;assignee&quot;: &quot;Murlocki&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Murlocki/kotlin_patterns.git",
-    "accountId": "f6e5d045-9c58-470a-af15-4ea28e1ddb91"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Murlocki/kotlin_patterns.git&quot;,
+    &quot;accountId&quot;: &quot;f6e5d045-9c58-470a-af15-4ea28e1ddb91&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -37,7 +37,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/kirill/IdeaProjects/kotlin_patterns/lab3/untitled",
+    "last_opened_file_path": "C:/Users/kiril/OneDrive/Рабочий стол/kotlin_patterns/demo",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }

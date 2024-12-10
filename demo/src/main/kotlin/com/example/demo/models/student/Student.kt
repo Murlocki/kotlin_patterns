@@ -130,8 +130,8 @@ class Student(
     override fun toString(): String = "Student".plus(super.toString())
 
     //Получаем краткую инфу
-    fun getInitials() = "${this.surname} ${this.name[0].plus(".")} ${this.patronymic[0].plus(".")}"
-    fun getOneContact(): HashMap<String,String>? =
+    fun formStudentInitials() = "${this.surname} ${this.name[0].plus(".")} ${this.patronymic[0].plus(".")}"
+    fun returnOneContact(): HashMap<String,String>? =
         when{
             this.phoneNumber!=null -> hashMapOf("phoneNumber" to this.phoneNumber as String)
             this.telegram!=null -> hashMapOf("telegram" to this.telegram as String)
@@ -139,11 +139,11 @@ class Student(
             else -> null
         }
     private fun getFormattedContactShort():String{
-        val contact = getOneContact()
+        val contact = returnOneContact()
         return if(contact?.keys!=null) formatPropertyOutput(contact.keys.first() as String,contact.values.first()) else ""
     }
-    fun getInfo():String{
-        return "Initials:${this.getInitials()}, ${formatPropertyOutput("gitHub",this.gitHub)}, Contact:${getFormattedContactShort()}"
+    fun formStudentInfo():String{
+        return "Initials:${this.formStudentInitials()}, ${formatPropertyOutput("gitHub",this.gitHub)}, Contact:${getFormattedContactShort()}"
     }
 
 

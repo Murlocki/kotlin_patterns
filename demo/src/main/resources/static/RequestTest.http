@@ -1,3 +1,18 @@
+POST http://localhost:8080/students
+Content-Type: application/json
+
+{
+  "idValue" : 24,
+  "gitHubValue": "fefefefefef",
+  "surnameValue": "Fff",
+  "nameValue" : "Fff",
+  "patronymicValue": "Fff",
+  "phoneNumberValue": "+79658679686",
+  "telegramValue": "@elelelele",
+  "emailValue": null
+}
+
+###
 ### GET request to example server
 GET localhost:8080/students/count
 
@@ -7,3 +22,4 @@ GET localhost:8080/students/count
 GET localhost:8080/students/1
 
 ###
+

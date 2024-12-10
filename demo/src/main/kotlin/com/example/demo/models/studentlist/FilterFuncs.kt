@@ -10,7 +10,7 @@ object FilterFuncs {
         return list.filter { it: Student -> Objects.toString(it.propertiesReturn().get(fieldName), "").contains(valueField) }.toMutableList()
     }
     fun filterSurnameInitials(list: List<Student>): MutableList<Student> {
-        return list.filter { it: Student -> it.getInitials().contains(valueField) }.toMutableList()
+        return list.filter { it: Student -> it.formStudentInitials().contains(valueField) }.toMutableList()
     }
     fun filterNoMatter(list: List<Student>): MutableList<Student> {
         return list.filter { it: Student ->
